@@ -1,0 +1,307 @@
+Regr <- function(Y, X, NameVarX = NULL, Intercepts = TRUE, SigF = 0.05) {
+  # Esta funcao executa a Analise de Regressao
+  # desenvolvida por Paulo Cesar Ossani em 06/2016
+    
+  # Entrada:
+  # Y - Respotas.
+  # X - Variaveis regressoras.
+  # NameVarX - Nome da variavel, ou variaveis X, se omitido retorna padrao.
+  # Intercepts  - Considerar o intercepto na regressao (default = TRUE).
+  # SigF        - Nivel de significancia dos testes dos residuos (default = 5%).
+  
+  # Retorna:
+  # Betas    - Coeficientes da regressao.
+  # CovBetas - Matriz das covariancias dos coeficientes da regressao.
+  # ICc      - Intervalo de confianca dos coeficientes da regressao.
+  # Hip.Test - Teste de hipoteses dos coeficientes da regressao.
+  # ANOVA    - Analise de variancia da regressao.
+  # R        - Coeficiente de determinacao.
+  # Rc       - Coeficiente de determinacao corrigido.
+  # Ra       - Coeficiente de determinacao ajustado.
+  # QME      - Variancia dos residuos.
+  # ICQME    - Intervalo de confianca da variancia dos residuos.
+  # Prev     - Previsao do ajuste da regressao.
+  # IPp      - Intervalo das previsoes.  
+  # ICp      - Intervalo de confianca das previsoes.
+  # Error    - Residuos do ajuste da regressao.
+  # Error.Test - Retorna a 5% de significancia o teste de independencia, de 
+  #              normalidade e de homogeneidade da variancia dos residuos.
+  
+  if (!is.vector(Y)) 
+     stop("'Y' input is incorrect, it should be of type vector. Verify!")
+    
+  if (!is.vector(X) && !is.data.frame(X)) 
+     stop("'X' input is incorrect, it should be of type vector or data frame. Verify!")
+  
+  if (!is.null(NameVarX) && ncol(as.matrix(X))!=length(NameVarX))
+     stop("Number of elements in NameVarx differs from the number of columns in X. Verify!")
+  
+  if (is.null(NameVarX))
+     NameVarX <- c(paste("X",1:ncol(as.matrix(X)),sep=""))
+  
+  if (!is.logical(Intercepts)) 
+     stop("'Intercepts' input is incorrect, it should be TRUE or FALSE. Verify!")
+  
+  #### INICIO - Analises #####
+  Y <- as.matrix(Y) # variavel resposta
+  X <- as.matrix(X) # variaveis regressoras
+  n <- nrow(X) # numero de observacoes
+  p <- ncol(X) # numero de variaveis regressoras
+
+  ## Inicio - Calculo dos coeficientes 
+  if (Intercepts)
+     X <- cbind(rep(1,length(Y)),X)
+  
+  gl_i <- ifelse(Intercepts, 1, 0) # grau de liberdade o intercepto
+  
+  B <- solve(t(X)%*%X)%*%t(X)%*%Y # Calculo dos coeficientes
+  V <- ifelse(Intercepts,1,0)
+  rownames(B) <- paste("B",(1-V):ifelse(ncol(X)>1,(ncol(X)-V),ncol(X)),sep="") 
+  colnames(B) <- c("Coefficients")
+  ## Fim - Calculo dos coeficientes
+  
+  ## Inicio - Tabela de Analise de Variancia (ANOVA) parcial
+  if (Intercepts=="N") MediaY <- 0 else MediaY <- mean(Y)
+  SQR <- t(B)%*%t(X)%*%Y - n*MediaY^2 # Soma dos Quadrados da Regressao
+  SQE <- t(Y)%*%Y - t(B)%*%t(X)%*%Y   # Soma dos Quadrados dos Erros (Residuos)
+  SQT <- t(Y)%*%Y - n*MediaY^2        # Soma dos Quadrados Total 
+  
+  QMR <- SQR / p          # Quadrado Medio da Regressao
+  QME <- SQE / (n-p-gl_i) # Quadrado Medio do Erro (Residuos)
+  
+  FCal <- QMR / QME  # F Calculado
+  FTab <- qf(SigF,p,(n-p-gl_i),lower.tail = FALSE) # F Tabelado
+  VlrP <- pf(FCal,p,(n-p-gl_i),lower.tail = FALSE) # Valor-p
+  
+  ANOVA <- as.data.frame(matrix(NA, nrow=3, ncol=6))
+  rownames(ANOVA) <- c("Regression", "Residual", "Total")
+  colnames(ANOVA) <- c("D.F.", "Sum of Squares","Mean Squares", "f calc.","f tab.","p-value")
+  ANOVA[,"D.F."]             <- c(p,(n-p-gl_i), n-gl_i)
+  ANOVA[,"Sum of Squares"]   <- c(round(SQR,2),round(SQE,2),round(SQT,2))
+  ANOVA[,"Mean Squares"] <- c(round(QMR,4),round(QME,4), "-")
+  ANOVA[,"f calc."]          <- c(round(FCal,3),"-","-")
+  ANOVA[,"f tab."]           <- c(round(FTab,3),"-","-")
+  ANOVA[,"p-value"]          <- c(round(VlrP,4),"-","-")
+  ## Fim - Tabela de Analise de Variancia (ANOVA) parcial
+  
+  LinFinal <- ANOVA[2:3,] # linha do Erro + Total
+  
+  if (Intercepts) NVaR <- c(2:ncol(X)) else NVaR <- c(1:ncol(X)); # numero das colunas com as variaveis regressoras
+  
+  ### Inicio - Analise sequencial nas variaveis
+  ANOVA_X <- as.data.frame(matrix(NA, nrow=p, ncol=6))
+  if (p > 1) { # caso a regressao seja apenas para mais uma variavel regressora
+     rownames(ANOVA_X) <- NameVarX  # nomes das variaveis de acordo com a coluna dos dados
+     colnames(ANOVA_X) <- c("D.F.", "Sum of Squares","Mean Squares", "f calc.","f tab.","p-value")
+     ANOVA_X[,"D.F."]  <- c(rep(1,p))
+     for (i in 1:p) {
+       Xn <- X[,-(i + gl_i)]
+       Bn    <- solve(t(Xn)%*%Xn)%*%t(Xn)%*%Y  # novos valores para os coeficientes (beta)
+       SQRa  <- t(Bn)%*%t(Xn)%*%Y - n*MediaY^2 # Soma dos Quadrados da Regressao da variavel em questao
+       QMRx  <- SQR - SQRa # Soma do quadrado da regressao final para a variavel em questao
+       FCalX <- QMRx / QME # F Calculado
+       FTabX <- qf(SigF,1,(n-p-gl_i),lower.tail = FALSE)  # F Tabelado
+       VlrPX <- pf(FCalX,1,(n-p-gl_i),lower.tail = FALSE) # Valor-p
+       ANOVA_X[i,"Sum of Squares"]   <- round(QMRx,2)
+       ANOVA_X[i,"Mean Squares"] <- round(QMRx,4)
+       ANOVA_X[i,"f calc."]          <- round(FCalX,3)
+       ANOVA_X[i,"f tab."]           <- round(FTabX,3)
+       ANOVA_X[i,"p-value"]          <- round(VlrPX,4)
+     }
+  }
+  
+  if (p == 1) { # caso a regressao seja apenas para uma variavel regressora
+     ANOVA_X <- ANOVA[1,]
+     rownames(ANOVA_X) <- NameVarX
+  }
+  
+  ANOVA <- rbind(ANOVA[1,],ANOVA_X,LinFinal) # Tabela anova sequencial
+  ## Fim - Analise sequencial nas variaveis
+  
+  ## Inicio - Tabela de Falta de Ajuste
+  if (p == 1) # para calculos de regressao simples
+     Ft <- levels(as.factor(X[,NVaR])) # niveis dos fatores que compoem os valores de X
+  
+  if (p != 1) { # para calculos de regressao multipla    
+     Filtro <- matrix(0,ncol=1,nrow=nrow(X)) # filtro do valores replicados nas linhas de X
+    
+     for (i in 1:nrow(X))
+       for (j in 1:ncol(X))
+         Filtro[i] <- paste(Filtro[i],X[i,j],sep="") 
+      
+       Ft <- levels(as.factor(Filtro)) # niveis dos fatores que compoem os valores de X
+  }
+  
+  if (length(Ft)!=nrow(Y)) {
+     SQRp <- 0 # Soma do Quadrado do Erro Puro
+    
+    if (p == 1) { # para calculos de regressao simples
+       for (i in 1:length(Ft)) {
+         Rep <- Y[X[,NVaR]==Ft[i],1] # valore replicados
+         Md <- mean(Rep)       # media
+         Sq <- sum((Rep-Md)^2) # Soma do Quadrado
+         SQRp <- SQRp + Sq     # Soma do Quadrado do Erro Puro
+       }
+      
+       m <- length(Ft) # Numero de niveis dos fatores
+    }
+    
+    if (p != 1) { # para calculos de regressao multipla
+       for (i in 1:length(Ft)) {
+         Rep <- Y[Filtro==Ft[i]] # valore replicados
+         Md <- mean(Rep)       # media
+         Sq <- sum((Rep-Md)^2) # Soma do Quadrado
+         SQRp <- SQRp + Sq     # Soma do Quadrado do Erro Puro
+       }
+       m <- length(Ft) - nlevels(Ft) # Numero de niveis dos fatores
+    }
+    
+    GLfa <- m - p - gl_i # Grau de liberdade da Falta de Ajuste
+    GLep <- n - m        # Grau de liberdade do Erro Puro 
+    
+    SQFa <- SQE - SQRp   # Soma do Quadrado da Falta de Ajuste
+    
+    QMFa <- SQFa / GLfa  # Quadrado Medio da Falta de Ajuste
+    QMRp <- SQRp / GLep  # Quadrado Medio do Erro Puro
+    
+    FCalFa <- QMFa / QMRp  # F Calculado Falta de Ajuste
+    FTabFa <- qf(SigF,GLep,GLfa,lower.tail = FALSE)   # F Tabelado Falta de Ajuste
+    VlrPFa <- pf(FCalFa,GLfa,GLep,lower.tail = FALSE) # Valor-p Falta de Ajuste
+    
+    ANOVAjuste <- as.data.frame(matrix(NA, nrow=3, ncol=6))
+    rownames(ANOVAjuste) <- c("Lack of Fit", "Pure Error","Total")
+    colnames(ANOVAjuste) <- c("D.F.", "Sum of Squares","Mean Squares", "f calc.","f tab.","p-value")
+    ANOVAjuste[,"D.F."]             <- c(GLfa,GLep, n-gl_i)
+    ANOVAjuste[,"Sum of Squares"]   <- c(round(SQFa,2),round(SQRp,2),round(SQT,2))
+    ANOVAjuste[,"Mean Squares"]     <- c(round(QMFa,4),round(QMRp,2), "-")
+    ANOVAjuste[,"f calc."]          <- c(round(FCalFa,3),"-","-")
+    ANOVAjuste[,"f tab."]           <- c(round(FTabFa,3),"-","-")
+    ANOVAjuste[,"p-value"]          <- c(round(VlrPFa,4),"-","-")
+    ANOVA <- rbind(ANOVA[1:(nrow(ANOVA)-1),],ANOVAjuste) # Acrescenta na ANOVA anterior
+  }
+  ## Fim - Tabela de Falta de Ajuste
+  
+  ## Inicio -  Matriz de covariancias dos coeficientes de regressao
+  CovB <- as.numeric(QME)*solve(t(X)%*%X) # Matriz de covariancias dos coeficientes de regressao
+  rownames(CovB) <- paste("B",(1-V):ifelse(ncol(X)>1,(ncol(X)-V),ncol(X)),sep="") 
+  colnames(CovB) <- rownames(CovB)
+  ## Fim -  Matriz de covariancias dos coeficientes de regressao
+  
+  ## Inicio - Intervalo de Confianca dos coeficientes da regressao
+  ICc <- as.data.frame(matrix(NA, nrow=nrow(B), ncol=2))
+  C <- diag(solve(t(X)%*%X))
+  for (i in 1:nrow(B)) {
+    Vlr <- qt(SigF/2,(n - p - gl_i),lower.tail = FALSE)*sqrt(QME*C[i])
+    ICc[i,1] <- B[i] - Vlr # limite inferior
+    ICc[i,2] <- B[i] + Vlr # limite superior
+  }
+  ICc <- cbind(B,ICc)
+  colnames(ICc) <- c("Coefficients","Confidence Interval Lower","Confidence Interval Upper")
+  rownames(ICc) <- rownames(B)
+  ## Fim - Intervalo de Confianca dos coeficientes da regressao
+  
+  ## Inicio - Teste de Hipoteses para os coeficientes de regressao
+  Hip.Test <- as.data.frame(matrix(NA, nrow=nrow(B), ncol=4))
+  C <- diag(solve(t(X)%*%X))
+  for (i in 1:nrow(B)) {
+    ErroPadrao <- sqrt(QME*C[i])
+    tCalc <- B[i] / ErroPadrao # t calculado
+    Hip.Test[i,1] <- ErroPadrao
+    Hip.Test[i,2] <- tCalc # t calculado
+    Hip.Test[i,3] <- qt(SigF,(n - p - gl_i),lower.tail = FALSE) # t encontrado
+    Hip.Test[i,4] <- 2*pt(abs(tCalc),(n - p - gl_i),lower.tail = FALSE) # Valor-p
+  }
+  Hip.Test <- cbind(B,Hip.Test)
+  colnames(Hip.Test) <- c("Coefficients","Std. Error","t calc.","t tab.","p-value")
+  rownames(Hip.Test) <- rownames(B)
+  ## Fim - Teste de Hipoteses para os coeficientes de regressao
+  
+  ## Inicio - Coeficiente de determinacao 
+  R <- SQR / SQT # Coeficiente de determinacao
+  Rc <- R - (1 - R)/(n - p - gl_i) # Coeficiente de determinacao corrigido
+  Rc <- ifelse(Rc <= 0, 0, Rc)
+  Ra <- ((n - gl_i)*R - p)/(n - p - gl_i) # Coeficiente de determinacao ajustado
+  Ra <- ifelse(Ra <= 0, 0, Ra)
+  R  <- as.numeric(R)
+  Rc <- as.numeric(Rc)
+  Ra <- as.numeric(Ra)
+  ## Fim - Coeficiente de determinacao
+  
+  ## Inicio - Intervalo de Confianca da variancia dos residuos 
+  Li  <- qchisq(SigF/2,(n - p - gl_i),lower.tail = FALSE)
+  Ls  <- qchisq(1-SigF/2,(n - p - gl_i),lower.tail = FALSE)
+  ICQME <- t(c(SQE/Li,SQE/Ls))
+  colnames(ICQME) <- c("Lower Limit", "Upper Limit")
+  rownames(ICQME) <- c("Variance")
+  ## Fim - Intervalo de Confianca da variancia dos residuos 
+  
+  ## Inicio - Intervalo de Confianca dos coeficientes 
+  ICc <- as.data.frame(matrix(NA, nrow=nrow(B), ncol=3))
+  C   <- diag(solve(t(X)%*%X))
+  for (i in 1:nrow(B)) {
+    ErroPadrao <- qt(SigF/2,(n - p - gl_i),lower.tail = FALSE)*sqrt(QME*C[i])
+    ICc[i,1] <- ErroPadrao
+    ICc[i,2] <- B[i] - ErroPadrao # limite inferior
+    ICc[i,3] <- B[i] + ErroPadrao # limite superior
+  }
+  ICc <- cbind(B,ICc)
+  colnames(ICc) <- c("Coefficients","Std. Error","Confidence Interval Lower","Confidence Interval Upper")
+  rownames(ICc) <- rownames(B)
+  ## Fim - Intervalo de Confianca dos coeficientes
+  
+  ## Inicio - Intervalo de Confianca das previsoes
+  ICp <- as.data.frame(matrix(NA, nrow=nrow(Y), ncol=3))
+  C   <- solve(t(X)%*%X)
+  Prev <- X%*%B # previsao
+  colnames(Prev) <- c("Prediction")
+  for (i in 1:nrow(Y)) {
+    ErroPadrao <- as.numeric(qt(SigF/2,(n - p - gl_i),lower.tail = FALSE)*sqrt(QME%*%t(X[i,])%*%C%*%X[i,]))
+    ICp[i,1] <- ErroPadrao
+    ICp[i,2] <- Prev[i] - ErroPadrao # limite inferior
+    ICp[i,3] <- Prev[i] + ErroPadrao # limite superior
+  }
+  ICp <- cbind(Y,Prev,ICp)
+  colnames(ICp) <- c("Y","Prediction","Std. Error","Confidence Interval Lower","Confidence Interval Upper")
+  ## Fim - Intervalo de Confianca das previsoes
+  
+  ## Inicio - Intervalo das previsoes
+  IPp <- as.data.frame(matrix(NA, nrow=nrow(Y), ncol=3))
+  #C <- solve(t(X)%*%X)
+  #Prev <- X%*%B # previsao
+  for (i in 1:nrow(Y)) {
+    ErroPadrao <- as.numeric(qt(SigF/2,(n - p - gl_i),lower.tail = FALSE)*sqrt(QME%*%(1+t(X[i,])%*%C%*%X[i,])))
+    IPp[i,1] <- ErroPadrao
+    IPp[i,2] <- Prev[i] - ErroPadrao # limite inferior
+    IPp[i,3] <- Prev[i] + ErroPadrao # limite superior
+  }
+  IPp <- cbind(Y,Prev,IPp)
+  colnames(IPp) <- c("Y","Prediction","Std. Error","Prediction Interval Lower","Prediction Interval Upper")
+  ## Fim - Intervalo das previsoes
+  
+  Error <- Y - Prev # Erro do ajuste 
+  colnames(Error) <- c("Error of Fit")
+  
+  ## Inicio - Resultados dos residuos
+  Cor.Test     <- Box.test(Error, lag = 1, type = "Box") # teste de correlacao dos residuos
+  Norm.Test    <- NormTest(Error) # teste de normalidade dos residuos
+  First.Group  <- ceiling(length(Error)/2)
+  Second.Group <- length(Error) - First.Group
+  Homo.Test    <- bartlett.test(Error,c(rep("A",First.Group),rep("B",Second.Group))) # teste de homogeneidade da variancia dos residuos
+  
+  MResi <- as.data.frame(matrix(NA, nrow=3, ncol=3))
+  rownames(MResi) <- c("Independence test", "Normality test", "Homoscedasticity test")
+  colnames(MResi) <- c("Test Name","Test statistic","p-value")
+  MResi[,"Test Name"]      <- c("Box-Pierce","Asymmetry coefficient","Bartlett")
+  MResi[,"Test statistic"] <- c(Cor.Test$statistic, Norm.Test$Statistic, Homo.Test$statistic)
+  MResi[,"p-value"]              <- round(c(Cor.Test$p.value, Norm.Test$p.Value, Homo.Test$p.value),6)
+  ## Fim - Resultados dos residuos
+  
+  #### FIM - Analises #####
+  
+  Lista <- list(Y = Y, X = X, Intercepts = Intercepts, Betas = B, CovBetas = CovB,
+                 ICc = ICc, Hip.Test = Hip.Test, ANOVA = ANOVA, R = R, Rc = Rc,
+                 Ra = Ra, QME = QME, Prev = Prev, Error = Error, ICQME= ICQME,
+                 ICp = ICp, IPp = IPp, Error.Test = MResi)
+  
+  return(Lista)
+}

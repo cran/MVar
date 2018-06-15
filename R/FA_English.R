@@ -1,0 +1,365 @@
+FA <- function(Data, Method = "PC", Type = 2, NFactor = 1, 
+               Rotation = "None", ScoresObs = "Bartlett", 
+               Converg = 1e-5, Iteracao = 1000, TestFit = TRUE) {
+   # Funcao executa a Analise Fatorial.
+   # Desenvolvida por Paulo Cesar Ossani em 22/06/2013 e adapitada em 25/03/2016
+   
+   # Entrada:
+   # Data      - Dados a serem analisados
+   # Method    - Tipo de analises:
+   #             Componentes Principais - PC (Principal Components) (default)
+   #             Fator Principal - PF (Principal Factor)
+   #             Maxima Verossimilhanca - ML (Maximum Likelihood)
+   # Type      - 1 para analise utilizando a matriz de covariancia
+   #             2 para analise utilizando a matriz de correlacao - default
+   # Rotation  - Tipo de rotacao: "None" (default) e "Varimax" 
+   # NFactor   - Numero de fatores (default = 1)
+   # ScoresObs - Tipo de scores para as observacoes: "Bartlett" (default) ou "Regression"
+   # Converg   - Valor limite para convergencia para soma do quadrado dos residuos para metodo de Maxima Verossimilhanca (default = 1e-5)
+   # Iteracao  - Numero maximo de iteracoes para metodo de Maxima Verossimilhanca (default = 1000)
+   # TestFit   - Testa o ajuste do modelo para o metodo de Maxima Verossimilhanca (default = TRUE)
+  
+   # Saida:
+   # MatrixMC      - Matriz de Correlacao/Covariancia
+   # MatrixAutoVlr - Matriz de autovalores
+   # MatrixAutoVec - Matriz de autovetores
+   # MatrixVar     - Matriz de variancias e proporcoes
+   # MatrixCarga   - Matriz de cargas fatoriais
+   # MatrixVarEsp  - Matriz das variancias especificas
+   # MatrixComuna  - Matriz das comunalidades
+   # MatrixResiduo - Matriz dos residuos
+   # VlrSQRS       - Valor limite superior para a soma do quadrados dos residuos
+   # VlrSQR        - Soma dos Quadrados dos Residuos
+   # MatrixResult  - Matriz com todos os resultados associados
+   # MatrixScores  - Matriz com os escores das observarcoes
+
+   Method <- toupper(Method)   # transforma em maiusculo
+   
+   if (!is.data.frame(Data)) 
+      stop("'Data' input is incorrect, it should be of type data frame. Verify!")
+  
+   if (!(Method %in% c("PC", "PF", "ML"))) 
+      stop("'Method' input is incorrect, it should be 'PC', 'PF' or 'ML'. Verify!")
+  
+   if (Type != 1 && Type != 2) 
+      stop("'Type' input is incorrect, it should be numeric, being 1 ou 2. Verify!")
+  
+   if (!is.numeric(NFactor)) 
+      stop("'NFactor' input is incorrect, it should be numeric. Verify!")
+
+   if (NFactor > ncol(Data)) 
+      stop("'NFactor' input is incorrect, it should be equal or less than the number of variables in 'Data'. Verify!")
+   
+   if (NFactor <= 0) 
+      stop("'NFactor' input is incorrect, it should be integer number greater than or equal to 1. Verify!")
+ 
+   Rotation <- toupper(Rotation) # transforma em maiusculo
+   
+   if (!(Rotation %in% c("NONE","VARIMAX")))
+      stop("'Rotation' input is incorrect, it should be 'None' or 'Varimax'. Verify!")
+  
+   if (Rotation != "NONE" && NFactor < 2)
+      stop("For rotation, more than one factor is required. Change the number of factors (NFactor) to continue.")
+     
+   ScoresObs <- toupper(ScoresObs) # transforma em maiusculo
+   
+   if (!(ScoresObs %in% c("BARTLETT", "REGRESSION")))
+      stop("'ScoresObs' input is incorrect, it should be 'Bartlett' or 'Regression'. Verify!")
+   
+   if (!is.logical(TestFit) && Method == "ML")
+      stop("'TestFit' input is incorrect, it should be TRUE or FALSE. Verify!")
+       
+   if (Type == 1)     # Considera a Matriz de Covariancia para a decomposicao
+      MC <- cov(Data) # Matriz de Covariancia
+  
+   if (Type == 2)     # Considera a Matriz de Correlacao para a decomposicao
+      MC <- cor(Data) # Matriz de Correlacao
+
+   Rotacao <- function(MData, Type = NULL, Normalise = TRUE) {
+   # Funcao que executa as rotacoes
+     if (Type == "VARIMAX") {
+        Var <- varimax(MData, normalize = Normalise)
+        Res <- Var$loadings[,]
+     }
+     
+     return(Res)
+   }
+   
+   if (Method == "PC") { # Metodo dos Componentes Principais
+      
+      # Encontrando a Matriz de Decomposicao Expectral
+      MAV <- eigen(MC) # Encontra a matriz de autovalor e autovetor
+      MAutoVlr <- MAV$values  # Matriz de Autovalores 
+      MAutoVec <- MAV$vectors # Matriz de Autovetores
+  
+      Gama = MAutoVec%*%diag(sqrt(abs(MAutoVlr)),nrow(MC),ncol(MC)) # Matriz de Cargas Fatoriais
+      if (Rotation != "NONE") {
+         Gama <- Rotacao(Gama,Rotation)
+         # Gama <- Rotacao(Gama[,1:NFactor],Rotation)
+         MAutoVlr <- colSums(Gama^2)
+      }
+      rownames(Gama) <- colnames(Data)
+      colnames(Gama) <- paste("Factor",1:ncol(Gama))
+      
+      Psi = diag(MC - Gama[,1:NFactor]%*%t(Gama[,1:NFactor])) # Matriz de Variancias Especificas
+      
+      Comun = diag(MC - Psi) # Matriz de Comunalidades
+ 
+      # Valor Limite Superior para a Soma de Quadrados de Residuos
+      SQRS = MAutoVlr[(NFactor+1):nrow(as.matrix(MAutoVlr))]%*%(MAutoVlr[(NFactor+1):nrow(as.matrix(MAutoVlr))])
+     
+      M = MC - (Gama[,1:NFactor]%*%t(Gama[,1:NFactor]) + diag(Psi)) # Matriz dos residuos 
+      
+      SQR = sum(diag(M%*%t(M))) # Soma dos Quadrados dos Residuos
+      
+      # Matriz das Variancias
+      MEigen <- as.data.frame(matrix(NA, length(MAutoVlr), 3))
+      rownames(MEigen) <- paste("Factor", 1:length(MAutoVlr))
+      colnames(MEigen) <- c("Eigenvalue", "Proporcion of the variance","Cumulative proportion of the variance")
+      MEigen[, "Eigenvalue"] <- MAutoVlr
+      MEigen[, "Proporcion of the variance"] <- (MAutoVlr/sum(MAutoVlr)) * 100
+      MEigen[, "Cumulative proportion of the variance"] <- cumsum(MEigen[,"Proporcion of the variance"]) 
+      
+      # Matriz com todos os resultados associados
+      Result <- as.matrix(cbind(Gama[,1:NFactor],Comun,Psi))
+      Result <- rbind(Result,t(rbind(as.matrix(MEigen[1:NFactor,1]),sum(Comun),NA)))
+      Result <- rbind(Result,t(rbind(as.matrix(MEigen[1:NFactor,2]/100),MEigen[NFactor,3]/100,NA)))
+      colnames(Result) <- c(paste("Factor Loadings",1:NFactor),"Communalities","Specific Variances")
+      rownames(Result) <- c(colnames(Data),"Variance","Proporcion of the variance")
+      
+   }
+    
+   if (Method == "PF") { # Metodo dos Fatores Principais
+     
+      Psi0 <- (solve(diag(diag(solve(MC))))) # Encontrando a Matriz Psi
+
+      Sr <- MC - Psi0 # Encontrando a Matriz Sr
+
+      # Encontrando a Matriz de Decomposicao Expectral
+      MAV <- eigen(Sr) # Encontra a matriz de autovalor e autovetor
+      MAutoVlr <- MAV$values  # Matriz de Autovalores 
+      MAutoVec <- MAV$vectors # Matriz de Autovetores
+
+      Gama = MAutoVec%*%diag(sqrt(abs(MAutoVlr)),nrow(MC),ncol(MC)) # Matriz de Cargas Fatoriais
+      if (Rotation != "NONE") {
+         Gama <- Rotacao(Gama,Rotation)
+         # Gama <- Rotacao(Gama[,1:NFactor],Rotation)
+         MAutoVlr <- colSums(Gama^2)
+      }
+      rownames(Gama) <- colnames(Data)
+      colnames(Gama) <- paste("Factor",1:ncol(Gama))
+      
+      Psi = diag(MC - Gama[,1:NFactor]%*%t(Gama[,1:NFactor])) # Matriz de Variancias Especificas
+     
+      Comun = diag(MC - Psi) # Matriz de Comunalidades
+      
+      ## Valor Limite Superior para a Soma de Quadrados de Residuos
+      SQRS = MAutoVlr[(NFactor+1):nrow(as.matrix(MAutoVlr))]%*%(MAutoVlr[(NFactor+1):nrow(as.matrix(MAutoVlr))])
+   
+      # Soma dos Quadrados dos Residuos
+      M = MC - (Gama[,1:NFactor]%*%t(Gama[,1:NFactor]) + diag(Psi))
+      SQR = sum(diag(M%*%t(M)))
+      if (Rotation != "NONE") {
+         Gama <- Rotacao(Gama,Rotation)
+         # Gama <- Rotacao(Gama[,1:NFactor],Rotation)
+         MAutoVlr <- colSums(Gama^2)
+      }
+      rownames(Gama) <- colnames(Data)
+      colnames(Gama) <- paste("Factor",1:ncol(Gama))
+      
+      # Matriz das Variancias
+      MEigen <- as.data.frame(matrix(NA, length(MAutoVlr), 3))
+      rownames(MEigen) <- paste("Comp", 1:length(MAutoVlr))
+      colnames(MEigen) <- c("Eigenvalue", "Proporcion of the variance","Cumulative proportion of the variance")
+      MEigen[, "Eigenvalue"] <- MAutoVlr
+      MEigen[, "Proporcion of the variance"] <- (MAutoVlr/sum(MAutoVlr)) * 100
+      MEigen[, "Cumulative proportion of the variance"] <- cumsum(MEigen[,"Proporcion of the variance"])
+      
+      # Matriz com todos os resultados associados
+      Result <- as.matrix(cbind(Gama[,1:NFactor],Comun,Psi))
+      Result <- rbind(Result,t(rbind(as.matrix(MEigen[1:NFactor,1]),sum(Comun),NA)))
+      Result <- rbind(Result,t(rbind(as.matrix(MEigen[1:NFactor,2]/100),MEigen[NFactor,3]/100,NA)))
+      colnames(Result) <- c(paste("Factor Loadings",1:NFactor),"Communalities","Specific Variances")
+      rownames(Result) <- c(colnames(Data),"Variance","Proporcion of the variance")
+   }
+   
+   if (Method == "ML") { # Metodo de maxima verossimilhanca
+   
+      n <- ncol(Data)*nrow(Data) # numero de elementos amostrais
+      MC <- (n-ncol(Data))/n*MC  # Matriz de Covariancia/Correlacao Maximizada para o teste
+      
+      # Encontrando a Matriz de Decomposicao Expectral
+      MAV <- eigen(MC) # Encontra a matriz de autovalor e autovetor
+      MAutoVlr <- MAV$values  # Matriz de Autovalores 
+      MAutoVec <- MAV$vectors # Matriz de Autovetores
+
+      Gama = MAutoVec%*%diag(sqrt(abs(MAutoVlr)),nrow(MC),ncol(MC)) # Matriz de Cargas Fatoriais para Inicializacao da Iteracao
+
+      Psi = (diag(MC - Gama[,1:NFactor]%*%t(Gama[,1:NFactor]))) # Matriz das Variancias Especificas
+   
+      M = MC - (Gama[,1:NFactor]%*%t(Gama[,1:NFactor]) + diag(Psi)) # Matriz dos residuos
+      
+      SQRi= sum(diag(M%*%t(M))) # Soma dos Quadrados dos Residuos
+
+      ### INICIO DA ITERAcaO ###
+      i = 1 # inicializa o contador de iteracoes
+      while (1) {
+         MC_new = diag(1/sqrt(Psi))%*%(MC - diag(Psi))%*% diag(1/sqrt(Psi)) # nova matriz para iteracao
+   
+         # Encontrando a Matriz de Decomposicao Expectral
+         MAV <- eigen(MC_new) # Encontra a matriz de autovalor e autovetor
+         MAutoVlr1 <- MAV$values  # Matriz de Autovalores 
+         MAutoVec1 <- MAV$vectors # Matriz de Autovetores
+         
+         # Matriz das Cargas Fatoriais
+         Gama_new = diag(sqrt(Psi))%*%MAutoVec1%*%diag(sqrt(abs(MAutoVlr1)),nrow(MC_new),ncol(MC_new))
+   
+         Psi = (diag(MC - Gama_new[,1:NFactor]%*%t(Gama_new[,1:NFactor]))) # Matriz das Variancias Especificas
+   
+         # Valor Limite Superior para a Soma de Quadrados de Residuos
+         SQRS = MAutoVlr1[(NFactor+1):nrow(as.matrix(MAutoVlr1))]%*%(MAutoVlr[(NFactor+1):nrow(as.matrix(MAutoVlr1))])
+         
+         M = MC - (Gama_new[,1:NFactor]%*%t(Gama_new[,1:NFactor]) + diag(Psi)) # Matriz dos Residuos
+         
+         SQR = sum(diag(M%*%t(M))) # Soma dos Quadrados dos Residuos
+        
+         if (SQR <= Converg) break # sai do loop quando atingir a convergencia
+       
+         if (i >= Iteracao) break # sai do loop apos esse limite de iteracoes
+       
+         i = i + 1 # incrementa o contador de iteracoes
+         
+      }
+      ### FIM DA ITERAcaO ###
+      
+      Gama = Gama_new # Matriz com as cargas fatoriais
+  
+      if (Rotation != "NONE") {
+         Gama <- Rotacao(Gama,Rotation,Normalise=TRUE)
+         # Gama <- Rotacao(Gama[,1:NFactor],Rotation,Normalise=TRUE)
+      }
+
+      rownames(Gama) <- colnames(Data)
+      colnames(Gama) <- paste("Factor",1:ncol(Gama))
+      
+      if (Type == 1) {# Considera a Matriz de Covariancia para a decomposicao
+         Gama <- diag(1/sqrt(diag(MC)))%*%Gama[,1:NFactor] # Matriz com as cargas fatoriais
+         Comun = rowSums(Gama^2)#apply(Gama,1,function(Gama) Gama^2)) # Matriz de Comunalidades
+      }
+      
+      MAutoVlr <- colSums(Gama^2)
+      
+      if (Type == 2)     # Considera a Matriz de Correlacao para a decomposicao
+         Comun = diag(MC - Psi) # Matriz de Comunalidades
+      
+      # Matriz das Variancias
+      MEigen <- as.data.frame(matrix(NA, length(MAutoVlr), 3))
+      rownames(MEigen) <- paste("Comp", 1:length(MAutoVlr))
+      colnames(MEigen) <- c("Eigenvalue", "Proporcion of the variance","Cumulative proportion of the variance")
+      MEigen[, "Eigenvalue"] <- MAutoVlr
+      MEigen[, "Proporcion of the variance"] <- (MAutoVlr/sum(MAutoVlr)) * 100
+      MEigen[, "Cumulative proportion of the variance"] <- cumsum(MEigen[,"Proporcion of the variance"])
+      
+      print(paste("Number of iterations:",i))
+      
+      # Matriz com todos os resultados associados
+      Result <- as.matrix(cbind(Gama[,1:NFactor],Comun,Psi))
+      Result <- rbind(Result,t(rbind(as.matrix(MEigen[1:NFactor,1]),sum(Comun),NA)))
+      Result <- rbind(Result,t(rbind(as.matrix(MEigen[1:NFactor,2]/100),MEigen[NFactor,3]/100,NA)))
+      colnames(Result) <- c(paste("Factor Loadings",1:NFactor),"Communalities","Specific Variances")
+      rownames(Result) <- c(colnames(Data),"Variance","Proporcion of the variance")  
+      
+      ### INICIO - Teste da falta de ajusto do modelo fatorial - teste Qui-quadrado ###
+      if (TestFit) {
+         p <- nrow(Gama)  # numero de parametros
+      
+         gl <- ((p - NFactor)^2 - NFactor - p)/2 # grau de liberdade
+    
+         cat("### MODEL ADJUSTMENT TEST ###\n")
+      
+         cat(paste("Degree of freedom observed:", round(gl,5)),"\n")
+        
+         if (gl < 0) 
+            cat("It was not possible to perform the adjustment test of the model, because degree of freedom was negative, it is advisable to change the parameters, to proceed with the test. Example: number of factors or even 'Type'.\n")
+   
+         if (det(MC) <= 0) 
+            cat("It was not possible to perform the model adjustment test, since the determinant of the variance/covariance matrix should be different from zero, to proceed with the test change the parameters.\n")
+         
+         if (gl >= 0 && det(MC) > 0) {
+          
+            Ps_i = diag(diag(MC - Gama[,1:NFactor]%*%t(Gama[,1:NFactor])))
+          
+            Chi.Quad.Observado <- (n - 1 - (2*p + 5)/6 - 2*NFactor/3)*log(det(Gama[,1:NFactor]%*%t(Gama[,1:NFactor])+Ps_i)/det(MC))
+
+            qt = qchisq(0.95,gl,ncp=0)
+    
+            cat(paste("Value of the Chi-square test statistic (Chiq1):", round(Chi.Quad.Observado,3)),"\n")
+         
+            cat(paste("Observed chi-square value (Chiq2) with 5% significance:", round(qt,3)),"\n")
+        
+            if (Chi.Quad.Observado<=qt) cat("As Chiq1 <= Chiq2, the number of factors were sufficient.\n")
+        
+            if (Chi.Quad.Observado>qt) cat("As Chiq1 > Chiq2, the number of factors were not enough.\n")
+            
+            cat("Valor-p:", pchisq(Chi.Quad.Observado,gl,ncp=0, lower.tail = F))
+         } 
+      }
+      ### FIM - Teste da falta de ajusto do modelo fatorial - teste Qui-quadrado ###
+   }
+   
+   # ### INICIO - Scree-plot dos fatores ####
+   # if (Screeplot && Rotation=="NONE")
+   #    plot(1:length(MEigen[,1]), MEigen[,1], type = "b", 
+   #         xlab = "Ordem dos fatores", 
+   #         ylab = "Variancia dos fatores",
+   #         main = "Scree-plot das variancias dos fatores sem rotacao")
+   # ### FIM - Scree-plot dos fatores
+   
+   ### INICIO - encontrar os scores das observacoes ###
+   if (Type == 1)  {   # Considera a Matriz de Covariancia para os calculos
+      Media  <- apply(Data, 2, mean)
+      DataNorm <- sweep(as.matrix(Data), 2, Media, FUN = "-") # Centraliza na media por colunas
+   }
+   
+   if (Type == 2) { # Considera a Matriz de Correlacao para os calculos
+      # Centraliza na media por colunas e divide pelo desvio padrao de cada coluna
+      Media  <- apply(Data, 2, mean) # DataNorm com as medias por colunas
+      DataNorm <- sweep(Data, 2, Media, FUN = "-")   # Centraliza na media
+      Desvio <- sqrt(colSums(DataNorm^2)/(nrow(DataNorm)-1)) # raiz da soma do quadrado - desvio padrao amostral
+      DataNorm <- sweep(DataNorm, 2, Desvio, FUN = "/")  # Divide pelo desvio padrao
+   }
+   
+   if (ScoresObs == "BARTLETT") { # Metodo Bartlett (minimos quadrados)
+      # foi necessario usar a inversa generalizada pois algumas vezes a matriz he singular, assim nao tem inversa normal
+      Scores <- MASS::ginv(t(Gama)%*%solve(diag(Psi))%*%Gama)%*%(t(Gama)%*%solve(diag(Psi)))%*%t(DataNorm) # Matriz com os escores das observacoes
+      #Scores <- solve(t(Gama)%*%solve(diag(Psi))%*%Gama)%*%(t(Gama)%*%solve(diag(Psi)))%*%t(DataNorm) # Matriz com os escores das observacoes
+      #Scores <- DataNorm%*%solve(MC)%*%Gama # outro modo de encontrar a solucao acima
+   }
+   
+   if (ScoresObs == "REGRESSION") { # Metodo de Regressao
+      Media <- mean(as.matrix(Data))
+      DataNorm <- sweep(as.matrix(Data), 2, Media, FUN = "-") # Centraliza na media geral todos os dados
+      I <- diag(rep(ncol(Gama)))
+      Scores <- solve(I + t(Gama)%*%solve(diag(Psi))%*%Gama)%*%(t(Gama)%*%solve(diag(Psi)))%*%t(DataNorm) # Matriz com os escores das observacoes
+      #Scores <- t(Gama)%*%solve(Gama%*%t(Gama)+diag(Psi))%*%t(DataNorm) # outro modo de encontrar a solucao acima
+   }
+   Scores <- t(Scores)
+   colnames(Scores) <- colnames(Gama)
+   rownames(Scores) <- rownames(Data)
+   ### FIM - encontrar os scores das observacoes ###  
+   
+   ### INCIO - encontra scores dos coeficientes ###
+   CoefScore <- t(MASS::ginv(t(Gama)%*%MASS::ginv(diag(Psi))%*%Gama)%*%t(Gama)%*%MASS::ginv(diag(Psi)))
+   colnames(CoefScore) <- paste("Factor", 1:ncol(CoefScore))
+   rownames(CoefScore) <- colnames(Data)
+   ### FIM - encontra scores dos coeficientes ###
+
+   Lista <- list(MatrixMC = MC, MatrixAutoVlr = MAutoVlr,
+                 MatrixAutoVec = MAutoVec, MatrixVar = MEigen,
+                 MatrixCarga = Gama[,1:NFactor], MatrixVarEsp = Psi,
+                 MatrixComuna = Comun, MatrixResiduo = M, VlrSQRS = SQRS,
+                 VlrSQR = SQR, MatrixResult = Result, MatrixScores = Scores[,1:NFactor],
+                 CoefScores = CoefScore[,1:NFactor])
+
+   return(Lista)
+}
