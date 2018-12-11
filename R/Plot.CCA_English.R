@@ -21,10 +21,10 @@ Plot.CCA <- function(CCA, Titles = NA, xlabel = NA, ylabel = NA,
   if (!is.character(Titles[4]) || is.na(Titles[4])) Titles[4] = c("Graphic with the scores of the group Y")
   #####   FIM - Informacoes usadas nos Graficos  #####
   
-  if (!is.character(xlabel) && !is.na(xlabel))
+  if (!is.character(xlabel) && !is.na(xlabel[1]))
      stop("'xlabel' input is incorrect, it should be of type character or string. Verify!")
   
-  if (!is.character(ylabel) && !is.na(ylabel))
+  if (!is.character(ylabel) && !is.na(ylabel[1]))
      stop("'ylabel' input is incorrect, it should be of type character or string. Verify!")
   
   if (!is.logical(Color))
@@ -33,10 +33,10 @@ Plot.CCA <- function(CCA, Titles = NA, xlabel = NA, ylabel = NA,
   if (!is.logical(Casc))
      stop("'Cascr' input is incorrect, it should be TRUE or FALSE. Verify!")
   
-  if (is.na(xlabel))
+  if (is.na(xlabel[1]))
      xlabel = "X-Axis"
   
-  if (is.na(ylabel))
+  if (is.na(ylabel[1]))
      ylabel = "Y-Axis"
   
   if (Casc) dev.new() # efeito cascata na apresentacao dos graficos

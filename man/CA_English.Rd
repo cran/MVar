@@ -52,11 +52,11 @@ Marcelo Angelo Cirillo
 \examples{
 data(DataFreq) # frequency data set
 
-Dat <- DataFreq[,2:ncol(DataFreq)]
+Data <- DataFreq[,2:ncol(DataFreq)]
 
-rownames(Dat) <- as.character(t(DataFreq[1:nrow(DataFreq),1]))
+rownames(Data) <- as.character(t(DataFreq[1:nrow(DataFreq),1]))
 
-Resp <- CA(Dat, "f") # performs CA
+Resp <- CA(Data, "f") # performs CA
 
 print("Is there dependency between rows and columns?"); Resp$DepData
 

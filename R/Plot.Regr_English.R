@@ -33,10 +33,10 @@ Plot.Regr <- function(Reg, TypeGraf = "Scatterplot", Title = NA, xlabel = NA,
      stop("'TypeGraf' input is incorrect, it should be: 'Scatterplot', 
           'Regression', 'QQPlot', 'Histogram', 'Fits' ou 'Order'. Verify!")
 
-  if (!is.character(xlabel) && !is.na(xlabel))
+  if (!is.character(xlabel) && !is.na(xlabel[1]))
      stop("'xlabel' input is incorrect, it should be of type character or string. Verify!")
   
-  if (!is.character(ylabel) && !is.na(ylabel))
+  if (!is.character(ylabel) && !is.na(ylabel[1]))
      stop("'ylabel' input is incorrect, it should be of type character or string. Verify!")
   
   if (!is.logical(Color))
@@ -50,10 +50,10 @@ Plot.Regr <- function(Reg, TypeGraf = "Scatterplot", Title = NA, xlabel = NA,
  
   if (Reg$Intercepts) X <- as.matrix(Reg$X[,2:ncol(Reg$X)]) else X <- as.matrix(Reg$X)
   
-  if (is.na(NameVarY))
+  if (is.na(NameVarY[1]))
      NameVarY <- c("Y")
   
-  if (is.na(NameVarX))
+  if (is.na(NameVarX[1]))
      NameVarX <- c(paste("X",1:ncol(X),sep=""))
   
   if (!is.logical(Casc))
@@ -62,7 +62,7 @@ Plot.Regr <- function(Reg, TypeGraf = "Scatterplot", Title = NA, xlabel = NA,
   ## Inicio - Scatterplot
   if (TypeGraf == "Scatterplot") {
     
-     if (is.na(Title))
+     if (is.na(Title[1]))
         Title = c("Scatterplot 2 to 2")
      
      if (Casc) dev.new() # efeito cascata na apresentacao dos graficos
@@ -85,13 +85,13 @@ Plot.Regr <- function(Reg, TypeGraf = "Scatterplot", Title = NA, xlabel = NA,
     
      if (ncol(X)==1) { # para calculos de regressao simples
         
-        if (is.na(xlabel))
+        if (is.na(xlabel[1]))
            xlabel = "X-Axis"  # Nomeia Eixo X  
        
-        if (is.na(ylabel))
+        if (is.na(ylabel[1]))
            ylabel = "Y-Axis"  # Nomeia Eixo Y
         
-        if (is.na(Title))
+        if (is.na(Title[1]))
            Title = c("Linear regression graph")
         
         X <- as.numeric(X)
@@ -148,13 +148,13 @@ Plot.Regr <- function(Reg, TypeGraf = "Scatterplot", Title = NA, xlabel = NA,
   ## Inicio - Grafico da probalidade normal
   if (TypeGraf == "QQPlot") {
     
-     if (is.na(xlabel))
+     if (is.na(xlabel[1]))
         xlabel = "Quantiles"  # Nomeia Eixo X  
     
-     if (is.na(ylabel))
+     if (is.na(ylabel[1]))
         ylabel = "Sample of the quantiles"  # Nomeia Eixo Y
 
-     if (is.na(Title))
+     if (is.na(Title[1]))
         Title = c("Graph of the normal probability\n of the residue")
      
      if (Casc) dev.new() # efeito cascata na apresentacao dos graficos
@@ -172,13 +172,13 @@ Plot.Regr <- function(Reg, TypeGraf = "Scatterplot", Title = NA, xlabel = NA,
   ## Inicio - Grafico da probalidade normal
   if (TypeGraf == "Histogram") {
     
-     if (is.na(xlabel))
+     if (is.na(xlabel[1]))
         xlabel = "Residue"  # Nomeia Eixo X  
     
-     if (is.na(ylabel))
+     if (is.na(ylabel[1]))
         ylabel = "Frequence"  # Nomeia Eixo Y
     
-     if (is.na(Title))
+     if (is.na(Title[1]))
         Title = c("Residue Histogram")
      
      if (Casc) dev.new() # efeito cascata na apresentacao dos graficos
@@ -195,13 +195,13 @@ Plot.Regr <- function(Reg, TypeGraf = "Scatterplot", Title = NA, xlabel = NA,
   ## Inicio - Grafico dos valores ajustados com os residuos
   if (TypeGraf == "Fits") {
     
-    if (is.na(xlabel))
+    if (is.na(xlabel[1]))
        xlabel = "Fits values"  # Nomeia Eixo X  
     
-    if (is.na(ylabel))
+    if (is.na(ylabel[1]))
        ylabel = "Residue"  # Nomeia Eixo Y
     
-    if (is.na(Title))
+    if (is.na(Title[1]))
        Title = c("Fits values vs. residues")
     
     if (Casc) dev.new() # efeito cascata na apresentacao dos graficos
@@ -221,13 +221,13 @@ Plot.Regr <- function(Reg, TypeGraf = "Scatterplot", Title = NA, xlabel = NA,
   ## Inicio - Grafico com ordem das observacoes versus os residuos
   if (TypeGraf == "Order") {
     
-    if (is.na(xlabel))
+    if (is.na(xlabel[1]))
        xlabel = "Order of the observations"  # Nomeia Eixo X  
     
-    if (is.na(ylabel))
+    if (is.na(ylabel[1]))
        ylabel = "Residue" # Nomeia Eixo Y
     
-    if (is.na(Title))
+    if (is.na(Title[1]))
        Title = c("Order of the observations\n vs. residues")
     
     if (Casc) dev.new() # efeito cascata na apresentacao dos graficos

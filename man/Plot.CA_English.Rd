@@ -32,11 +32,11 @@ Marcelo Angelo Cirillo
 \examples{
 data(DataFreq) # frequency data set
 
-Dat <- DataFreq[,2:ncol(DataFreq)]
+Data <- DataFreq[,2:ncol(DataFreq)]
 
-rownames(Dat) <- DataFreq[1:nrow(DataFreq),1]
+rownames(Data) <- DataFreq[1:nrow(DataFreq),1]
 
-Resp <- CA(Dat, "f") # performs CA
+Resp <- CA(Data, "f") # performs CA
 
 Tit = c("Scree-plot","Observations", "Variables", "Observations / Variables")
 
@@ -46,9 +46,9 @@ Plot.CA(Resp, Titles = Tit, xlabel = NA, ylabel = NA,
 
 data(DataQuali) # qualitative data set
 
-Dat <- DataQuali[,2:ncol(DataQuali)]
+Data <- DataQuali[,2:ncol(DataQuali)]
 
-Resp <- CA(Dat, "c", "b") # performs CA
+Resp <- CA(Data, "c", "b") # performs CA
 
 Tit = c("","","Graph of the variables")
 

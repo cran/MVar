@@ -43,7 +43,7 @@ Marcelo Angelo Cirillo
 data(iris) # dataset
 
 # Example 1 - Without the classes in the data
-Dat <- iris[,1:4]
+Data <- iris[,1:4]
 
 FcIndex <- "kurtosismax" # index function
 
@@ -51,7 +51,7 @@ Dim <- 1 # dimension of data projection
 
 Sphere <- TRUE # spherical data
 
-Res <- PP_Optimizer(Data = Dat, Class = NA, Findex = FcIndex,
+Res <- PP_Optimizer(Data = Data, Class = NA, Findex = FcIndex,
                     OptMethod = "GTSA", DimProj = Dim, Sphere = Sphere, 
                     Weight = TRUE, Lambda = 0.1, r = 1, Cooling = 0.9, 
                     Eps = 1e-3, Maxiter = 500, Half = 30)
@@ -64,7 +64,7 @@ Plot.PP(Res, Titles = NA, PosLeg = 1, BoxLeg = FALSE, Color = TRUE,
 # Example 2 - With the classes in the data
 Class <- iris[,5] # data class
 
-Res <- PP_Optimizer(Data = Dat, Class = Class, Findex = FcIndex,
+Res <- PP_Optimizer(Data = Data, Class = Class, Findex = FcIndex,
                     OptMethod = "GTSA", DimProj = Dim, Sphere = Sphere, 
                     Weight = TRUE, Lambda = 0.1, r = 1, Cooling = 0.9, 
                     Eps = 1e-3, Maxiter = 500, Half = 30)
@@ -78,7 +78,7 @@ Plot.PP(Res, Titles = Tit, PosLeg = 1, BoxLeg = FALSE, Color = TRUE,
 
 # Example 3 - Without the classes in the data, but informing 
 #             the classes in the plot function
-Res <- PP_Optimizer(Data = Dat, Class = NA, Findex = "Moment",
+Res <- PP_Optimizer(Data = Data, Class = NA, Findex = "Moment",
                     OptMethod = "GTSA", DimProj = 2, Sphere = Sphere, 
                     Weight = TRUE, Lambda = 0.1, r = 1, Cooling = 0.9, 
                     Eps = 1e-3, Maxiter = 500, Half = 30)
@@ -97,7 +97,7 @@ Dim <- 2 # dimension of data projection
 
 FcIndex <- "lda" # index function
 
-Res <- PP_Optimizer(Data = Dat, Class = Class, Findex = FcIndex,
+Res <- PP_Optimizer(Data = Data, Class = Class, Findex = FcIndex,
                     OptMethod = "GTSA", DimProj = Dim, Sphere = Sphere, 
                     Weight = TRUE, Lambda = 0.1, r = 1, Cooling = 0.9, 
                     Eps = 1e-3, Maxiter = 500, Half = 30)

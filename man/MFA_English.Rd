@@ -83,13 +83,13 @@ Marcelo Angelo Cirillo
 \examples{
 data(DataMix) # mixed dataset
 
-Dat <- DataMix[,2:ncol(DataMix)] 
+Data <- DataMix[,2:ncol(DataMix)] 
 
-rownames(Dat) <- DataMix[1:nrow(DataMix),1]
+rownames(Data) <- DataMix[1:nrow(DataMix),1]
 
 GroupNames = c("Grade Cafes/Work", "Formation/Dedication", "Coffees")
 
-MF <- MFA(Dat, c(2,2,2), TypeGroups = c("n","c","f"), GroupNames) # performs MFA
+MF <- MFA(Data, c(2,2,2), TypeGroups = c("n","c","f"), GroupNames) # performs MFA
 
 print("Principal Component Variances:"); round(MF$MatrixA,2)
 

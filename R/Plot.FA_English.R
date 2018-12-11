@@ -23,16 +23,16 @@ Plot.FA <- function(FA, Titles = NA, xlabel = NA, ylabel = NA,
   if (!is.character(Titles[3]) || is.na(Titles[3])) Titles[3] = c("Factor Loadings")
   if (!is.character(Titles[4]) || is.na(Titles[4])) Titles[4] = c("Biplot")
   
-  if (!is.character(xlabel) && !is.na(xlabel))
+  if (!is.character(xlabel) && !is.na(xlabel[1]))
      stop("'xlabel' input is incorrect, it should be of type character or string. Verify!")
   
-  if (!is.character(ylabel) && !is.na(ylabel))
+  if (!is.character(ylabel) && !is.na(ylabel[1]))
      stop("'ylabel' input is incorrect, it should be of type character or string. Verify!")
   
   if (!is.logical(Color))
      stop("'Color' input is incorrect, it should be TRUE or FALSE. Verify!")
   
-  if (!is.na(LinLab) && length(LinLab)!=nrow(FA$MatrixScores))
+  if (!is.na(LinLab[1]) && length(LinLab)!=nrow(FA$MatrixScores))
      stop("'LinLab' input is incorrect, it should have the same number of rows as the input in the database. Verify!")
   
   if (!is.logical(Casc))
@@ -40,10 +40,10 @@ Plot.FA <- function(FA, Titles = NA, xlabel = NA, ylabel = NA,
   
   if (is.na(LinLab[1])) LinLab <- rownames(FA$MatrixScores)
   
-  if (is.na(xlabel))
+  if (is.na(xlabel[1]))
      xlabel = "First factor"
   
-  if (is.na(ylabel))
+  if (is.na(ylabel[1]))
      ylabel = "Second factor"
   
   #####   FIM - Informacoes usadas nos Graficos  #####

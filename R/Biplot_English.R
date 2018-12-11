@@ -33,13 +33,13 @@ Biplot <- function(Data, alpha = 0.5, Title = NA, xlabel = NA, ylabel = NA,
   if (!is.numeric(alpha) || alpha < 0 || alpha > 1)
      stop("'alpha' input is incorrect, it should be numerical, with a value between 0 and 1. Check!")
   
-  if (!is.character(Title) && !is.na(Title))
+  if (!is.character(Title) && !is.na(Title[1]))
      stop("'Title' input is incorrect, it should be of type character or string. Verify!")
            
-  if (!is.character(xlabel) && !is.na(xlabel))
+  if (!is.character(xlabel) && !is.na(xlabel[1]))
      stop("'xlabel' input is incorrect, it should be of type character or string. Verify!")
   
-  if (!is.character(ylabel) && !is.na(ylabel))
+  if (!is.character(ylabel) && !is.na(ylabel[1]))
      stop("'ylabel' input is incorrect, it should be of type character or string. Verify!")
 
   if (!is.logical(Color))
@@ -48,12 +48,12 @@ Biplot <- function(Data, alpha = 0.5, Title = NA, xlabel = NA, ylabel = NA,
   if (!is.logical(Obs)) 
      stop("'Obs' input is incorrect, it should be TRUE or FALSE. Verify!")
   
-  if (!is.na(LinLab) && length(LinLab)!=nrow(Data))
+  if (!is.na(LinLab[1]) && length(LinLab)!=nrow(Data))
      stop("The number of label elements to lines 'LinLab', differs from the number of rows in the database. Verify!")
   
   if (is.na(LinLab[1])) LinLab <- rownames(Data)
   
-  if (is.na(Title)) Title = "Biplot Graphic" 
+  if (is.na(Title[1])) Title = "Biplot Graphic" 
   
   LinNames <- LinLab # nomes das observacoes
   
@@ -75,10 +75,10 @@ Biplot <- function(Data, alpha = 0.5, Title = NA, xlabel = NA, ylabel = NA,
   
   PVar <- (Md^2/sum(Md^2)) * 100 # Proporcao dos primeiros (dim) componentes principais
   
-  if (is.na(xlabel))
+  if (is.na(xlabel[1]))
      xlabel = paste("First coordinate (",round(PVar[1],2),"%)",sep="")
 
-  if (is.na(ylabel))
+  if (is.na(ylabel[1]))
      ylabel = paste("Second coordinate (",round(PVar[2],2),"%)",sep="")
   
   MaxX <- max(Coor_I[,1],Coor_V[,1]) + 1 # Dimenssoes maximas das linhas

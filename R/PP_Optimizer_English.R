@@ -50,7 +50,7 @@ PP_Optimizer = function(Data, Class = NA, Findex = "HOLES", DimProj = 2, Sphere 
   if (!is.data.frame(Data) && !is.matrix(Data))
      stop("'Data' input is incorrect, it should be of type data frame or matrix. Verify!")
 
-  if (!is.na(Class)[1]) {
+  if (!is.na(Class[1])) {
 
     Class <- as.matrix(Class)
 
@@ -58,7 +58,7 @@ PP_Optimizer = function(Data, Class = NA, Findex = "HOLES", DimProj = 2, Sphere 
        stop("'Class' or 'Data' input is incorrect, they should contain the same number of lines. Verify!")
   }
 
-  if (Findex %in% c("LDA", "PDA", "LR") && is.na(Class))
+  if (Findex %in% c("LDA", "PDA", "LR") && is.na(Class[1]))
      stop("For the 'LDA', 'PDA' and 'LR' indices, needs input in 'Class'. Verify!")
   
   Findex <- toupper(Findex) # transforma em maiusculo
@@ -374,7 +374,7 @@ PP_Optimizer = function(Data, Class = NA, Findex = "HOLES", DimProj = 2, Sphere 
 
   rownames(Aa) <- colnames(Data)
 
-  if (!is.na(Class)[1]) {
+  if (!is.na(Class[1])) {
 
     Proj.Data <- cbind(as.data.frame(Proj.Data), Class)
     colnames(Proj.Data) <- c(paste("Projection", 1:(ncol(Proj.Data) - 1)),"Class")
@@ -385,7 +385,7 @@ PP_Optimizer = function(Data, Class = NA, Findex = "HOLES", DimProj = 2, Sphere 
  
   if (length(Index) > 1) colnames(Index) <- "Index"
 
-  if (!is.na(Class)[1]) {
+  if (!is.na(Class[1])) {
      Class.Table <- table(Class)        # cria tabela com as quantidade dos elementos das classes
      Class.Names <- names(Class.Table)  # nomes das classses
      Num.Class   <- length(Class.Table) # numero de classes

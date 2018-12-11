@@ -34,34 +34,34 @@ MDS <- function(Data, Distance = "euclidean", Axis = TRUE,
   if (!is.logical(Axis)) 
      stop("'Axis' input is incorrect, it should be TRUE or FALSE. Verify!")
 
-  if (!is.character(Title) && !is.na(Title))
+  if (!is.character(Title) && !is.na(Title[1]))
      stop("'Title' input is incorrect, it should be of type character or string. Verify!")
   
   if (!is.logical(Color))
      stop("'Color' input is incorrect, it should be TRUE or FALSE. Verify!")
   
-  if (!is.na(LinLab) && length(LinLab)!=nrow(Data))
+  if (!is.na(LinLab[1]) && length(LinLab)!=nrow(Data))
      stop("The number of label elements for rows 'LinLab', differs from the number of rows in the database. Verify!")
   
-  if (is.na(Title))
+  if (is.na(Title[1]))
      Title = "Multidimensional Scaling" # Titulo
   
-  if (!is.character(xlabel) && !is.na(xlabel))
+  if (!is.character(xlabel) && !is.na(xlabel[1]))
      stop("'xlabel' input is incorrect, it should be of type character or string. Verify!")
   
-  if (!is.character(ylabel) && !is.na(ylabel))
+  if (!is.character(ylabel) && !is.na(ylabel[1]))
      stop("'ylabel' input is incorrect, it should be of type character or string. Verify!")
   
-  if (is.na(xlabel))
+  if (is.na(xlabel[1]))
      xlabel = "X-Axis" # Nomeia Eixo X  
   
-  if (is.na(ylabel))
+  if (is.na(ylabel[1]))
      ylabel = "Y-Axis" # Nomeia Eixo Y  
   
   if (is.na(LinLab[1]))
      LinLab <- rownames(Data)
   
-  if (!is.na(LinLab) && !is.character(LinLab))
+  if (!is.na(LinLab[1]) && !is.character(LinLab))
      stop("'LinLab' input is incorrect, it should be of type character or string. Verify!")
 
   Md <- dist(Data, method = Distance) # matrix das distancias

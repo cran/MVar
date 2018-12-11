@@ -41,7 +41,7 @@ PP_Index <- function (Data, Class = NA, Vector.Proj = NA, Findex = "HOLES",
   if (!is.data.frame(Data) && !is.matrix(Data))
      stop("'Data' input is incorrect, it should be of type data frame or matrix. Verify!")
   
-  if (!is.na(Class)[1]) {
+  if (!is.na(Class[1])) {
     
     Class <- as.matrix(Class)
     
@@ -49,7 +49,7 @@ PP_Index <- function (Data, Class = NA, Vector.Proj = NA, Findex = "HOLES",
        stop("'Class' or 'Data' input is incorrect, they should contain the same number of lines. Verify!")
   }
   
-  if (!is.na(Vector.Proj)[1] && !is.data.frame(Vector.Proj) && !is.matrix(Vector.Proj))
+  if (!is.na(Vector.Proj[1]) && !is.data.frame(Vector.Proj) && !is.matrix(Vector.Proj))
      stop("'Vector.Proj' input is incorrect, it should be of type data frame or matrix. Verify!")
   
   Findex <- toupper(Findex) # transforma em maiusculo
@@ -67,7 +67,7 @@ PP_Index <- function (Data, Class = NA, Vector.Proj = NA, Findex = "HOLES",
      stop("For the index 'MOMENT', 'CHI', 'FRIEDMANTUKEY', 'ENTROPY', 'LEGENDRE', 'LAGUERREFOURIER', 
           'HERMITE' and 'NATURALHERMITE', 'DimProj' should be 2 (two). Verify!")
   
-  if (Findex %in% c("LDA", "PDA", "LR") && is.na(Class))
+  if (Findex %in% c("LDA", "PDA", "LR") && is.na(Class[1]))
      stop("For the 'LDA', 'PDA' and 'LR' indices, needs input in 'Class'. Verify!")
   
   if (DimProj > ncol(Data))
@@ -82,7 +82,7 @@ PP_Index <- function (Data, Class = NA, Vector.Proj = NA, Findex = "HOLES",
   if (!is.numeric(r) || r <= 0 )
      stop("'r' input is incorrect, it should be a numeric value greater than zero. Verify!")
   
-  if (!is.na(Class)[1]) {
+  if (!is.na(Class[1])) {
      Class.Table <- table(Class)        # cria tabela com as quantidade dos elementos das classes
      Class.Names <- names(Class.Table)  # nomes das classses
      Num.Class   <- length(Class.Table) # numero de classes
@@ -130,7 +130,7 @@ PP_Index <- function (Data, Class = NA, Vector.Proj = NA, Findex = "HOLES",
         i <- i + 1
       }
 
-      if (is.na(Vector.Proj)[1]) {
+      if (is.na(Vector.Proj[1])) {
          Vector.Base <- eigen(MASS::ginv(B + W) %*% B) # para extrair vetores ortogonais
 
          A <- matrix(as.numeric(Vector.Base$vectors[,1:DimProj]), ncol = DimProj) # vetores de projecao otimos
@@ -178,7 +178,7 @@ PP_Index <- function (Data, Class = NA, Vector.Proj = NA, Findex = "HOLES",
 
         Ws <- (1 - Lambda) * W + Lambda * diag(diag(W)) # Penalizando W com Lambda
 
-        if (is.na(Vector.Proj)[1]) {
+        if (is.na(Vector.Proj[1])) {
             Vector.Base <- eigen(MASS::ginv(B + Ws) %*% B) # para extrair vetores ortogonais
 
             A <- matrix(as.numeric(Vector.Base$vectors[,1:DimProj]), ncol = DimProj) # vetores de projecao otimos
@@ -344,7 +344,7 @@ PP_Index <- function (Data, Class = NA, Vector.Proj = NA, Findex = "HOLES",
 
     "CHI" = {
       
-      if (is.na(ck)) {
+      if (is.na(ck[1])) {
          # Encontrar a probabilidade de normalizacao bivariada normal sobre cada caixa radial
          fnr <- function(x) { x * exp(-0.5 * x^2) } # veja que aqui a funcao normal padrao bivariada esta em Coordenadas Polares
          ck  <- rep(1,40)

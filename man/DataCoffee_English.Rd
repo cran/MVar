@@ -23,13 +23,13 @@ OSSANI, P. C. \emph{Qualidade de cafes especiais e nao especiais por meio da ana
 \examples{
 data(DataCoffee) # categorized data set
 
-Matriz = DataCoffee[,2:ncol(DataCoffee)] 
+Data <- DataCoffee[,2:ncol(DataCoffee)] 
 
-rownames(Matriz) <- as.character(t(DataCoffee[1:nrow(DataCoffee),1]))
+rownames(Data) <- as.character(t(DataCoffee[1:nrow(DataCoffee),1]))
 
 GroupNames = c("Coffee A", "Coffee B", "Coffee C", "Coffee D")
 
-MF <- MFA(Matriz, c(16,16,16,16), c(rep("f",4)), GroupNames) 
+MF <- MFA(Data, c(16,16,16,16), c(rep("f",4)), GroupNames) 
 
 print("Principal components variances:"); round(MF$MatrixA,2)
 

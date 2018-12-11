@@ -71,7 +71,7 @@ Marcelo Angelo Cirillo
 data(iris) # data set
 
 # Example 1 - Without the classes in the data
-Dat <- iris[,1:4]
+Data <- iris[,1:4]
 
 Class <- NA # data class
 
@@ -81,7 +81,7 @@ Dim <- 1 # dimension of data projection
 
 Sphere <- TRUE # spherical data
 
-Res <- PP_Optimizer(Data = Dat, Class = Class, Findex = FcIndex,
+Res <- PP_Optimizer(Data = Data, Class = Class, Findex = FcIndex,
                     OptMethod = "GTSA", DimProj = Dim, Sphere = Sphere, 
                     Weight = TRUE, Lambda = 0.1, r = 1, Cooling = 0.9, 
                     Eps = 1e-3, Maxiter = 1000, Half = 30)
@@ -97,7 +97,7 @@ print("Projection index:"); Res$Index
 # Example 2 - With the classes in the data
 Class <- iris[,5] # classe dos dados
 
-Res <- PP_Optimizer(Data = Dat, Class = Class, Findex = FcIndex,
+Res <- PP_Optimizer(Data = Data, Class = Class, Findex = FcIndex,
                     OptMethod = "GTSA", DimProj = Dim, Sphere = Sphere, 
                     Weight = TRUE, Lambda = 0.1, r = 1, Cooling = 0.9, 
                     Eps = 1e-3, Maxiter = 1000, Half = 30)

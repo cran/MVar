@@ -32,11 +32,11 @@ Marcelo Angelo Cirillo
 \examples{
 data(DataQuan) # set of quantitative data
 
-Dat <- DataQuan[,2:8]
+Data <- DataQuan[,2:8]
 
-rownames(Dat) <- DataQuan[1:nrow(DataQuan),1]
+rownames(Data) <- DataQuan[1:nrow(DataQuan),1]
 
-PC <- PCA(Dat, 2) # performs the PCA
+PC <- PCA(Data, 2) # performs the PCA
 
 Tit = c("Scree-plot","Graph of the Observations","Circle of Correlation")
 

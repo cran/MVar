@@ -32,10 +32,10 @@ Plot.MFA <- function(MFA, Titles = NA, xlabel = NA, ylabel = NA,
   if (!is.character(Titles[3]) || is.na(Titles[3])) Titles[3] = c("Graph corresponding to the global analysis\n of the individuals and variables")
   if (!is.character(Titles[4]) || is.na(Titles[4])) Titles[4] = c("Graph of the inertias of the\n Groups of variables")
   
-  if (!is.character(xlabel) && !is.na(xlabel))
+  if (!is.character(xlabel) && !is.na(xlabel[1]))
      stop("'xlabel' input is incorrect, it should be of type character or string. Verify!")
   
-  if (!is.character(ylabel) && !is.na(ylabel))
+  if (!is.character(ylabel) && !is.na(ylabel[1]))
      stop("'ylabel' input is incorrect, it should be of type character or string. Verify!")
   
   if (PosLeg < 1 || PosLeg > 4)
@@ -56,7 +56,7 @@ Plot.MFA <- function(MFA, Titles = NA, xlabel = NA, ylabel = NA,
   Groups     = MFA$VectorG  # tamanho de cada grupo
   NameGroups = MFA$VectorNG # nomes de cada grupo
   
-  if (!is.na(LinLab)[1]) {
+  if (!is.na(LinLab[1])) {
      if (length(LinLab) != nrow(MFA$MatrixF))
         stop("'LinLab' input is incorrect, it should have the same number of rows as the input in the database. Verify!")
      NomeLinhas = as.matrix(LinLab) # nomes das linhas que formam os dados
@@ -68,10 +68,10 @@ Plot.MFA <- function(MFA, Titles = NA, xlabel = NA, ylabel = NA,
   
   cor = 1 # cor inicial
   
-  if (is.na(xlabel))
+  if (is.na(xlabel[1]))
      xlabel  = paste("First coordinate (",round(MFA$MatrixA[1,2],2),"%)",sep="")
   
-  if (is.na(ylabel))
+  if (is.na(ylabel[1]))
      ylabel  = paste("Second coordinate (",round(MFA$MatrixA[2,2],2),"%)",sep="")
   
   if (PosLeg==1) PosLeg = "topleft" # posicao das legendas nos graficos

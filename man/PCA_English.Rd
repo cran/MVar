@@ -44,11 +44,11 @@ Marcelo Angelo Cirillo
 \examples{
 data(DataQuan) # set of quantitative data
 
-Dat <- DataQuan[,2:8]
+Data <- DataQuan[,2:8]
 
-rownames(Dat) <- DataQuan[1:nrow(DataQuan),1]
+rownames(Data) <- DataQuan[1:nrow(DataQuan),1]
 
-PC <- PCA(Dat, 2) # performs the PCA
+PC <- PCA(Data, 2) # performs the PCA
 
 print("Covariance matrix / Correlation:"); round(PC$MatrixMC,2)
 

@@ -22,28 +22,28 @@ Plot.PCA <- function(PC, Titles = NA, xlabel = NA, ylabel = NA,
   if (!is.character(Titles[2]) || is.na(Titles[2])) Titles[2] = c("Graph corresponding to the rows (observations)")
   if (!is.character(Titles[3]) || is.na(Titles[3])) Titles[3] = c("Graph corresponding to the columns (variables)")
   
-  if (!is.character(xlabel) && !is.na(xlabel))
+  if (!is.character(xlabel) && !is.na(xlabel[1]))
      stop("'xlabel' input is incorrect, it should be of type character or string. Verify!")
   
-  if (!is.character(ylabel) && !is.na(ylabel))
+  if (!is.character(ylabel) && !is.na(ylabel[1]))
      stop("'ylabel' input is incorrect, it should be of type character or string. Verify!")
   
   if (!is.logical(Color))
      stop("'Color' input is incorrect, it should be TRUE or FALSE. Verify!")
   
-  if (!is.na(LinLab) && length(LinLab)!=nrow(PC$MatrixEsc))
+  if (!is.na(LinLab[1]) && length(LinLab)!=nrow(PC$MatrixEsc))
      stop("'LinLab' input is incorrect, it should have the same number of rows as the input in the database. Verify!")
   
   if (!is.logical(Casc))
      stop("'Casc' input is incorrect, it should be TRUE or FALSE. Verify!")
   
-  if (is.na(LinLab))
+  if (is.na(LinLab[1]))
      LinLab <- rownames(PC$MatrixEsc)
   
-  if (is.na(xlabel))
+  if (is.na(xlabel[1]))
      xlabel = paste("First coordinate (",round(PC$MatrixAutoVlr[1,2],2),"%)",sep="")
   
-  if (is.na(ylabel))
+  if (is.na(ylabel[1]))
      ylabel = paste("Second coordinate (",round(PC$MatrixAutoVlr[2,2],2),"%)",sep="")
   #####   FIM - Informacoes usadas nos Graficos  #####
   

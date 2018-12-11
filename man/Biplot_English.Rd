@@ -43,17 +43,17 @@ Marcelo Angelo Cirillo
 \examples{
 data(DataQuan) # set of quantitative data
 
-Dat <- DataQuan[,2:ncol(DataQuan)]
-rownames(Dat) <- DataQuan[,1]
+Data <- DataQuan[,2:ncol(DataQuan)]
+rownames(Data) <- DataQuan[,1]
 
-Biplot(Dat)
+Biplot(Data)
 
-LinNames <- paste("C",1:nrow(Dat))
-Biplot(Dat, alpha = 0.6, Title = "Biplot of data valuing individuals",
+LinNames <- paste("C",1:nrow(Data), sep="")
+Biplot(Data, alpha = 0.6, Title = "Biplot of data valuing individuals",
        xlabel = "X Axis", ylabel = "Y Axis", Color = TRUE, Obs = TRUE, 
        LinLab = LinNames)
        
-Biplot(Dat, alpha = 0.4, Title = "Graph valuing the variables",
+Biplot(Data, alpha = 0.4, Title = "Graph valuing the variables",
        xlabel = "", ylabel = "", Color = FALSE, Obs = FALSE)
 }
 

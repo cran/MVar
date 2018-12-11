@@ -19,7 +19,7 @@ Marcelo Angelo Cirillo
 }
 
 \examples{
-data(DataQuan)
+data(DataQuan) 
 DataQuan
 }
 
