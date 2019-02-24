@@ -84,8 +84,11 @@ Plot.PP <- function(PP, Titles = NA, xlabel = NA, ylabel = NA, PosLeg = 2,
      Num.Class   <- length(Class.Table) # numero de classes
      NomeLinhas  <- as.matrix(LinLab)
   } else {
-     Class.Names <- ifelse(is.na(PP$Class.Names[1]), "", PP$Class.Names) # nomes das classses
-     Num.Class   <- ifelse(is.na(PP$Num.Class[1]), 0, PP$Num.Class) # numero de classes
+     Class.Names <- ""
+     if (!is.na(PP$Class.Names[1])) # nomes das classses
+        Class.Names <- PP$Class.Names 
+    
+     Num.Class <- ifelse(is.na(PP$Num.Class[1]), 0, PP$Num.Class) # numero de classes
      
      if (Num.Class == 0) {
         NomeLinhas = rownames(PP$Proj.Data)
