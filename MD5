@@ -1,4 +1,4 @@
-1978e3d8c8d692ade664923661ad7f7f *DESCRIPTION
+4f0bb7c86936363a1de1e2bf58f3a1b3 *DESCRIPTION
 eebb7ed6f74e13dcef3868256376ea28 *NAMESPACE
 792b66d4d658d367c21ec637e2076ea9 *R/Biplot_English.R
 1a87f4ec826ade61b8d41b3c63f3fe44 *R/CA_English.R
@@ -15,8 +15,8 @@ cb035e7b96be7e77bed1672ff2cd324b *R/GrandTour_English.R
 38d6fc9550d1355af9361c5777bb110d *R/NormData_English.R
 1eaf38ba946855dfde7a1cc63f8107a9 *R/NormTest_English.R
 c64290e8f0fc4f13698260eba53a0d37 *R/PCA_English.R
-69c6ae603aa753b408bcb0c65ac4f85e *R/PP_Index_English.R
-7c76a76ad655f68ed3cc55f246d36d92 *R/PP_Optimizer_English.R
+e01d53f713438b757a0eabdcb50ebf33 *R/PP_Index_English.R
+e0ccf01d0d99fd73352be5cf7ab63551 *R/PP_Optimizer_English.R
 bf0d0f61f2250c89d85cdb2139e005d9 *R/Plot.CA_English.R
 205964131fdc00ab80da1bbe009817d0 *R/Plot.CCA_English.R
 945194737b3ef7b24b9a4fb18319e53c *R/Plot.FA_English.R
@@ -50,12 +50,12 @@ fc5bf68cb2b4c3cfa2b59a960ebf772e *man/IM_English.Rd
 36301f2686fce92bf9c3dc8c2112fee3 *man/LocLab_English.Rd
 4c216dfa5bc27610832716183631e56b *man/MDS_English.Rd
 5387caaab3d3b59f53239d6cf37b00e8 *man/MFA_English.Rd
-d09a900d4dd6f1b2100260d3cd0cc499 *man/MVar-package.Rd
+d5cf2fcdb444daa3bdc38ef3792b19dd *man/MVar-package.Rd
 530f69a57fcc49f536ef2878306d2e84 *man/NormData_English.Rd
 4f85c51ff4be81656b8f00b6e3022cc9 *man/NormTest_English.Rd
 afb3e227e4413329d0ff02bb4ee8d990 *man/PCA_English.Rd
-d181398dd480888a7cb68265ce63f38a *man/PP_Index_English.Rd
-a633f731bbc1d6537421ffd6aee79cfa *man/PP_Optimizer_English.Rd
+7a80a2b03caf5f25380e1c498af22a97 *man/PP_Index_English.Rd
+35132bacf47c16474f0bcc1824cc8edf *man/PP_Optimizer_English.Rd
 269836e933c6a5049f7c661f9e725167 *man/Plot.CA_English.Rd
 c65be1b79d5de9f740ba9730b2288d2e *man/Plot.CCA_English.Rd
 72fd7d961f036a305e3d8555eb3bf7d9 *man/Plot.FA_English.Rd
@@ -64,5 +64,5 @@ c65be1b79d5de9f740ba9730b2288d2e *man/Plot.CCA_English.Rd
 dac79679516148c407fa848609361862 *man/Plot.PP_English.Rd
 6e0788fca9b73f295d648ad249fa20de *man/Plot.Regr_English.Rd
 f8a1fc4076d4a643e7f6843f79ee9968 *man/Regr_English.Rd
-92e7a0baa2faf9e13fd50a241e3588a5 *src/PP_IndexC.c
+95071d6d60242329041d60ed61467b52 *src/PP_IndexC.c
 0faa4bd933adb154d8dcd44ab164576b *src/registerDynamicSymbol.c

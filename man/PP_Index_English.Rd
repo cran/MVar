@@ -30,6 +30,7 @@
               "kurtosismax" - Maximum kurtosis index,\cr
               "kurtosismin" - Minimum kurtosis index,\cr
               "moment" - Moment index,\cr
+              "mf" - MF index,\cr
               "chi" - Chi-square index.}
 \item{DimProj}{Dimension of data projection (default = 2).}
 \item{Weight}{Used in index LDA, PDA and Lr to weight the calculations

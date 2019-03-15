@@ -24,6 +24,7 @@ PP_Optimizer = function(Data, Class = NA, Findex = "HOLES", DimProj = 2, Sphere 
   #           "kurtosismax" - Indice curtose maxima,
   #           "kurtosismin" - Indice curtose minima,
   #           "moment" - Indice momento, 
+  #           "mf"  - Indice MF
   #           "chi" - Indice qui-quadrado. 
   # DimProj - Dimensao para a projecao dos dados (default = 2).
   # Sphere  - Dados esfericos (default = TRUE).
@@ -65,7 +66,7 @@ PP_Optimizer = function(Data, Class = NA, Findex = "HOLES", DimProj = 2, Sphere 
 
   if (!(Findex %in% c("LDA", "PDA", "LR", "HOLES", "CM", "PCA", "FRIEDMANTUKEY", "ENTROPY",
                       "LEGENDRE",  "LAGUERREFOURIER", "HERMITE", "NATURALHERMITE",
-                      "KURTOSISMAX", "KURTOSISMIN", "MOMENT", "CHI")))
+                      "KURTOSISMAX", "KURTOSISMIN", "MOMENT", "CHI", "MF")))
      stop(paste("Index function:",Findex, "not registered. Verify!"))
 
   if ((Findex %in% c("PCA","KURTOSISMAX", "KURTOSISMIN"))  && DimProj != 1)
@@ -293,7 +294,7 @@ PP_Optimizer = function(Data, Class = NA, Findex = "HOLES", DimProj = 2, Sphere 
 
   Aa <- diag(1, nrow = NumCol, ncol = DimProj) # Matrix of orthogonal initialization
 
-  if (!(Findex %in% c("LDA", "PDA", "LR", "CHI"))) {
+  if (!(Findex %in% c("LDA", "PDA", "LR", "CHI", "MF"))) {
 
      Proj <- Dat %*% Aa # initial projection
 
@@ -347,6 +348,7 @@ PP_Optimizer = function(Data, Class = NA, Findex = "HOLES", DimProj = 2, Sphere 
         Findex == "KURTOSISMIN" && IndexCurent < IndexMax || # favorece detectcao agrupamento
         Findex == "MOMENT" && IndexCurent < IndexMax ||
         Findex == "CHI"    && IndexCurent < IndexMax ||
+        Findex == "MF"     && IndexCurent < IndexMax || # menor resultado foi melhor
         Findex == "CM"     && IndexCurent < IndexMax) {
       
       if ((Findex %in% c("LDA", "PDA", "CHI")))
