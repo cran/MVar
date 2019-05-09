@@ -6,18 +6,26 @@
 
 \description{Performs Multidimensional Scaling (MDS) on a data set.}
 
-\usage{MDS(Data, Distance = "euclidean", Axis = TRUE, Title = NA,
-    xlabel = NA, ylabel = NA, Color = TRUE, LinLab = NA)}
+\usage{MDS(Data, Distance = "euclidean", Title = NA, xlabel = NA,  
+    ylabel = NA, PosLeg = 2, BoxLeg = TRUE, Axis = TRUE, 
+    Color = TRUE, LinLab = NA, Class = NA)}
 
 \arguments{
   \item{Data}{Data to be analyzed.}
   \item{Distance}{Metric of the distance: "euclidean" (default), "maximum", "manhattan", "canberra", "binary" or "minkowski".}
-  \item{Color}{Colored graphics (default = TRUE).}
-  \item{Axis}{Plot the X and Y axes (default = TRUE).}
   \item{Title}{Titles of the graphics, if not set, assumes the default text.}
   \item{xlabel}{Names the X axis, if not set, assumes the default text.}
-  \item{ylabel}{Names the Y axis, if not set, assumes the default text.}
-  \item{LinLab}{Vector with the labels for the observations, if not set, assumes the default text.}
+  \item{ylabel}{Names the Y axis, if not set, assumes the default text.}  
+  \item{PosLeg}{0 with no caption,\cr
+                1 for caption in the left upper corner,\cr
+                2 for caption in the right upper corner (default),\cr
+                3 for caption in the right lower corner,\cr
+                4 for caption in the left lower corner.}
+  \item{BoxLeg}{Puts the frame in the caption (default = TRUE).} 
+  \item{Axis}{Plot the X and Y axes (default = TRUE).}  
+  \item{Color}{Colored graphics (default = TRUE).}
+  \item{LinLab}{Vector with the labels for the observations.}
+  \item{Class}{Vector with names of data classes.}
 }
 
 \value{{Multidimensional Scaling.}
@@ -37,14 +45,15 @@ Marcelo Angelo Cirillo
 }
 
 \examples{
-data(DataQuan) # set of quantitative data
+data(iris) # data set
 
-Data <- DataQuan[,2:8]
+Data <- iris[,1:4]
 
-rownames(Data) <- DataQuan[1:nrow(DataQuan),1]
+cls <- iris[,5] # data class
 
-MD <- MDS(Data, Distance = "euclidean", Axis = TRUE, Title = NA,
-          xlabel = NA, ylabel = NA, Color = TRUE, LinLab = NA)
+MD <- MDS(Data, Distance = "euclidean", Title = NA, xlabel = NA,  
+          ylabel = NA, PosLeg = 2, BoxLeg = TRUE, Axis = TRUE, 
+          Color = TRUE, LinLab = NA, Class = cls)
           
 print("Matrix of the distances:"); MD$MatrixD
 }

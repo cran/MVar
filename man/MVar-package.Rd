@@ -6,15 +6,15 @@
 
 \title{Multivariate Analysis.}
 
-\description{Package for multivariate analysis, having functions that perform simple correspondence analysis (CA) and multiple correspondence analysis (MCA), principal components analysis (PCA), canonical correlation analysis (CCA), factorial analysis (FA), multidimensional scaling (MDS), hierarchical and non-hierarchical cluster analysis, linear regression, multiple factor analysis (MFA) for quantitative, qualitative, frequency (MFACT) and mixed data, projection pursuit (PP), grant tour method and other useful functions for the multivariate analysis.
+\description{Package for multivariate analysis, having functions that perform simple correspondence analysis (CA) and multiple correspondence analysis (MCA), principal components analysis (PCA), canonical correlation analysis (CCA), factorial analysis (FA), multidimensional scaling (MDS), linear (LDA) and quadratic discriminant analysis (QDA), hierarchical and non-hierarchical cluster analysis, simple and multiple linear regression, multiple factor analysis (MFA) for quantitative, qualitative, frequency (MFACT) and mixed data, projection pursuit (PP), grant tour method and other useful functions for the multivariate analysis.
 }
  
 \details{
 \tabular{ll}{
 Package: \tab MVar\cr
 Type: \tab Package\cr
-Version: \tab 2.0.5\cr
-Date: \tab 2019-03-15\cr
+Version: \tab 2.0.6\cr
+Date: \tab 2019-05-08\cr
 License: \tab GPL(>= 2)\cr
 LazyLoad: \tab yes\cr
 }

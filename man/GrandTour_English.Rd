@@ -6,10 +6,10 @@
 
 \description{Performs the exploration of the data through the technique of animation Grand Tour.}
 
-\usage{GrandTour(Data, Method = "Interpolation", Title = NA, 
-          xlabel = NA, ylabel = NA, Color = TRUE, Label = FALSE, 
-          LinLab = NA, AxisVar = TRUE, Axis = FALSE,
-          NumRot = 200, ChoiceRot = NA, SavePicture = FALSE)}
+\usage{GrandTour(Data, Method = "Interpolation", Title = NA, xlabel = NA, ylabel = NA,
+          Color = TRUE, LinLab = NA, Class = NA, PosLeg = 2, BoxLeg = TRUE, 
+          AxisVar = TRUE, Axis = FALSE, NumRot = 200, ChoiceRot = NA,
+          SavePicture = FALSE)}
 
 \arguments{
 \item{Data    }{Numerical data set.}
@@ -21,8 +21,14 @@
   \item{xlabel}{Names the X axis, if not set, assumes the default text.}
   \item{ylabel}{Names the Y axis, if not set, assumes the default text.}
   \item{Color}{Colored graphics (default = TRUE).}
-  \item{Label}{Puts the labels of the observations (default = FALSE).}
-  \item{LinLab}{Vector with the labels for the observations, if not set, assumes the default text.}
+  \item{LinLab}{Vector with the labels for the observations.}
+  \item{Class}{Vector with names of data classes.}
+  \item{PosLeg}{0 with no caption,\cr
+                1 for caption in the left upper corner,\cr
+                2 for caption in the right upper corner (default),\cr
+                3 for caption in the right lower corner,\cr
+                4 for caption in the left lower corner.}
+  \item{BoxLeg}{Puts the frame in the caption (default = TRUE).}
   \item{AxisVar }{Puts axes of rotation of the variables (default = TRUE).}
   \item{Axis}{Plots the X and Y axes (default = TRUE).}
   \item{NumRot}{Number of rotations (default = 200). If Method = "Interpolation", NumRot represents the angle of rotation.}
@@ -63,12 +69,21 @@ Marcelo Angelo Cirillo
 \examples{
 data(iris) # database
 
-Data <- as.data.frame(NormData(iris[,1:4],2))
+Res <- GrandTour(iris[,1:4], Method = "Torus", Title = NA, xlabel = NA, ylabel = NA,
+                 Color = TRUE, LinLab = NA, Class = NA, PosLeg = 2, BoxLeg = TRUE, 
+                 AxisVar = TRUE, Axis = FALSE, NumRot = 10, ChoiceRot = NA,
+                 SavePicture = FALSE)
 
-Res <- GrandTour(Data, Method = "Interpolation", Title = NA, Color = TRUE,
-                 Label = FALSE, LinLab = NA, AxisVar = TRUE, Axis = TRUE,
-                 NumRot = 10, ChoiceRot = NA, SavePicture = FALSE)
+print("Projected data:"); Res$Proj.Data
+print("Projection vectors:"); Res$Vector.Opt
+print("Grand Tour projection method:"); Res$Method
 
+        
+Res <- GrandTour(iris[,1:4], Method = "Interpolation", Title = NA, xlabel = NA, ylabel = NA,
+                 Color = TRUE, LinLab = NA, Class = iris[,5], PosLeg = 2, BoxLeg = FALSE, 
+                 AxisVar = FALSE, Axis = FALSE, NumRot = 10, ChoiceRot = NA,
+                 SavePicture = FALSE)
+          
 print("Projected data:"); Res$Proj.Data
 print("Projection vectors:"); Res$Vector.Opt
 print("Grand Tour projection method:"); Res$Method

@@ -1,6 +1,6 @@
 Plot.PP <- function(PP, Titles = NA, xlabel = NA, ylabel = NA, PosLeg = 2, 
-                    BoxLeg = TRUE, Color = TRUE, Label = FALSE, LinLab = NA, 
-                    AxisVar = TRUE, Axis = TRUE, Casc = TRUE) {
+                    BoxLeg = TRUE, Color = TRUE, LinLab = NA, AxisVar = TRUE,
+                    Axis = TRUE, Casc = TRUE) {
   
   # Rotina para plotar graficos da Projecao Pursuit desenvolvida 
   # por Paulo Cesar Ossani em 2017/02/27
@@ -17,8 +17,7 @@ Plot.PP <- function(PP, Titles = NA, xlabel = NA, ylabel = NA, PosLeg = 2,
   #            4 para legenda no canto inferior esquerdo.
   # BoxLeg   - Colocar moldura na legenda (default = TRUE).
   # Color    - Graficos coloridos (default = TRUE).
-  # Label    - Coloca os rotulos das observacoes (default = FALSE).
-  # LinLab   - Nomes dos rotulos das observacoes, se omitido retorna a numeracao default.
+  # LinLab   - Nomes para os rotulos das observacoes.
   # AxisVar  - Coloca eixos de rotacao das variaveis, somente quando DimProj > 1 (default = TRUE).
   # Axis     - Plot os eixos X e Y (default = TRUE).
   # Casc     - Efeito cascata na apresentacao dos graficos (default = TRUE).
@@ -51,9 +50,6 @@ Plot.PP <- function(PP, Titles = NA, xlabel = NA, ylabel = NA, PosLeg = 2,
   if (!is.na(LinLab[1]) && length(LinLab) != nrow(PP$Proj.Data)) 
      stop("'LinLab' input is incorrect, it should have the same number of rows as the input in the database. Verify!")
 
-  if (!is.logical(Label)) 
-     stop("'Label' input is incorrect, it should be TRUE or FALSE. Verify!")
-  
   if (is.na(PP$Findex[1])) PP$Findex <- "Not Available"
   
   if (!is.logical(Casc))
@@ -61,16 +57,12 @@ Plot.PP <- function(PP, Titles = NA, xlabel = NA, ylabel = NA, PosLeg = 2,
   
   ##### INICIO - Informacoes usadas nos Graficos #####
   
-  if (is.na(xlabel[1]) && Axis)
+  if (is.na(xlabel[1]))
      xlabel = "X-Axis" 
 
-  if (is.na(ylabel[1]) && Axis)
+  if (is.na(ylabel[1]))
      ylabel = "Y-Axis"
 
-  xlabel <- ifelse(Axis, xlabel, "")
-  
-  ylabel <- ifelse(Axis, ylabel, "")
-    
   if (PosLeg==1) PosLeg = "topleft"     # posicao das legendas nos graficos
   if (PosLeg==2) PosLeg = "topright"
   if (PosLeg==3) PosLeg = "bottomright"
@@ -78,35 +70,28 @@ Plot.PP <- function(PP, Titles = NA, xlabel = NA, ylabel = NA, PosLeg = 2,
   
   BoxLeg = ifelse(BoxLeg,"o","n") # moldura nas legendas, "n" sem moldura, "o" com moldura
   
-  if (!is.na(LinLab[1])) {
-     Class.Table <- table(LinLab) # cria tabela com as quantidade dos elementos das classes
-     Class.Names <- names(Class.Table)  # nomes das classses
-     Num.Class   <- length(Class.Table) # numero de classes
-     NomeLinhas  <- as.matrix(LinLab)
-  } else {
-     Class.Names <- ""
-     if (!is.na(PP$Class.Names[1])) # nomes das classses
-        Class.Names <- PP$Class.Names 
-    
-     Num.Class <- ifelse(is.na(PP$Num.Class[1]), 0, PP$Num.Class) # numero de classes
-     
-     if (Num.Class == 0) {
-        NomeLinhas = rownames(PP$Proj.Data)
-     } else {
-       NomeLinhas <- as.matrix(PP$Proj.Data[,ncol(PP$Proj.Data)])
-     }
-  }
-  
   if (!is.na(PP$Num.Class[1])) {
-     Data <- as.matrix(PP$Proj.Data[,1:(ncol(PP$Proj.Data)-1)])
+    Data <- as.matrix(PP$Proj.Data[,1:(ncol(PP$Proj.Data)-1)])
   } else Data <- PP$Proj.Data
+  
+  Num.Class = ifelse(is.na(PP$Num.Class), 0, PP$Num.Class)
+  
+  Class.Names <- PP$Class.Names #names(Class.Table)  # nomes das classses
+  
+  if (Num.Class == 0) {
+    Data <- PP$Proj.Data
+    NomeLinhas = rownames(PP$Proj.Data)
+  } else {
+    Data <- as.matrix(PP$Proj.Data[,1:(ncol(PP$Proj.Data)-1)])
+    NomeLinhas <- as.matrix(PP$Proj.Data[,ncol(PP$Proj.Data)])
+  }
   
   cor <- 1 # cor inicial dos pontos e legendas
   ##### FIM - Informacoes usadas nos Graficos #####
   
-  if (!is.character(Titles[1]) || is.na(Titles[1])) Titles[1] = c("Evolution of the index")
-  if (!is.character(Titles[2]) || is.na(Titles[2])) Titles[2] = paste("Index function:", PP$Findex)
-
+  if (!is.character(Titles[1]) || is.na(Titles[1])) Titles[1] = c("Evolucao do indice")
+  if (!is.character(Titles[2]) || is.na(Titles[2])) Titles[2] = paste("Funcao indice:", PP$Findex)
+  
   #### INICIO - Plota os indices das projecoes ####
   bg <- c('gray95') # background - cor de fundo
   
@@ -117,14 +102,13 @@ Plot.PP <- function(PP, Titles = NA, xlabel = NA, ylabel = NA, PosLeg = 2,
   if (Casc) dev.new() # efeito cascata na apresentacao dos graficos
   
   plot(Cood.xy,
-       xlab = "Simulation",
-       ylab = "Index value",
+       xlab = "Simulacao",
+       ylab = "Valor do Indice",
        main = Titles[1], # Titulo
        type = "n",   # tipo de grafico (pontos, linhas, ambos)
-       bty = "l",    # tipo de caixa do grafico
-       # asp = 40,   # aspecto do grafico
+       bty  = "l",   # tipo de caixa do grafico
        cex.axis = 1, # tamanho do 'tick' dos eixos
-       cex.lab = 1)  # tamanho dos nomes dos eixos
+       cex.lab  = 1) # tamanho dos nomes dos eixos
   
   args <- append(as.list(par('usr')), c(bg,bg))
   
@@ -136,141 +120,137 @@ Plot.PP <- function(PP, Titles = NA, xlabel = NA, ylabel = NA, PosLeg = 2,
   
   lines(Cood.xy, col = linCol)
   #### FIM - Plota os indices das projecoes ####
-
-
+  
+  
   #### Plotas as projecoes 2D
   if (ncol(Data) == 2) {
     
-     maxX = max(Data[, 1], PP$Vector.Opt[,1]) 
-     minX = min(Data[, 1], PP$Vector.Opt[,1]) 
-     maxY = max(Data[, 2], PP$Vector.Opt[,2])
-     minY = min(Data[, 2], PP$Vector.Opt[,2])
+    maxX = max(Data[,1], PP$Vector.Opt[,1]) 
+    minX = min(Data[,1], PP$Vector.Opt[,1]) 
+    maxY = max(Data[,2], PP$Vector.Opt[,2])
+    minY = min(Data[,2], PP$Vector.Opt[,2])
     
-     if (Casc) dev.new() # efeito cascata na apresentacao dos graficos
-     
-     if (Num.Class == 0) {
-       
-        plot(Data[,1:2], # coordenadas do grafico
-            xlab = xlabel, # Nomeia Eixo X
-            ylab = ylabel, # Nomeia Eixo Y
-            main = Titles[2], # Titulo para o grafico
-            pch  = 16,  # formato dos pontos
-            axes = F,   # elimina os eixos
-            xlim = c(minX,maxX), # dimensao eixo X
-            ylim = c(minY,maxY), # dimensao eixo Y
-            col  = ifelse(Color, "Blue", "Black"))
-       
-     } else {
-       
-       plot(0,0, # cria grafico para as coordenadas principais das linhas
-            xlab = xlabel,  # Nomeia Eixo X
-            ylab = ylabel,  # Nomeia Eixo Y
-            main = Titles[2],  # Titulo
-            asp = 1,           # Aspecto do Grafico
-            cex = 0,           # Tamanho dos pontos
-            xlim = c(minX, maxX), # Dimensao para as linhas do grafico
-            ylim = c(minY, maxY)) # Dimensao para as colunas do grafico
- 
-       Init.Form <- 14 # formato inicial dos pontos
-       
-       for (i in 1:Num.Class) {
-         
-         Point.Form <- Init.Form + i # fomato dos pontos de cada classe
-         
-         cor1 <- ifelse(Color, cor + i, "black")
-         
-         if (is.na(LinLab[1])) {
-            Point.Data <- Data[which(PP$Proj.Data[,ncol(PP$Proj.Data)] == Class.Names[i]),]
-         } else {
-            Point.Data <- Data[which(LinLab == Class.Names[i]),]
-         }                        
-         
-         points(Point.Data,
-                pch = Point.Form, # Formato dos pontos
-                cex = 1.2,  # Tamanho dos pontos
-                col = cor1) # adiciona ao grafico as coordenadas principais das colunas
-       }
-       
-       if (Color) cor <- 2
-       
-       Init.Form <- 15
-
-     }
-     
+    if (Casc) dev.new() # efeito cascata na apresentacao dos graficos
+    
+    if (Num.Class == 0) {
+      
+      plot(Data[,1:2], # coordenadas do grafico
+           xlab = xlabel, # Nomeia Eixo X
+           ylab = ylabel, # Nomeia Eixo Y
+           main = Titles[2], # Titulo para o grafico
+           pch  = 16,  # formato dos pontos
+           axes = F,   # elimina os eixos
+           xlim = c(minX,maxX), # dimensao eixo X
+           ylim = c(minY,maxY), # dimensao eixo Y
+           col  = ifelse(Color, "Blue", "Black"))
+      
+    } else {
+      
+      plot(0,0, # cria grafico para as coordenadas principais das linhas
+           xlab = xlabel,  # Nomeia Eixo X
+           ylab = ylabel,  # Nomeia Eixo Y
+           main = Titles[2],  # Titulo
+           asp = 1,           # Aspecto do Grafico
+           cex = 0,           # Tamanho dos pontos
+           xlim = c(minX, maxX), # Dimensao para as linhas do grafico
+           ylim = c(minY, maxY)) # Dimensao para as colunas do grafico
+      
+      Init.Form <- 14 # formato inicial dos pontos
+      
+      for (i in 1:Num.Class) {
+        
+        Point.Form <- Init.Form + i # fomato dos pontos de cada classe
+        
+        cor1 <- ifelse(Color, cor + i, "black")
+        
+        Point.Data <- Data[which(PP$Proj.Data[,ncol(PP$Proj.Data)] == Class.Names[i]),]
+        
+        points(Point.Data,
+               pch = Point.Form, # Formato dos pontos
+               cex = 1.2,  # Tamanho dos pontos
+               col = cor1) # adiciona ao grafico as coordenadas principais das colunas
+      }
+      
+      if (Color) cor <- 2
+      
+      Init.Form <- 15
+      
+    }
+    
   }
   
   
   #### Plotas as projecoes 1D
   if (ncol(Data) == 1) {  
     
-     if (Casc) dev.new() # efeito cascata na apresentacao dos graficos
+    if (Casc) dev.new() # efeito cascata na apresentacao dos graficos
     
-     if (Num.Class == 0) {
-       
-        cor1 <- ifelse(Color, "Blue", "Black")
-          
-        plot(Data, # coordenadas do grafico
-             xlab = xlabel, # Nomeia Eixo X
-             ylab = ylabel, # Nomeia Eixo Y
-             type = "o",
-             main = Titles[2], # Titulo para o grafico
-             pch  = 16,  # formato dos pontos
-             axes = F,   # elimina os eixos
-             cex  = 0.9, # Tamanho dos pontos
-             col = cor1)
-       
-     } else {
-       
-        maxX = length(Data[,1])
-        minX = 5
-        maxY = max(Data[, 1])
-        minY = min(Data[, 1])
-        
-        Init.Form <- 15 # formato inicial dos pontos
-        
-        if (Color) {
-           cor1 <- c(cor:(cor + Num.Class))[as.factor(NomeLinhas)]
-        } else {
-           cor1 <- c("black")
-        }
-        
-        Point.Data <- cbind((1:nrow(Data)) + minX, Data)   
-
-        plot(Point.Data, # cria grafico para as coordenadas principais das linhas
-             xlab = xlabel,  # Nomeia Eixo X
-             ylab = ylabel,  # Nomeia Eixo Y
-             type = "o", # tipo de grafico
-             main = Titles[2], # Titulo
-             axes = F,   # Elimina os eixos
-             cex  = 0.9, # Tamanho dos pontos
-             xlim = c(minX, maxX), # Dimensao para as linhas do grafico
-             ylim = c(minY, maxY), # Dimensao para as colunas do grafico
-             pch  = c((Init.Form):(Init.Form + Num.Class))[as.factor(NomeLinhas)], # Formato dos pontos
-             col  = c(cor1))
-
-     }
-
+    if (Num.Class == 0) {
+      
+      cor1 <- ifelse(Color, "Blue", "Black")
+      
+      plot(Data, # coordenadas do grafico
+           xlab = xlabel, # Nomeia Eixo X
+           ylab = ylabel, # Nomeia Eixo Y
+           type = "o",
+           main = Titles[2], # Titulo para o grafico
+           pch  = 16,  # formato dos pontos
+           axes = F,   # elimina os eixos
+           cex  = 0.9, # Tamanho dos pontos
+           col = cor1)
+      
+    } else {
+      
+      maxX = length(Data[,1])
+      minX = 5
+      maxY = max(Data[, 1])
+      minY = min(Data[, 1])
+      
+      Init.Form <- 15 # formato inicial dos pontos
+      
+      if (Color) {
+        cor1 <- c(cor:(cor + Num.Class))[as.factor(NomeLinhas)]
+      } else {
+        cor1 <- c("black")
+      }
+      
+      Point.Data <- cbind((1:nrow(Data)) + minX, Data)   
+      
+      plot(Point.Data, # cria grafico para as coordenadas principais das linhas
+           xlab = xlabel,  # Nomeia Eixo X
+           ylab = ylabel,  # Nomeia Eixo Y
+           type = "o", # tipo de grafico
+           main = Titles[2], # Titulo
+           axes = F,   # Elimina os eixos
+           cex  = 0.9, # Tamanho dos pontos
+           xlim = c(minX, maxX), # Dimensao para as linhas do grafico
+           ylim = c(minY, maxY), # Dimensao para as colunas do grafico
+           pch  = c((Init.Form):(Init.Form + Num.Class))[as.factor(NomeLinhas)], # Formato dos pontos
+           col  = c(cor1))
+      
+    }
+    
   }
   
   if (ncol(Data) <= 2) {
     
     if (PosLeg != 0 && Num.Class > 0) {
       
-      Color_b <- cor # colore as letras das legendas e suas representacoes no grafico
+       Color_b <- cor # colore as letras das legendas e suas representacoes no grafico
+       
+       if (Color) Color_b = cor:(cor + Num.Class)
       
-      if (Color) Color_b = cor:(cor + Num.Class)
-      
-      legend(PosLeg, Class.Names, pch = (Init.Form):(Init.Form + Num.Class), col = Color_b,
-             text.col = Color_b, bty = BoxLeg, text.font = 6, y.intersp = 0.8, xpd = TRUE) # cria a legenda
+       legend(PosLeg, Class.Names, pch = (Init.Form):(Init.Form + Num.Class), col = Color_b,
+              text.col = Color_b, bty = BoxLeg, text.font = 6, y.intersp = 0.8, xpd = TRUE) # cria a legenda
     }
     
     if (Color) {
-      cor1 <- c(cor:(cor + Num.Class))[as.factor(NomeLinhas)]
+       cor1 <- c(cor:(cor + Num.Class))[as.factor(NomeLinhas)]
     } else {
-      cor1 <- c("black")
+       cor1 <- c("black")
     }
     
-    if (Label) LocLab(Data, cex = 1, NomeLinhas, col = c(cor1))
+    if (!is.na(LinLab[1])) LocLab(Data, cex = 1, LinLab, col = c(cor1))
     
     if (Axis) abline(h = 0, v = 0, cex = 1.5, lty = 2) # cria o eixo central 
     
