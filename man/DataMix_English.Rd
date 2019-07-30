@@ -1,4 +1,4 @@
-\name{DataMix}
+\name{DataMix} 
 
 \alias{DataMix}
 

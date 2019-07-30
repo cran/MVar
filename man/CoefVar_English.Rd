@@ -6,11 +6,11 @@
 
 \description{Find the coefficient of variation of the data, either overall or per column.}
 
-\usage{CoefVar(Data, Type = 1)}
+\usage{CoefVar(data, type = 1)}
 
 \arguments{
-\item{Data}{Data to be analyzed.}
-\item{Type}{1 Coefficient of overall variation (default),\cr
+\item{data}{Data to be analyzed.}
+\item{type}{1 Coefficient of overall variation (default),\cr
             2 Coefficient of variation per column.}
 }
 
@@ -29,12 +29,12 @@ Marcelo Angelo Cirillo
 \examples{
 data(DataQuan) # data set
 
-Data <- DataQuan[,2:8]
+data <- DataQuan[,2:8]
 
-Resp <- CoefVar(Data, Type = 1) # Coefficient of overall variation
+Resp <- CoefVar(data, type = 1) # Coefficient of overall variation
 round(Resp,2)
 
-Resp <- CoefVar(Data, Type = 2) # Coefficient of variation per column
+Resp <- CoefVar(data, type = 2) # Coefficient of variation per column
 round(Resp,2)
 }
 

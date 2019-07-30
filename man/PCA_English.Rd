@@ -6,21 +6,21 @@
 
 \description{Performs principal component analysis (PCA) in a data set.}
 
-\usage{PCA(Data, Type = 1)}
+\usage{PCA(data, type = 1)}
 
 \arguments{
-  \item{Data}{Data to be analyzed.}
-  \item{Type}{1 for analysis using the covariance matrix (default),\cr
+  \item{data}{Data to be analyzed.}
+  \item{type}{1 for analysis using the covariance matrix (default),\cr
               2 for analysis using the correlation matrix.}
 }
 
 \value{
-  \item{MatrixMC      }{Matrix of covariance or correlation according to "Type".}
-  \item{MatrixAutoVlr }{Matrix of eigenvalues (variances) with the proportions and proportions accumulated.}
-  \item{MatrixAutoVec }{Matrix of eigenvectors - principal components.}
-  \item{MatrixVCP     }{Matrix of covariance of the principal components with the original variables.}
-  \item{MatrixCCP     }{Matrix of correlation of the principal components with the original variables.}
-  \item{MatrixEsc     }{Matrix with scores of the principal components.}
+  \item{mtxC     }{Matrix of covariance or correlation according to "type".}
+  \item{mtxAutvlr}{Matrix of eigenvalues (variances) with the proportions and proportions accumulated.}
+  \item{mtxAutvec}{Matrix of eigenvectors - principal components.}
+  \item{mtxVCP   }{Matrix of covariance of the principal components with the original variables.}
+  \item{mtxCCP   }{Matrix of correlation of the principal components with the original variables.}
+  \item{mtxscores}{Matrix with scores of the principal components.}
 }
 
 \references{
@@ -30,7 +30,7 @@ MINGOTI, S. A. \emph{Analise de dados atraves de metodos de estatistica multivar
 
 FERREIRA, D. F. \emph{Estatistica Multivariada.} 2a ed. revisada e ampliada. Lavras: Editora UFLA, 2011. 676 p.
 
-RENCHER, A. C. \emph{Methods of Multivariate Analysis.} 2th. ed. New York: J.Wiley, 2002. 708 p.
+RENCHER, A. C. \emph{Methods of multivariate analysis.} 2th. ed. New York: J.Wiley, 2002. 708 p.
 }
 
 \author{
@@ -44,23 +44,23 @@ Marcelo Angelo Cirillo
 \examples{
 data(DataQuan) # set of quantitative data
 
-Data <- DataQuan[,2:8]
+data <- DataQuan[,2:8]
 
-rownames(Data) <- DataQuan[1:nrow(DataQuan),1]
+rownames(data) <- DataQuan[1:nrow(DataQuan),1]
 
-PC <- PCA(Data, 2) # performs the PCA
+PC <- PCA(data, 2) # performs the PCA
 
-print("Covariance matrix / Correlation:"); round(PC$MatrixMC,2)
+print("Covariance matrix / Correlation:"); round(PC$mtxC,2)
 
-print("Principal Components:"); round(PC$MatrixAutoVec,2)
+print("Principal Components:"); round(PC$mtxAutvec,2)
 
-print("Principal Component Variances:"); round(PC$MatrixAutoVlr,2)
+print("Principal Component Variances:"); round(PC$mtxAutvlr,2)
 
-print("Covariance of the Principal Components:"); round(PC$MatrixVCP,2)
+print("Covariance of the Principal Components:"); round(PC$mtxVCP,2)
 
-print("Correlation of the Principal Components:"); round(PC$MatrixCCP,2)
+print("Correlation of the Principal Components:"); round(PC$mtxCCP,2)
 
-print("Scores of the Principal Components:"); round(PC$MatrixEsc,2)
+print("Scores of the Principal Components:"); round(PC$mtxscores,2)
 }
 
 \keyword{Principal Components Analysis}

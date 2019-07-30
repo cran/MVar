@@ -1,5 +1,5 @@
 \name{LocLab}
-
+ 
 \alias{LocLab}
 
 \title{Function for better position of the labels in the graphs.}

@@ -6,14 +6,14 @@
 
 \description{Given the matrix \eqn{A} of order \eqn{nxm}, the generalized singular value decomposition (GSVD) involves the use of two sets of positive square matrices of order \eqn{nxn} and \eqn{mxm} respectively. These two matrices express constraints imposed, respectively, on the lines and columns of \eqn{A}.}
 
-\usage{GSVD(Data, PLin = NULL, PCol = NULL)}
+\usage{GSVD(data, plin = NULL, pcol = NULL)}
 \arguments{
-  \item{Data}{Matrix used for decomposition.}
-  \item{PLin}{Weight for rows.}
-  \item{PCol}{Weight for columns}
+  \item{data}{Matrix used for decomposition.}
+  \item{plin}{Weight for rows.}
+  \item{pcol}{Weight for columns}
 }
 
-\details{If PLin or PCol is not used, it will be calculated as the usual singular value decomposition.}
+\details{If plin or pcol is not used, it will be calculated as the usual singular value decomposition.}
 
 \value{
  \item{d}{Eigenvalues, that is, line vector with singular values of the decomposition.}
@@ -37,7 +37,7 @@ svd(M)  # Usual Singular Value Decomposition
 GSVD(M) # GSVD with the same previous results
 
 # GSVD with weights for rows and columns
-GSVD(M, PLin = c(0.1,0.5,2,1.5), PCol = c(1.3,2,0.8)) 
+GSVD(M, plin = c(0.1,0.5,2,1.5), pcol = c(1.3,2,0.8)) 
 }
 
 \keyword{Generalized Singular Value Decomposition}

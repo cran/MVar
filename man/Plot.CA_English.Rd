@@ -6,17 +6,20 @@
 
 \description{Graphs of the simple (CA) and multiple correspondence analysis (MCA).}
 
-\usage{Plot.CA(CA, Titles = NA, xlabel = NA, ylabel = NA,
-        Color = TRUE, LinLab = NA, Casc = TRUE)}
+\usage{Plot.CA(CA, titles = NA, xlabel = NA, ylabel = NA,
+        size = 1.1, grid = TRUE, color = TRUE, linlab = NA, 
+        casc = TRUE)}
 
 \arguments{
 \item{CA}{Data of the CA function.}
-  \item{Titles}{Titles of the graphics, if not set, assumes the default text..}
+  \item{titles}{Titles of the graphics, if not set, assumes the default text..}
   \item{xlabel}{Names the X axis, if not set, assumes the default text.}
   \item{ylabel}{Names the Y axis, if not set, assumes the default text.}
-  \item{Color}{Colored graphics (default = TRUE).}
-  \item{LinLab}{Vector with the labels for the observations, for frequency data, if not set, assumes the default text.}
-  \item{Casc}{Cascade effect in the presentation of the graphics (default = TRUE).}
+  \item{size}{Size of the points in the graphs.}
+  \item{grid}{Put grid on graphs (default = TRUE).}
+  \item{color}{Colored graphics (default = TRUE).}
+  \item{linlab}{Vector with the labels for the observations.}
+  \item{casc}{Cascade effect in the presentation of the graphics (default = TRUE).}
 }
 
 \value{Returns several graphs.}
@@ -40,8 +43,8 @@ Resp <- CA(Data, "f") # performs CA
 
 Tit = c("Scree-plot","Observations", "Variables", "Observations / Variables")
 
-Plot.CA(Resp, Titles = Tit, xlabel = NA, ylabel = NA,
-        Color = TRUE, LinLab = NA, Casc = FALSE)
+Plot.CA(Resp, titles = Tit, xlabel = NA, ylabel = NA,
+        color = TRUE, linlab = rownames(Data), casc = FALSE)
 
 
 data(DataQuali) # qualitative data set
@@ -52,8 +55,8 @@ Resp <- CA(Data, "c", "b") # performs CA
 
 Tit = c("","","Graph of the variables")
 
-Plot.CA(Resp, Titles = Tit, xlabel = NA, ylabel = NA,
-        Color = TRUE, LinLab = NA, Casc = FALSE)
+Plot.CA(Resp, titles = Tit, xlabel = NA, ylabel = NA,
+        color = TRUE, linlab = NA, casc = FALSE)
 
 }
 

@@ -6,54 +6,56 @@
 
 \description{Performs the exploration of the data through the technique of animation Grand Tour.}
 
-\usage{GrandTour(Data, Method = "Interpolation", Title = NA, xlabel = NA, ylabel = NA,
-          Color = TRUE, LinLab = NA, Class = NA, PosLeg = 2, BoxLeg = TRUE, 
-          AxisVar = TRUE, Axis = FALSE, NumRot = 200, ChoiceRot = NA,
-          SavePicture = FALSE)}
+\usage{GrandTour(data, method = "Interpolation", title = NA, xlabel = NA, 
+          ylabel = NA, size = 1.1, grid = TRUE, color = TRUE, linlab = NA, 
+          class = NA, posleg = 2, boxleg = TRUE, axesvar = TRUE, axes = FALSE, 
+          numrot = 200, choicerot = NA, savepicture = FALSE)}
 
 \arguments{
-\item{Data    }{Numerical data set.}
-\item{Method  }{Method used for rotations:\cr
+\item{data    }{Numerical data set.}
+\item{method  }{Method used for rotations:\cr
                 "Interpolation" - Interpolation method (default),\cr
                 "Torus" - Torus method,\cr
                 "Pseudo" - Pseudo Grand Tour method.}
-  \item{Title}{Titles of the graphics, if not set, assumes the default text.}
+  \item{title}{Titles of the graphics, if not set, assumes the default text.}
   \item{xlabel}{Names the X axis, if not set, assumes the default text.}
   \item{ylabel}{Names the Y axis, if not set, assumes the default text.}
-  \item{Color}{Colored graphics (default = TRUE).}
-  \item{LinLab}{Vector with the labels for the observations.}
-  \item{Class}{Vector with names of data classes.}
-  \item{PosLeg}{0 with no caption,\cr
+  \item{size}{Size of the points in the graphs.}
+  \item{grid}{Put grid on graphs (default = TRUE).}
+  \item{color}{Colored graphics (default = TRUE).}
+  \item{linlab}{Vector with the labels for the observations.}
+  \item{class}{Vector with names of data classes.}
+  \item{posleg}{0 with no caption,\cr
                 1 for caption in the left upper corner,\cr
                 2 for caption in the right upper corner (default),\cr
                 3 for caption in the right lower corner,\cr
                 4 for caption in the left lower corner.}
-  \item{BoxLeg}{Puts the frame in the caption (default = TRUE).}
-  \item{AxisVar }{Puts axes of rotation of the variables (default = TRUE).}
-  \item{Axis}{Plots the X and Y axes (default = TRUE).}
-  \item{NumRot}{Number of rotations (default = 200). If Method = "Interpolation", NumRot represents the angle of rotation.}
-  \item{ChoiceRot}{Choose specific rotation and display on the screen, or save the image if SavePicture = TRUE.}
-  \item{SavePicture}{Saves graphics images to files (default = FALSE).}          
+  \item{boxleg}{Puts the frame in the caption (default = TRUE).}
+  \item{axesvar }{Puts axes of rotation of the variables (default = TRUE).}
+  \item{axes}{Plots the X and Y axes (default = TRUE).}
+  \item{numrot}{Number of rotations (default = 200). If method = "Interpolation", numrot represents the angle of rotation.}
+  \item{choicerot}{Choose specific rotation and display on the screen, or save the image if savepicture = TRUE.}
+  \item{savepicture}{Saves graphics images to files (default = FALSE).}          
 }
 
 \value{{Graphs with rotations.}
-\item{Proj.Data  }{Projected data.}
-\item{Vector.Opt }{Vector projection.}
-\item{Method     }{Method used on Grand Tour.}
+\item{proj.data  }{Projected data.}
+\item{vector.opt }{Vector projection.}
+\item{method     }{method used on Grand Tour.}
 }
 
 \references{
-ASIMOV, D. The Grand Tour: A Tool for Viewing Multidimensional Data. \emph{SIAM Journal of Scientific and Statistical Computing},  6(1), 128-143, 1985.
+ASIMOV, D. The Grand Tour: A Tool for Viewing Multidimensional data. \emph{SIAM Journal of Scientific and Statistical Computing},  6(1), 128-143, 1985.
 
-ASIMOV, D.; BUJA, A. The grand tour via geodesic interpolation of 2-frames. in Visual Data Exploration and Analysis. \emph{Symposium on Electronic Imaging Science and Technology}, IS&T/SPIE. 1994.
+ASIMOV, D.; BUJA, A. The grand tour via geodesic interpolation of 2-frames. in Visual data Exploration and Analysis. \emph{Symposium on Electronic Imaging Science and Technology}, IS&T/SPIE. 1994.
 
 BUJA, A. ; ASIMOV, D. Grand tour methods: An outline. \emph{Computer Science and Statistics}, 17:63-67. 1986.
 
-BUJA, A.; COOK, D.; ASIMOV, D.; HURLEY, C. Computational Methods for High-Dimensional Rotations in Data Visualization, in C. R. Rao, E. J. Wegman & J. L. Solka, eds, \emph{"Handbook of Statistics: Data Mining and Visualization"}, Elsevier/North Holland, http://www.elsevier.com, pp. 391-413. 2005.
+BUJA, A.; COOK, D.; ASIMOV, D.; HURLEY, C. Computational methods for High-Dimensional Rotations in data Visualization, in C. R. Rao, E. J. Wegman & J. L. Solka, eds, \emph{"Handbook of Statistics: data Mining and Visualization"}, Elsevier/North Holland, http://www.elsevier.com, pp. 391-413. 2005.
 
 HURLEY, C.; BUJA, A. Analyzing high-dimensional data with motion graphics, \emph{SIAM Journal of Scientific and Statistical Computing}, 11 (6), 1193-1211. 1990.
 
-MARTINEZ, W.  L., MARTINEZ, A. R., SOLKA, J.; \emph{Exploratory Data Analysis with MATLAB}, 2th. ed. New York: Chapman & Hall/CRC, 2010. 499 p.
+MARTINEZ, W.  L., MARTINEZ, A. R., SOLKA, J.; \emph{Exploratory data Analysis with MATLAB}, 2th. ed. New York: Chapman & Hall/CRC, 2010. 499 p.
 
 YOUNG, F. W.; RHEINGANS P.  Visualizing structure in high-dimensional multivariate data, \emph{IBM Journal of Research and Development}, 35:97-107, 1991.
 
@@ -69,24 +71,24 @@ Marcelo Angelo Cirillo
 \examples{
 data(iris) # database
 
-Res <- GrandTour(iris[,1:4], Method = "Torus", Title = NA, xlabel = NA, ylabel = NA,
-                 Color = TRUE, LinLab = NA, Class = NA, PosLeg = 2, BoxLeg = TRUE, 
-                 AxisVar = TRUE, Axis = FALSE, NumRot = 10, ChoiceRot = NA,
-                 SavePicture = FALSE)
+Res <- GrandTour(iris[,1:4], method = "Torus", title = NA, xlabel = NA, ylabel = NA,
+                 color = TRUE, linlab = NA, class = NA, posleg = 2, boxleg = TRUE, 
+                 axesvar = TRUE, axes = FALSE, numrot = 10, choicerot = NA,
+                 savepicture = FALSE)
 
-print("Projected data:"); Res$Proj.Data
-print("Projection vectors:"); Res$Vector.Opt
-print("Grand Tour projection method:"); Res$Method
+print("Projected data:"); Res$proj.data
+print("Projection vectors:"); Res$vector.opt
+print("Grand Tour projection method:"); Res$method
 
         
-Res <- GrandTour(iris[,1:4], Method = "Interpolation", Title = NA, xlabel = NA, ylabel = NA,
-                 Color = TRUE, LinLab = NA, Class = iris[,5], PosLeg = 2, BoxLeg = FALSE, 
-                 AxisVar = FALSE, Axis = FALSE, NumRot = 10, ChoiceRot = NA,
-                 SavePicture = FALSE)
+Res <- GrandTour(iris[,1:4], method = "Interpolation", title = NA, xlabel = NA, ylabel = NA,
+                 color = TRUE, linlab = NA, class = iris[,5], posleg = 2, boxleg = FALSE, 
+                 axesvar = FALSE, axes = FALSE, numrot = 10, choicerot = NA,
+                 savepicture = FALSE)
           
-print("Projected data:"); Res$Proj.Data
-print("Projection vectors:"); Res$Vector.Opt
-print("Grand Tour projection method:"); Res$Method
+print("Projected data:"); Res$proj.data
+print("Projection vectors:"); Res$vector.opt
+print("Grand Tour projection method:"); Res$method
 
 }
 

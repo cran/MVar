@@ -7,7 +7,7 @@ LocLab <- function(x, y = NULL, labels = seq(along = x), cex = 1,
                        trace = FALSE, shadotext = FALSE,
                        doPlot = TRUE,
                        ...)
-{
+{ 
   # http://en.wikipedia.org/wiki/Automatic_label_placement
   # http://www.szoraster.com/Cartography/PracticalExperience.htm
   # http://www.eecs.harvard.edu/~shieber/Projects/Carto/carto.html

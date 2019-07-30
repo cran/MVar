@@ -6,39 +6,40 @@
 
 \description{Performs hierarchical and non-hierarchical cluster analysis in a data set.}
 
-\usage{Cluster(Data, Titles = NA, Hierarquico = TRUE, Analise = "Obs",  
-        CorAbs = FALSE, Normaliza = FALSE, Distance = "euclidean",  
-        Method = "complete", Horizontal = FALSE, NumGrupos = 0,
-        Casc = TRUE)}
+\usage{Cluster(data, titles = NA, hierarquico = TRUE, analise = "Obs",  
+        corabs = FALSE, normaliza = FALSE, distance = "euclidean",  
+        method = "complete", horizontal = FALSE, numgrupos = 0,
+        lambda = 2, casc = TRUE)}
 
 \arguments{
-  \item{Data}{Data to be analyzed.}
-  \item{Titles}{Titles of the graphics, if not set, assumes the default text.}
-  \item{Hierarquico}{Hierarchical groupings (default = TRUE), for non-hierarchical groupings (Method K-Means), only for case Analysis = "Obs".}
-  \item{Analise}{"Obs" for analysis on observations (default), "Var" for analysis on variables.}
-  \item{CorAbs}{Matrix of absolute correlation case Analyze = "Var" (default = FALSE).}
-  \item{Normaliza}{Normalizes the data only for case Analyze = "Obs" (default = TRUE).}
-  \item{Distance}{Metric of the distances in case of hierarchical groupings: "euclidean" (default), "maximum", "manhattan", "canberra", "binary" or "minkowski". Case Analysis = "Var" the metric will be the correlation matrix, according to CorAbs.}
-  \item{Method}{Method for analyzing hierarchical groupings: "complete" (default), "ward.D", "ward.D2", "single", "average", "mcquitty", "median" or "centroid".}
-  \item{Horizontal}{Horizontal dendrogram (default = FALSE).}
-  \item{NumGrupos}{Number of groups to be formed.}
-  \item{Casc}{Cascade effect in the presentation of the graphics (default = TRUE).}
+  \item{data}{Data to be analyzed.}
+  \item{titles}{Titles of the graphics, if not set, assumes the default text.}
+  \item{hierarquico}{Hierarchical groupings (default = TRUE), for non-hierarchical groupings (method K-Means), only for case Analysis = "Obs".}
+  \item{analise}{"Obs" for analysis on observations (default), "Var" for analysis on variables.}
+  \item{corabs}{Matrix of absolute correlation case Analyze = "Var" (default = FALSE).}
+  \item{normaliza}{Normalizes the data only for case Analyze = "Obs" (default = TRUE).}
+  \item{distance}{Metric of the distances in case of hierarchical groupings: "euclidean" (default), "maximum", "manhattan", "canberra", "binary" or "minkowski". Case Analysis = "Var" the metric will be the correlation matrix, according to corabs.}
+  \item{method}{Method for analyzing hierarchical groupings: "complete" (default), "ward.D", "ward.D2", "single", "average", "mcquitty", "median" or "centroid".}
+  \item{horizontal}{Horizontal dendrogram (default = FALSE).}
+  \item{numgrupos}{Number of groups to be formed.}
+  \item{lambda}{Value used in the minkowski distance.}
+  \item{casc}{Cascade effect in the presentation of the graphics (default = TRUE).}
 }
 
 \value{{Several graphics.}
-  \item{TabRes}{Table with similarities and distances of the groups formed.}
-  \item{Groups}{Original data with groups formed.}
-  \item{ResGroups}{Results of the groups formed.}
-  \item{SQT}{Total sum of squares.}
-  \item{MatrixD}{Matrix of the distances.}
+  \item{tabres}{Table with similarities and distances of the groups formed.}
+  \item{groups}{Original data with groups formed.}
+  \item{resgroups}{Results of the groups formed.}
+  \item{sqt}{Total sum of squares.}
+  \item{mtxD}{Matrix of the distances.}
 }
 
 \references{
-MINGOTI, S. A. \emph{Analise de dados atraves de metodos de estatistica multivariada:} uma abordagem aplicada. Belo Horizonte: UFMG, 2005. 297 p.
+MINGOTI, S. A. \emph{analise de dados atraves de metodos de estatistica multivariada:} uma abordagem aplicada. Belo Horizonte: UFMG, 2005. 297 p.
 
 FERREIRA, D. F. \emph{Estatistica Multivariada.} 2a ed. revisada e ampliada. Lavras: Editora UFLA, 2011. 676 p.
 
-RENCHER, A. C. \emph{Methods of Multivariate Analysis.} 2th. ed. New York: J.Wiley, 2002. 708 p.
+RENCHER, A. C. \emph{Methods of multivariate analysis.} 2th. ed. New York: J.Wiley, 2002. 708 p.
 }
 
 \author{
@@ -50,25 +51,25 @@ Marcelo Angelo Cirillo
 \examples{
 data(DataQuan) # set of quantitative data
 
-Data <- DataQuan[,2:8]
+data <- DataQuan[,2:8]
 
-rownames(Data) <- DataQuan[1:nrow(DataQuan),1]
+rownames(data) <- DataQuan[1:nrow(DataQuan),1]
 
-Res <- Cluster(Data, Hierarquico = TRUE, Analise = "Obs", CorAbs = FALSE, 
-               Normaliza = FALSE, Distance = "euclidean", Method = "ward.D", 
-               Horizontal = FALSE, NumGrupos = 2)
+Res <- Cluster(data, hierarquico = TRUE, analise = "Obs", corabs = FALSE, 
+               normaliza = FALSE, distance = "euclidean", method = "ward.D", 
+               horizontal = FALSE, numgrupos = 2)
 
-print("Table with similarities and distances:"); Res$TabRes
-print("Groups formed:"); Res$Groups
-print("Table with the results of the groups:"); Res$ResGroups
-print("Total sum of squares:"); Res$SQT
-print("Distance Matrix:"); Res$MatrixD 
+print("Table with similarities and distances:"); Res$tabres
+print("groups formed:"); Res$groups
+print("Table with the results of the groups:"); Res$resgroups
+print("Total sum of squares:"); Res$sqt
+print("distance Matrix:"); Res$mtxD 
  
-write.table(file=file.path(tempdir(),"SimilarityTable.csv"), Res$TabRes, sep=";",
+write.table(file=file.path(tempdir(),"SimilarityTable.csv"), Res$tabres, sep=";",
             dec=",",row.names = FALSE) 
-write.table(file=file.path(tempdir(),"GroupedData.csv"), Res$Groups, sep=";",
+write.table(file=file.path(tempdir(),"Groupeddata.csv"), Res$groups, sep=";",
             dec=",",row.names = TRUE) 
-write.table(file=file.path(tempdir(),"GroupResults.csv"), Res$ResGroups, sep=";",
+write.table(file=file.path(tempdir(),"GroupResults.csv"), Res$resgroups, sep=";",
             dec=",",row.names = TRUE) 
 }
 

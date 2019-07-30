@@ -1,30 +1,30 @@
-CCA <- function(X = NULL, Y = NULL, Type = 1, Test = "Bartlett", Sign = 0.05) {
+CCA <- function(X = NULL, Y = NULL, type = 1, test = "Bartlett", sign = 0.05) {
    # Esta funcao executa a Analise de Correlacao Canonica
    # Desenvolvida por Paulo Cesar Ossani em 07/2013
   
    # Entrada:
    # X - Primeiro grupo de variaveis de um conjunto dados.
    # Y - Segundo grupo de variaveis de um conjunto dados.
-   # Type  - 1 para analise utilizando a matriz de covariancia (default),
+   # type  - 1 para analise utilizando a matriz de covariancia (default),
    #         2 para analise utilizando a matriz de correlacao,
-   # Test  - Teste significancia da relacao entre o grupo X e Y:
+   # test  - teste significancia da relacao entre o grupo X e Y:
    #        "Bartlett" (default) ou "Rao".
-   # Sign - Grau de significancia do teste (default 5%)
+   # sign - Grau de significancia do teste (default 5%)
 
    # Retorna:
    # Cxx     - Matriz de Covariancia ou Correlacao Cxx,
    # Cyy     - Matriz de Covariancia ou Correlacao Cyy,
    # Cxy     - Matriz de Covariancia ou Correlacao Cxy,
    # Cyx     - Matriz de Covariancia ou Correlacao Cyx,
-   # Var.UV  - Matriz com autovalores (variancias) dos pares cononicos U e V,
-   # Corr.UV - Matriz de Correlacao dos pares cononicos U e V,
-   # Coef.X  - Matriz dos Coeficientes canonicos do grupo X,
-   # Coef.Y  - Matriz dos Coeficientes canonicos do grupo Y,
-   # Coor.X  - Matriz das Correlacoes entre as variaveis canonicas e as variaveis originais do grupo X,
-   # Coor.Y  - Matriz das Correlacoes entre as variaveis canonicas e as variaveis originais do grupo Y,
-   # Score.X - Matriz com os scores do grupo X,
-   # Score.Y - Matriz com os scores do grupo Y,
-   # SigTest - Restorna o teste significancia da relacao entre o grupo X e Y, 'Bartlett' (default) ou "Rao".
+   # var.UV  - Matriz com autovalores (variancias) dos pares cononicos U e V,
+   # corr.UV - Matriz de Correlacao dos pares cononicos U e V,
+   # coef.X  - Matriz dos Coeficientes canonicos do grupo X,
+   # coef.Y  - Matriz dos Coeficientes canonicos do grupo Y,
+   # corr.X  - Matriz das Correlacoes entre as variaveis canonicas e as variaveis originais do grupo X,
+   # corr.Y  - Matriz das Correlacoes entre as variaveis canonicas e as variaveis originais do grupo Y,
+   # score.X - Matriz com os scores do grupo X,
+   # score.Y - Matriz com os scores do grupo Y,
+   # sigtest - Restorna o teste significancia da relacao entre o grupo X e Y, 'Bartlett' (default) ou "Rao".
   
    if (!is.data.frame(X)) 
       stop("'X' input is incorrect, it should be of type data frame. Verify!")
@@ -35,19 +35,19 @@ CCA <- function(X = NULL, Y = NULL, Type = 1, Test = "Bartlett", Sign = 0.05) {
    if (nrow(X)!=nrow(Y)) 
       stop("The number of observations of 'X', it should be equal to 'Y'. Verify!")
   
-   if (Type!=1 && Type!=2) 
-      stop("'Type' input is incorrect, it should be 1 or 2. Verify!")
+   if (type!=1 && type!=2) 
+      stop("'type' input is incorrect, it should be 1 or 2. Verify!")
   
-   if (Test!="Bartlett" && Test!="Rao")
-      stop("'Test' input is incorrect, it should be 'Bartlett' or 'Rao'. Verify!")
+   if (test!="Bartlett" && test!="Rao")
+      stop("'test' input is incorrect, it should be 'Bartlett' or 'Rao'. Verify!")
    
-   if (!is.numeric(Sign)) 
-      stop("'Sign' input is incorrect, it should be of the numerical type with values between 0 and 1. Verify!")
+   if (!is.numeric(sign)) 
+      stop("'sign' input is incorrect, it should be of the numerical type with values between 0 and 1. Verify!")
   
-   if (Sign<=0 || Sign>1) 
-      stop("'Sign' input is incorrect, it should be of the numerical type with values between 0 and 1. Verify!")
+   if (sign<=0 || sign>1) 
+      stop("'sign' input is incorrect, it should be of the numerical type with values between 0 and 1. Verify!")
   
-   if (Type == 1) { # Considera a Matriz de Covariancia para a decomposicao
+   if (type == 1) { # Considera a Matriz de Covariancia para a decomposicao
       MC  = cov(cbind(X,Y))  # Matriz de Covariancia
       S11 = cov(X)   # Matriz de Covariancia dos primeiros dados
       S22 = cov(Y)   # Matriz de Covariancia dos segundos dados
@@ -55,7 +55,7 @@ CCA <- function(X = NULL, Y = NULL, Type = 1, Test = "Bartlett", Sign = 0.05) {
       S21 = cov(Y,X) # Matriz de Covariancia de Y e X
    }
     
-   if (Type == 2) { # Considera a Matriz de Correlacao para a decomposicao
+   if (type == 2) { # Considera a Matriz de Correlacao para a decomposicao
       MC  = cor(cbind(X,Y)) ## Matriz de Correlacao
       S11 = cor(X)   # Matriz dos Coeficientes dos primeiros dados
       S22 = cor(Y)   # Matriz dos Coeficientes dos segundos dados
@@ -142,9 +142,9 @@ CCA <- function(X = NULL, Y = NULL, Type = 1, Test = "Bartlett", Sign = 0.05) {
    Y.Scores = Y.Aux %*% Coef_B # Scores co grupo Y
    ### INICIO - Calculo dos scores dos grupos ###
    
-   ### INICIO - Teste Qui-Quadrado de Bartlett ###
+   ### INICIO - teste Qui-Quadrado de Bartlett ###
    ## Este teste he usado para saber quantos pares de variaveis canonica sao significativos
-   if (Test=="Bartlett") {
+   if (test=="Bartlett") {
       n <- nrow(X) # numero de observacoes
       p <- ncol(X) # numero de variaveis de X
       q <- ncol(Y) # numero de variaveis de Y 
@@ -157,11 +157,11 @@ CCA <- function(X = NULL, Y = NULL, Type = 1, Test = "Bartlett", Sign = 0.05) {
       for (i in 1:QtdF) {
           Lambda <- prod(1-CorrUV[i:QtdF]^2) # lambida de Wilks
           
-          Chi.Observado <- -((n - 1) - (p + q + 1)/2)*log(Lambda) # Estatistica do Teste
+          Chi.Observado <- -((n - 1) - (p + q + 1)/2)*log(Lambda) # Estatistica do teste
           
           gl  <- (p -i +1)*(q -i +1) # grau de libardade
           
-          Chi.Encontrado <- qchisq(1 - Sign,gl,ncp=0)
+          Chi.Encontrado <- qchisq(1 - sign,gl,ncp=0)
           
           pValor <- pchisq(Chi.Observado,gl,ncp=0, lower.tail = F) 
           
@@ -171,13 +171,13 @@ CCA <- function(X = NULL, Y = NULL, Type = 1, Test = "Bartlett", Sign = 0.05) {
           T.Bartlett[i, "Degree of Freedom"] <- gl
           T.Bartlett[i, "p-value"] <- round(pValor,5)
       }
-      Teste <- T.Bartlett
+      teste <- T.Bartlett
    }
-   ### FIM - Teste Qui-Quadrado de Bartlett ###
+   ### FIM - teste Qui-Quadrado de Bartlett ###
    
-   ### INICIO - Teste F de RAO ###
+   ### INICIO - teste F de RAO ###
    ## Este teste he usado para saber quantos pares de variaveis canonica sao significativos
-   if(Test=="Rao") {
+   if(test=="Rao") {
      n  <- nrow(X) # numero de observacoes
      p1 <- ncol(X) # numero de variaveis de X
      q1 <- ncol(Y) # numero de variaveis de Y 
@@ -199,9 +199,9 @@ CCA <- function(X = NULL, Y = NULL, Type = 1, Test = "Bartlett", Sign = 0.05) {
        
        gl1 <- p * q # Degree of Freedom 1
        gl2 <- (1 + t*s - p*q/2) # Degree of Freedom 2
-       F.Observado <-((1 - Lambda^(1/s))/Lambda^(1/s)) * gl2/gl1 # Estatistica do Teste
+       F.Observado <-((1 - Lambda^(1/s))/Lambda^(1/s)) * gl2/gl1 # Estatistica do teste
        
-       F.Encontrado <- qf(1-Sign,gl1,gl2,ncp=0)
+       F.Encontrado <- qf(1-sign,gl1,gl2,ncp=0)
        
        pValor <- pf(F.Observado,gl1,gl2,ncp=0, lower.tail = FALSE)
        
@@ -212,15 +212,15 @@ CCA <- function(X = NULL, Y = NULL, Type = 1, Test = "Bartlett", Sign = 0.05) {
        T.Rao[i, "Degree of Freedom 2"] <- round(gl2,5)
        T.Rao[i, "p-value"] <- round(pValor,5)
      }
-     Teste <- T.Rao
+     teste <- T.Rao
    }
-   ### FIM - Teste F de RAO ###
+   ### FIM - teste F de RAO ###
 
    Lista <- list(MC = MC, Cxx = S11, Cyy = S22, Cxy = S12, 
-                 Cyx = S21, Var.UV = MEigen, Corr.UV =  CorrUV, 
-                 Coef.X = Coef_A, Coef.Y = Coef_B, Coor.X = CVU, 
-                 Coor.Y = CVV, Score.X = X.Scores, Score.Y = Y.Scores,
-                 SigTest = Teste)
+                 Cyx = S21, var.UV = MEigen, corr.UV =  CorrUV, 
+                 coef.X = Coef_A, coef.Y = Coef_B, corr.X = CVU, 
+                 corr.Y = CVV, score.X = X.Scores, score.Y = Y.Scores,
+                 sigtest = teste)
    
    return(Lista)
 }

@@ -1,5 +1,5 @@
 \name{DataQuali}
-
+ 
 \alias{DataQuali}
 
 \docType{data}

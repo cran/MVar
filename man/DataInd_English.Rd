@@ -29,15 +29,15 @@ GroupNames = c("Group 1", "Group 2", "Group 3", "Group 4")
 
 MF <- MFA(Data, c(16,16,16,16), c(rep("f",4)), GroupNames)
 
-print("Principal components variances:"); round(MF$MatrixA,2)
+print("Principal components variances:"); round(MF$mtxA,2)
 
-print("Matrix of the Partial Inertia / Score of the Variables:"); round(MF$MatrixEscVar,2)
+print("Matrix of the Partial Inertia / Score of the Variables:"); round(MF$mtxEV,2)
 
 Tit = c("Scree-plot","Individuals","Individuals / Types coffees","Inercias Groups")
 
-Plot.MFA(MF, Titles = Tit, xlabel = NA, ylabel = NA,
-         PosLeg = 2, BoxLeg = FALSE, Color = TRUE, 
-         NamArr = FALSE, LinLab = NA, Casc = FALSE) # plotting several graphs on the screen
+Plot.MFA(MF, titles = Tit, xlabel = NA, ylabel = NA,
+         posleg = 2, boxleg = FALSE, color = TRUE, 
+         namarr = FALSE, linlab = NA, casc = FALSE) # plotting several graphs on the screen
 }
 
 \keyword{Data set}

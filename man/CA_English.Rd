@@ -6,39 +6,39 @@
 
 \description{Performs simple correspondence analysis (CA) and multiple (MCA) in a data set.}
 
-\usage{CA(Data, TypData = "f", TypMatrix = "I")}
+\usage{CA(data, typdata = "f", typmatrix = "I")}
 
 \arguments{
-\item{Data}{Data to be analyzed (contingency table).}
-\item{TypData}{"f" for frequency data (default),\cr
+\item{data}{Data to be analyzed (contingency table).}
+\item{typdata}{"f" for frequency data (default),\cr
                "c" for qualitative data.}
-\item{TypMatrix}{Matrix used for calculations when TypData = "c".\cr
+\item{typmatrix}{Matrix used for calculations when typdata = "c".\cr
                  "I" for indicator matrix (default),\cr
                  "B" for Burt's matrix.}
 }
 
 \value{
-\item{DepData}{Verify if the rows and columns are dependent, or independent by the chi-square test, at the 5\% significance level.}
-\item{TypData}{Data type: "F" frequency or "C" qualitative.}
-\item{NumCood}{Number of principal components.}
-\item{MatrixP}{Matrix of the relative frequency.}
-\item{VectorR}{Vector with sums of the rows.}
-\item{VectorC}{Vector with sums of the columns.}
-\item{MatrixPR}{Matrix with profile of the rows.}
-\item{MatrixPC}{Matrix with profile of the columns}
-\item{MatrixZ}{Matrix Z.}
-\item{MatrixU}{Matrix with the eigenvectors U.}
-\item{MatrixV}{Matrix with the eigenvectors V.}
-\item{MatrixL}{Matrix with eigenvalues.}
-\item{MatrixX}{Matrix with the principal coordinates of the rows.}
-\item{MatrixY}{Matrix with the principal coordinates of the columns.}
-\item{MatrixAutoVlr}{Matrix of the inertias (variances), with the proportions and proportions accumulated.}
+\item{depdata}{Verify if the rows and columns are dependent, or independent by the chi-square test, at the 5\% significance level.}
+\item{typdata}{Data type: "F" frequency or "C" qualitative.}
+\item{numcood}{Number of principal components.}
+\item{mtxP}{Matrix of the relative frequency.}
+\item{vtrR}{Vector with sums of the rows.}
+\item{vtrC}{Vector with sums of the columns.}
+\item{mtxPR}{Matrix with profile of the rows.}
+\item{mtxPC}{Matrix with profile of the columns}
+\item{mtxZ}{Matrix Z.}
+\item{mtxU}{Matrix with the eigenvectors U.}
+\item{mtxV}{Matrix with the eigenvectors V.}
+\item{mtxL}{Matrix with eigenvalues.}
+\item{mtxX}{Matrix with the principal coordinates of the rows.}
+\item{mtxY}{Matrix with the principal coordinates of the columns.}
+\item{mtxAutvlr}{Matrix of the inertias (variances), with the proportions and proportions accumulated.}
 }
 
 \references{
 MINGOTI, S. A. \emph{Analise de dados atraves de metodos de estatistica multivariada:} uma abordagem aplicada. Belo Horizonte: UFMG, 2005. 297 p.
 
-RENCHER, A. C. \emph{Methods of Multivariate Analysis.} 2th. ed. New York: J.Wiley, 2002. 708 p.
+RENCHER, A. C. \emph{Methods of multivariate analysis.} 2th. ed. New York: J.Wiley, 2002. 708 p.
 }
 
 \author{
@@ -52,21 +52,21 @@ Marcelo Angelo Cirillo
 \examples{
 data(DataFreq) # frequency data set
 
-Data <- DataFreq[,2:ncol(DataFreq)]
+data <- DataFreq[,2:ncol(DataFreq)]
 
-rownames(Data) <- as.character(t(DataFreq[1:nrow(DataFreq),1]))
+rownames(data) <- as.character(t(DataFreq[1:nrow(DataFreq),1]))
 
-Resp <- CA(Data, "f") # performs CA
+Resp <- CA(data = data, "f") # performs CA
 
-print("Is there dependency between rows and columns?"); Resp$DepData
+print("Is there dependency between rows and columns?"); Resp$depdata
 
-print("Number of principal coordinates:"); Resp$NumCood
+print("Number of principal coordinates:"); Resp$numcood
 
-print("Principal coordinates of the rows:"); round(Resp$MatrixX,2)
+print("Principal coordinates of the rows:"); round(Resp$mtxX,2)
 
-print("Principal coordinates of the columns:"); round(Resp$MatrixY,2)
+print("Principal coordinates of the columns:"); round(Resp$mtxY,2)
 
-print("Inertia of the principal components:"); round(Resp$MatrixAutoVlr,2)
+print("Inertia of the principal components:"); round(Resp$mtxAutvlr,2)
 }
 
 \keyword{Simple Correspondence Analysis}

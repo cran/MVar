@@ -6,18 +6,18 @@
 
 \description{Check the normality of the data, based on the asymmetry coefficient test.}
 
-\usage{NormTest(Data, Sign = 0.05)}
+\usage{NormTest(data, sign = 0.05)}
 
 \arguments{
-\item{Data}{Data to be analyzed.}
-\item{Sign}{Test significance level (default 5\%).}
+\item{data}{Data to be analyzed.}
+\item{sign}{Test significance level (default 5\%).}
 }
 
 \value{
-\item{Statistic  }{Observed Chi-square value, that is, the test statistic.}
-\item{ChiQuadrado}{Chi-square value calculated.}
-\item{GL         }{Degree of freedom.}
-\item{p.Value    }{p-value.}
+\item{statistic}{Observed Chi-square value, that is, the test statistic.}
+\item{chisquare}{Chi-square value calculated.}
+\item{gl       }{Degree of freedom.}
+\item{p.value  }{p-value.}
 }
 
 \references{
@@ -35,18 +35,18 @@ Marcelo Angelo Cirillo
 }
 
 \examples{
-Data <- cbind(rnorm(100,2,3), rnorm(100,1,2))
+data <- cbind(rnorm(100,2,3), rnorm(100,1,2))
 
-NormTest(Data)
+NormTest(data)
 
-plot(density(Data))
+plot(density(data))
 
 
-Data <- cbind(rexp(200,3), rexp(200,3))
+data <- cbind(rexp(200,3), rexp(200,3))
 
-NormTest(Data, Sign = 0.01)
+NormTest(data, sign = 0.01)
 
-plot(density(Data))
+plot(density(data))
 }
 
 \keyword{Test of normality of the data.}

@@ -6,18 +6,20 @@
 
 \description{Plots the Biplot graph.}
 
-\usage{Biplot(Data, alpha = 0.5, Title = NA, xlabel = NA, ylabel = NA,
-       Color = TRUE, Obs = TRUE, LinLab = NA)}
+\usage{Biplot(data, alpha = 0.5, title = NA, xlabel = NA, ylabel = NA,
+       size = 1.1, grid = TRUE, color = TRUE, obs = TRUE, linlab = NA)}
 
 \arguments{
-  \item{Data}{Data for plotting.}
+  \item{data}{Data for plotting.}
   \item{alpha}{Representativeness of the individuals (alpha), representativeness of the variables (1 - alpha), being 0.5 the default.}
-  \item{Title}{Titles of the graphics, if not set, assumes the default text.}
+  \item{title}{Titles of the graphics, if not set, assumes the default text.}
   \item{xlabel}{Names the X axis, if not set, assumes the default text.}
   \item{ylabel}{Names the Y axis, if not set, assumes the default text.}
-  \item{Color}{Colored graphics (default = TRUE).}
-  \item{Obs}{Adds the observations to the graph (default = TRUE).}
-  \item{LinLab}{Vector with the labels for the observations, if not set, assumes the default text.}
+  \item{size}{Size of the points in the graphs.}
+  \item{grid}{Put grid on graphs (default = TRUE).}
+  \item{color}{Colored graphics (default = TRUE).}
+  \item{obs}{Adds the observations to the graph (default = TRUE).}
+  \item{linlab}{Vector with the labels for the observations, if not set, assumes the default text.}
 }
 
 \value{
@@ -25,13 +27,13 @@
   \item{Md}{Matrix eigenvalues.}
   \item{Mu}{Matrix U (eigenvectors).}
   \item{Mv}{Matrix V (eigenvectors).}
-  \item{Coor_I}{Coordinates of the individuals.}
-  \item{Coor_V}{Coordinates of the variables.}
-  \item{PVar}{Proportion of the principal components.}
+  \item{coorI}{Coordinates of the individuals.}
+  \item{coorV}{Coordinates of the variables.}
+  \item{pvar}{Proportion of the principal components.}
 }
 
 \references{
-RENCHER, A. C. \emph{Methods of Multivariate Analysis.} 2th. ed. New York: J.Wiley, 2002. 708 p.
+RENCHER, A. C. \emph{Methods of multivariate analysis.} 2th. ed. New York: J.Wiley, 2002. 708 p.
 }
 
 \author{
@@ -43,18 +45,18 @@ Marcelo Angelo Cirillo
 \examples{
 data(DataQuan) # set of quantitative data
 
-Data <- DataQuan[,2:ncol(DataQuan)]
-rownames(Data) <- DataQuan[,1]
+data <- DataQuan[,2:ncol(DataQuan)]
+rownames(data) <- DataQuan[,1]
 
-Biplot(Data)
+Biplot(data)
 
-LinNames <- paste("C",1:nrow(Data), sep="")
-Biplot(Data, alpha = 0.6, Title = "Biplot of data valuing individuals",
-       xlabel = "X Axis", ylabel = "Y Axis", Color = TRUE, Obs = TRUE, 
-       LinLab = LinNames)
+LinNames <- paste("C",1:nrow(data), sep="")
+Biplot(data, alpha = 0.6, title = "Biplot of data valuing individuals",
+       xlabel = "X Axis", ylabel = "Y Axis", color = TRUE, obs = TRUE, 
+       linlab = LinNames)
        
-Biplot(Data, alpha = 0.4, Title = "Graph valuing the variables",
-       xlabel = "", ylabel = "", Color = FALSE, Obs = FALSE)
+Biplot(data, alpha = 0.4, title = "Graph valuing the variables",
+       xlabel = "", ylabel = "", color = FALSE, obs = FALSE)
 }
 
 \keyword{Biplot}

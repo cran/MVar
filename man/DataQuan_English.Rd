@@ -1,6 +1,6 @@
 \name{DataQuan}
 
-\alias{DataQuan}
+\alias{DataQuan} 
 
 \docType{data}
 
