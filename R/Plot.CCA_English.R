@@ -59,13 +59,13 @@ Plot.CCA <- function(CCA, titles = NA, xlabel = NA, ylabel = NA,
   
   if (grid) {
     
-    args <- append(as.list(par('usr')), c('gray95','gray95'))
+     args <- append(as.list(par('usr')), c('gray93','gray93'))
     
-    names(args) <- c('xleft', 'xright', 'ybottom', 'ytop', 'col', 'border')
+     names(args) <- c('xleft', 'xright', 'ybottom', 'ytop', 'col', 'border')
     
-    do.call(rect, args) # chama a funcao rect com os argumentos (args)
+     do.call(rect, args) # chama a funcao rect com os argumentos (args)
     
-    grid(col = "white", lwd = 1, lty = 7, equilogs = T)
+     grid(col = "white", lwd = 2, lty = 7, equilogs = T)
     
   }
   
@@ -80,19 +80,20 @@ Plot.CCA <- function(CCA, titles = NA, xlabel = NA, ylabel = NA,
        ylab = ylabel, # Nomeia Eixo Y
        main = titles[2], # Titulo
        asp  = 1, # Aspecto do grafico
+       axes = F,
        type = "n", # nao plota pontos
        xlim = c(-1.1,1.1), # Dimensao para as linhas do grafico
        ylim = c(-1.1,1.1)) # Dimensao para as colunas do grafico
   
   if (grid) {
     
-    args <- append(as.list(par('usr')), c('gray95','gray95'))
+     args <- append(as.list(par('usr')), c('gray93','gray93'))
     
-    names(args) <- c('xleft', 'xright', 'ybottom', 'ytop', 'col', 'border')
+     names(args) <- c('xleft', 'xright', 'ybottom', 'ytop', 'col', 'border')
     
-    do.call(rect, args) # chama a funcao rect com os argumentos (args)
+     do.call(rect, args) # chama a funcao rect com os argumentos (args)
     
-    grid(col = "white", lwd = 1, lty = 7, equilogs = T)
+     grid(col = "white", lwd = 2, lty = 7, equilogs = T)
     
   }
   
@@ -117,19 +118,19 @@ Plot.CCA <- function(CCA, titles = NA, xlabel = NA, ylabel = NA,
        ylab = ylabel, # Nomeia Eixo Y
        type = "n", # nao plota pontos
        main = titles[3], # Titulo
-       asp  = 2, # Aspecto do Grafico
+       # asp  = 2, # Aspecto do Grafico
        xlim = c(min(CCA$score.X[,1])-0.1,max(CCA$score.X[,1])+0.1), # Dimensao para as linhas do grafico
        ylim = c(min(CCA$score.X[,2]-0.1),max(CCA$score.X[,2])+0.1)) # Dimensao para as colunas do grafico
   
   if (grid) {
     
-    args <- append(as.list(par('usr')), c('gray95','gray95'))
+     args <- append(as.list(par('usr')), c('gray93','gray93'))
     
-    names(args) <- c('xleft', 'xright', 'ybottom', 'ytop', 'col', 'border')
+     names(args) <- c('xleft', 'xright', 'ybottom', 'ytop', 'col', 'border')
+     
+     do.call(rect, args) # chama a funcao rect com os argumentos (args)
     
-    do.call(rect, args) # chama a funcao rect com os argumentos (args)
-    
-    grid(col = "white", lwd = 1, lty = 7, equilogs = T)
+     grid(col = "white", lwd = 2, lty = 7, equilogs = T)
     
   }
   
@@ -153,19 +154,19 @@ Plot.CCA <- function(CCA, titles = NA, xlabel = NA, ylabel = NA,
        ylab = ylabel, # Nomeia Eixo Y
        type = "n", # nao plota pontos
        main = titles[4], # Titulo
-       asp  = 2,  # Aspecto do Grafico
+       # asp  = 2,  # Aspecto do Grafico
        xlim = c(min(CCA$score.Y[,1])-0.1,max(CCA$score.Y[,1])+0.1), # Dimensao para as linhas do grafico
        ylim = c(min(CCA$score.Y[,2]-0.1),max(CCA$score.Y[,2])+0.1)) # Dimensao para as colunas do grafico
   
   if (grid) {
     
-    args <- append(as.list(par('usr')), c('gray95','gray95'))
+     args <- append(as.list(par('usr')), c('gray93','gray93'))
     
-    names(args) <- c('xleft', 'xright', 'ybottom', 'ytop', 'col', 'border')
+     names(args) <- c('xleft', 'xright', 'ybottom', 'ytop', 'col', 'border')
     
-    do.call(rect, args) # chama a funcao rect com os argumentos (args)
+     do.call(rect, args) # chama a funcao rect com os argumentos (args)
     
-    grid(col = "white", lwd = 1, lty = 7, equilogs = T)
+     grid(col = "white", lwd = 2, lty = 7, equilogs = T)
     
   }
   
