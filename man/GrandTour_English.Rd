@@ -8,7 +8,7 @@
 
 \usage{GrandTour(data, method = "Interpolation", title = NA, xlabel = NA, 
           ylabel = NA, size = 1.1, grid = TRUE, color = TRUE, linlab = NA, 
-          class = NA, posleg = 2, boxleg = TRUE, axesvar = TRUE, axes = FALSE, 
+          class = NA, posleg = 2, boxleg = TRUE, axesvar = TRUE, axes = TRUE, 
           numrot = 200, choicerot = NA, savepicture = FALSE)}
 
 \arguments{

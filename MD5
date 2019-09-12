@@ -1,6 +1,6 @@
-c30c5dc3eb2ce745d17ba528d9e23b64 *DESCRIPTION
+674515795c4c128aea75344bd3d7299e *DESCRIPTION
 28f08e0d124449e9a0132d0891c41422 *NAMESPACE
-5b9ab13f54c072b3256777130b4e1175 *R/Biplot_English.R
+f79daefe0ee8bacb2a41790277bac92f *R/Biplot_English.R
 b710cb6cd98a69ced723c23f51dcd5fc *R/CA_English.R
 ce80d333c2b0c63e2f55ea7c33f3d16a *R/CCA_English.R
 1612ff2c5cae72d520fa4cad73300bbe *R/Cluster_English.R
@@ -8,7 +8,7 @@ ce80d333c2b0c63e2f55ea7c33f3d16a *R/CCA_English.R
 ee39659c16be1549bf1056cc457cdd55 *R/DA_English.R
 6106aba66f313ab17cf60411ab6df577 *R/FA_English.R
 9b5f4c6f0bfd982e06ac597d411a3ea7 *R/GSVD_English.R
-3220513adb8089fb303a14b9a7d7ed03 *R/GrandTour_English.R
+290aad04525df907ef64c61bb5761e1f *R/GrandTour_English.R
 e19f62c5209bc31f3d415421ed8198ef *R/IM_English.R
 da3f9e2d1a80e8e4b0398247ffc43821 *R/LocLab_English.R
 90e660578e67264d73bbc0f8e7c32d20 *R/MDS_English.R
@@ -33,7 +33,7 @@ e228e2a36dbf8fa441aede64b61b5743 *R/Plot.Regr_English.R
 85bdbea9b5019d74f864912fa069f8b2 *data/DataQuali.rda
 7125dfa8806a3a4b127a658b0b16e6b2 *data/DataQuan.rda
 fb6060d43be21871ed06d85333ff1cb4 *inst/CITATION
-3cf13a5baa73cd80a542844019ed8a5a *man/Biplot_English.Rd
+f9d6864006778a6dae1742318963c8a2 *man/Biplot_English.Rd
 3ce38d2d7e13bf7c0b82395ea166cb46 *man/CA_English.Rd
 075f2f0d2f98fe5aab2060cf074712a4 *man/CCA_English.Rd
 cc7b37cfbba4aa558b36fe523c3a3c74 *man/Cluster_English.Rd
@@ -47,12 +47,12 @@ fabf819c8a5e88afe399b285d5e5505e *man/DataQuali_English.Rd
 52bbab9010c6f34e97a902586d2c093a *man/DataQuan_English.Rd
 11ea99d0cc7051443da849f1cf2bfa49 *man/FA_English.Rd
 1ad95668cb963120b1401aca8cf5ca15 *man/GSVD_English.Rd
-8c0c6300ff59b2abca3536e7e4918ea9 *man/GrandTour_English.Rd
+c441757c9aa160e93ab0abf019377991 *man/GrandTour_English.Rd
 41157115a4ab8836c9dad950c94ded18 *man/IM_English.Rd
 d0ee5bb07d260bd242f95342eafb1993 *man/LocLab_English.Rd
 f7a8b5ac697a730c626f4e52844af58b *man/MDS_English.Rd
 d2a4faf2a3b4d051c4181b171fc985ac *man/MFA_English.Rd
-98d809235fdaec0f5708d2f5a190d6b8 *man/MVar-package.Rd
+0a9e146d52df2f24eb86cbf72ce4afaf *man/MVar-package.Rd
 0eb57a93a9631df8fd5dceb4f5098916 *man/NormData_English.Rd
 7bd6cb559d586b2555d2f58526d966bf *man/NormTest_English.Rd
 ea1e11d405f93007fecb23ef17e67e76 *man/PCA_English.Rd

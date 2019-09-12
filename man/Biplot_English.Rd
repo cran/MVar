@@ -7,7 +7,9 @@
 \description{Plots the Biplot graph.}
 
 \usage{Biplot(data, alpha = 0.5, title = NA, xlabel = NA, ylabel = NA,
-       size = 1.1, grid = TRUE, color = TRUE, obs = TRUE, linlab = NA)}
+       size = 1.1, grid = TRUE, color = TRUE, var = TRUE,
+       obs = TRUE, linlab = NA, class = NA, posleg = 2,
+       boxleg = TRUE, axes = TRUE)}
 
 \arguments{
   \item{data}{Data for plotting.}
@@ -18,8 +20,17 @@
   \item{size}{Size of the points in the graphs.}
   \item{grid}{Put grid on graphs (default = TRUE).}
   \item{color}{Colored graphics (default = TRUE).}
-  \item{obs}{Adds the observations to the graph (default = TRUE).}
+  \item{var}{Adds the variable projections to graph (default = TRUE).}
+  \item{obs}{Adds the observations to graph (default = TRUE).}
   \item{linlab}{Vector with the labels for the observations, if not set, assumes the default text.}
+  \item{class}{Vector with names of data classes.}
+  \item{posleg}{0 with no caption,\cr
+                1 for caption in the left upper corner,\cr
+                2 for caption in the right upper corner (default),\cr
+                3 for caption in the right lower corner,\cr
+                4 for caption in the left lower corner.}
+  \item{boxleg}{Puts the frame in the caption (default = TRUE).}
+  \item{axes}{Plots the X and Y axes (default = TRUE).}
 }
 
 \value{
@@ -43,20 +54,24 @@ Marcelo Angelo Cirillo
 }
 
 \examples{
-data(DataQuan) # set of quantitative data
+data(iris) # dataset
 
-data <- DataQuan[,2:ncol(DataQuan)]
-rownames(data) <- DataQuan[,1]
+data <- iris[,1:4]
 
-Biplot(data)
+cls <- iris[,5]
+LinNames <- rep("",nrow(iris))
+res <- Biplot(data, alpha = 0.6, title = "Biplot of data valuing individuals",
+              class = cls, posleg = 2, boxleg = FALSE, 
+              linlab = LinNames, axes = TRUE)
+print(res$pvar)
+
 
 LinNames <- paste("C",1:nrow(data), sep="")
-Biplot(data, alpha = 0.6, title = "Biplot of data valuing individuals",
-       xlabel = "X Axis", ylabel = "Y Axis", color = TRUE, obs = TRUE, 
-       linlab = LinNames)
-       
-Biplot(data, alpha = 0.4, title = "Graph valuing the variables",
-       xlabel = "", ylabel = "", color = FALSE, obs = FALSE)
+res <- Biplot(data, alpha = 0.4, title = "Graph valuing the variables",
+              xlabel = "", ylabel = "", color = FALSE, obs = FALSE, 
+              linlab = LinNames) 
+print(res$pvar)
+
 }
 
 \keyword{Biplot}
