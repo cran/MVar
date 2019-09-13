@@ -22,7 +22,7 @@
   \item{color}{Colored graphics (default = TRUE).}
   \item{var}{Adds the variable projections to graph (default = TRUE).}
   \item{obs}{Adds the observations to graph (default = TRUE).}
-  \item{linlab}{Vector with the labels for the observations, if not set, assumes the default text.}
+  \item{linlab}{Vector with the labels for the observations.}
   \item{class}{Vector with names of data classes.}
   \item{posleg}{0 with no caption,\cr
                 1 for caption in the left upper corner,\cr
@@ -58,18 +58,17 @@ data(iris) # dataset
 
 data <- iris[,1:4]
 
+Biplot(data)
+
+
 cls <- iris[,5]
-LinNames <- rep("",nrow(iris))
 res <- Biplot(data, alpha = 0.6, title = "Biplot of data valuing individuals",
-              class = cls, posleg = 2, boxleg = FALSE, 
-              linlab = LinNames, axes = TRUE)
+              class = cls, posleg = 2, boxleg = FALSE, axes = TRUE)
 print(res$pvar)
 
 
-LinNames <- paste("C",1:nrow(data), sep="")
 res <- Biplot(data, alpha = 0.4, title = "Graph valuing the variables",
-              xlabel = "", ylabel = "", color = FALSE, obs = FALSE, 
-              linlab = LinNames) 
+              xlabel = "", ylabel = "", color = FALSE, obs = FALSE) 
 print(res$pvar)
 
 }
