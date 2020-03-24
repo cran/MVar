@@ -1,7 +1,7 @@
 MDS <- function(data, distance = "euclidean", title = NA, xlabel = NA,
                 ylabel = NA, posleg = 2,  boxleg = TRUE, axes = TRUE, 
                 size = 1.1, grid = TRUE, color = TRUE, linlab = NA, 
-                class = NA) {
+                class = NA, classcolor = NA) {
   
   # Esta funcao executa a Escalonamento Multidimensional
   # desenvolvida por Paulo Cesar Ossani em 07/2016
@@ -25,6 +25,7 @@ MDS <- function(data, distance = "euclidean", title = NA, xlabel = NA,
   # color  - Graficos coloridos (default = TRUE).
   # linlab - Vetor com os rotulos para as observacoes. 
   # class  - Vetor com os nomes das classes dos dados.
+  # classcolor - Vetor com as cores das classes.
   
   # Retorna:
   # Grafico de escalonamento multidimensional.
@@ -101,11 +102,15 @@ MDS <- function(data, distance = "euclidean", title = NA, xlabel = NA,
   
   Num.class = 0
   if (!is.na(class[1])) {
-    class.Table <- table(class)       # cria tabela com as quantidade dos elementos das classes
-    class.Names <- names(class.Table)  # nomes das classses
-    Num.class   <- length(class.Table) # numero de classes
-    NomeLinhas  <- as.matrix(class)
+     class.Table <- table(class)       # cria tabela com as quantidade dos elementos das classes
+     class.Names <- names(class.Table)  # nomes das classses
+     Num.class   <- length(class.Table) # numero de classes
+     NomeLinhas  <- as.matrix(class)
   } 
+
+  if (Num.class != 0 && length(classcolor) != Num.class && !is.na(classcolor) ||
+      Num.class == 0 && length(classcolor) != 1 && !is.na(classcolor))
+     stop("'classcolor' input is incorrect, it should be in an amount equal to the number of classes in 'class'. Verify!")
   
   cor <- 1 # cor inicial dos pontos e legendas
   ##### FIM - Informacoes usadas nos Graficos #####
@@ -117,33 +122,37 @@ MDS <- function(data, distance = "euclidean", title = NA, xlabel = NA,
   x <- fit[,1] # valores eixo x
   y <- fit[,2] # valores eixo y
   
+  if (!is.na(classcolor[1])) {
+    cor.classe <- classcolor
+  }
+  else { cor.classe <- c("red") }
+  
   if (Num.class == 0) {
     
     plot(x,y, # cria grafico para as coordenadas linhas x e colunas y
          xlab = xlabel, # Nomeia Eixo X
          ylab = ylabel, # Nomeia Eixo Y
-         type = "n", # tipo de grafico  
+         type = "n",    # tipo de grafico  
          main = title,  # Titulo
-         # asp  = 1,  # Aspecto do Grafico
          xlim = c(min(x)-0.5,max(x)+0.5), # Dimensao para as linhas do grafico
          ylim = c(min(y)-0.5,max(y)+0.5)) # Dimensao para as colunas do grafico
     
     if (grid) {
       
-       args <- append(as.list(par('usr')), c('gray93','gray93'))
+      args <- append(as.list(par('usr')), c('gray93','gray93'))
       
-       names(args) <- c('xleft', 'xright', 'ybottom', 'ytop', 'col', 'border')
+      names(args) <- c('xleft', 'xright', 'ybottom', 'ytop', 'col', 'border')
       
-       do.call(rect, args) # chama a funcao rect com os argumentos (args)
+      do.call(rect, args) # chama a funcao rect com os argumentos (args)
       
-       grid(col = "white", lwd = 2, lty = 7, equilogs = T)
+      grid(col = "white", lwd = 2, lty = 7, equilogs = T)
       
     }
     
     points(x,y, # cria grafico para as coordenadas linhas x e colunas y
-           pch = 19, # Formato dos pontos 
-           cex = size,  # Tamanho dos pontos  
-           col = ifelse(color,"red","black"))  # Cor dos pontos
+           pch = 19,   # Formato dos pontos 
+           cex = size, # tamanho dos pontos         
+           col = ifelse(color, cor.classe, "Black"))
     
   } else {
     
@@ -151,21 +160,20 @@ MDS <- function(data, distance = "euclidean", title = NA, xlabel = NA,
          xlab = xlabel, # Nomeia Eixo X
          ylab = ylabel, # Nomeia Eixo Y
          main = title,  # Titulo
-         # asp  = 1,   # Aspecto do Grafico
-         type = "n", # nao plota pontos
+         type = "n",    # nao plota pontos
          xlim = c(min(x)-0.5,max(x)+0.5), # Dimensao para as linhas do grafico
          ylim = c(min(y)-0.5,max(y)+0.5), # Dimensao para as colunas do grafico
          col  = ifelse(color,"red","black"))  # Cor dos pontos
     
     if (grid) {
       
-       args <- append(as.list(par('usr')), c('gray93','gray93'))
+      args <- append(as.list(par('usr')), c('gray93','gray93'))
       
-       names(args) <- c('xleft', 'xright', 'ybottom', 'ytop', 'col', 'border')
+      names(args) <- c('xleft', 'xright', 'ybottom', 'ytop', 'col', 'border')
       
-       do.call(rect, args) # chama a funcao rect com os argumentos (args)
+      do.call(rect, args) # chama a funcao rect com os argumentos (args)
       
-       grid(col = "white", lwd = 2, lty = 7, equilogs = T)
+      grid(col = "white", lwd = 2, lty = 7, equilogs = T)   
       
     }
     
@@ -177,7 +185,10 @@ MDS <- function(data, distance = "euclidean", title = NA, xlabel = NA,
       
       Point.Form <- Init.Form + i # fomato dos pontos de cada classe
       
-      cor1 <- ifelse(color, cor + i, "black")
+      if (!is.na(classcolor[1])) {
+         cor1 <- ifelse(color, cor.classe[i], "black")
+      }
+      else { cor1 <- ifelse(color, cor + i, "black") }
       
       Point.data <- Newdata[which(class == class.Names[i]),]
       
@@ -195,16 +206,22 @@ MDS <- function(data, distance = "euclidean", title = NA, xlabel = NA,
     
     Init.Form <- 15
     
-    color_b <- cor # colore as letras das legendas e suas representacoes no grafico
+    cor <- ifelse(color, 2, 1)
     
-    if (color) color_b = cor:(cor + Num.class)
+    if (color) {
+       if (!is.na(classcolor[1])) {
+          color_b <- classcolor
+       }
+       else { color_b <- cor:(cor + Num.class) }
+    }
+    else { color_b <- cor }
     
     legend(posleg, class.Names, pch = (Init.Form):(Init.Form + Num.class), col = color_b,
            text.col = color_b, bty = boxleg, text.font = 6, y.intersp = 0.8, xpd = TRUE) # cria a legenda
   }
   
   if (axes) # coloca axes no grafico
-     abline(h = 0, v=0, cex = 1.5, lty=2) # cria o eixo central
+    abline(h = 0, v=0, cex = 1.5, lty=2) # cria o eixo central
   
   if (!is.na(linlab[1])) LocLab(x, y, cex = 1, linlab)
   

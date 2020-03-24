@@ -6,8 +6,8 @@
 
 \description{Graphics of the Projection Pursuit (PP).}
 
-\usage{Plot.PP(PP, titles = NA, xlabel = NA, ylabel = NA, posleg = 2, 
-        boxleg = TRUE, size = 1.1, grid = TRUE, color = TRUE, linlab = NA,  
+\usage{Plot.PP(PP, titles = NA, xlabel = NA, ylabel = NA, posleg = 2, boxleg = TRUE,
+        size = 1.1, grid = TRUE, color = TRUE, classcolor = NA, linlab = NA, 
         axesvar = TRUE, axes = TRUE, casc = TRUE)}
  
 \arguments{
@@ -24,6 +24,7 @@
   \item{size}{Size of the points in the graphs.}
   \item{grid}{Put grid on graphs (default = TRUE).}
   \item{color}{Colored graphics (default = TRUE).}
+  \item{classcolor}{Vector with the colors of the classes.}
   \item{linlab}{Vector with the labels for the observations.}
   \item{axesvar}{Puts axes of rotation of the variables, only when dimproj > 1 (default = TRUE).}
   \item{axes}{Plots the X and Y axes (default = TRUE).}
@@ -71,8 +72,9 @@ Res <- PP_Optimizer(data = data, class = class, findex = Fcindex,
 
 Tit <- c(NA,"Graph example") # titles for the graphics
 
-Plot.PP(Res, titles = Tit, posleg = 1, boxleg = FALSE, color = TRUE,
-        linlab = NA, axesvar = TRUE, axes = TRUE, casc = FALSE)
+Plot.PP(Res, titles = Tit, posleg = 1, boxleg = FALSE, color = TRUE, 
+        classcolor = c("blue3","red","goldenrod3"), linlab = NA, 
+        axesvar = TRUE, axes = TRUE, casc = FALSE)
 
 
 # Example 3 - Without the classes in the data, but informing 

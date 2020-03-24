@@ -8,8 +8,8 @@
 
 \usage{Biplot(data, alpha = 0.5, title = NA, xlabel = NA, ylabel = NA,
        size = 1.1, grid = TRUE, color = TRUE, var = TRUE,
-       obs = TRUE, linlab = NA, class = NA, posleg = 2,
-       boxleg = TRUE, axes = TRUE)}
+       obs = TRUE, linlab = NA, class = NA, classcolor = NA,
+       posleg = 2, boxleg = TRUE, axes = TRUE)}
 
 \arguments{
   \item{data}{Data for plotting.}
@@ -24,6 +24,7 @@
   \item{obs}{Adds the observations to graph (default = TRUE).}
   \item{linlab}{Vector with the labels for the observations.}
   \item{class}{Vector with names of data classes.}
+  \item{classcolor}{Vector with the colors of the classes.}
   \item{posleg}{0 with no caption,\cr
                 1 for caption in the left upper corner,\cr
                 2 for caption in the right upper corner (default),\cr
@@ -63,7 +64,8 @@ Biplot(data)
 
 cls <- iris[,5]
 res <- Biplot(data, alpha = 0.6, title = "Biplot of data valuing individuals",
-              class = cls, posleg = 2, boxleg = FALSE, axes = TRUE)
+              class = cls, classcolor = c("goldenrod3","gray56","red"),
+              posleg = 2, boxleg = FALSE, axes = TRUE)
 print(res$pvar)
 
 

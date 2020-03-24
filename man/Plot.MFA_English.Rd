@@ -8,8 +8,8 @@
 
 \usage{Plot.MFA(MFA, titles = NA, xlabel = NA, ylabel = NA,
          posleg = 2, boxleg = TRUE, size = 1.1, grid = TRUE, 
-         color = TRUE, namarr = FALSE, linlab = NA, 
-         casc = TRUE)}
+         color = TRUE, groupscolor = NA, namarr = FALSE, 
+         linlab = NA, casc = TRUE)}
  
 \arguments{
   \item{MFA}{Data of the MFA function.}
@@ -24,6 +24,7 @@
   \item{size}{Size of the points in the graphs.}
   \item{grid}{Put grid on graphs (default = TRUE).}
   \item{color}{Colored graphics (default = TRUE).}
+  \item{groupscolor}{Vector with the colors of the groups.}
   \item{namarr}{Puts the points names in the cloud around the centroid in the graph corresponding to the global analysis of the Individuals and Variables (default = FALSE).}
   \item{linlab}{Vector with the labels for the observations, if not set, assumes the default text.}
   \item{casc}{Cascade effect in the presentation of the graphics (default = TRUE).}
@@ -54,6 +55,7 @@ Tit = c("Scree-Plot","Observations","Observations/Variables","Inertia of the Var
 
 Plot.MFA(MF, titles = Tit, xlabel = NA, ylabel = NA,
          posleg = 2, boxleg = FALSE, color = TRUE, 
+         groupscolor = c("blue3","red","goldenrod3"),
          namarr = FALSE, linlab = NA, 
          casc = FALSE) # plotting several graphs on the screen
 

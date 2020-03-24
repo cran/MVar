@@ -39,17 +39,17 @@ Plot.FA <- function(FA, titles = NA, xlabel = NA, ylabel = NA, size = 1.1,
   if (!is.logical(color))
      stop("'color' input is incorrect, it should be TRUE or FALSE. Verify!")
   
-  if (!is.na(linlab[1]) && length(linlab)!=nrow(FA$mtxscores))
+  if (!is.na(linlab[1]) && length(linlab) != nrow(FA$mtxscores))
      stop("'linlab' input is incorrect, it should have the same number of rows as the input in the database. Verify!")
   
   if (!is.logical(casc))
      stop("'casc' input is incorrect, it should be TRUE or FALSE. Verify!")
 
   if (is.na(xlabel[1]))
-     xlabel = "First factor"
+     xlabel = paste("First factor (", round(FA$mtxvar[1,2],2),"%)",sep="")
   
   if (is.na(ylabel[1]))
-     ylabel = "Second factor"
+     ylabel = paste("Second factor (", round(FA$mtxvar[2,2],2),"%)",sep="")
   
   #####   FIM - Informacoes usadas nos Graficos  #####
   

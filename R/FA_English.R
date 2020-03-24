@@ -89,8 +89,12 @@ FA <- function(data, method = "PC", type = 2, nfactor = 1,
       
       # Encontrando a Matriz de Decomposicao Expectral
       MAV <- eigen(MC) # Encontra a matriz de autovalor e autovetor
-      MAutoVlr <- MAV$values  # Matriz de Autovalores 
+      MAutoVlr <- MAV$values  # Matriz de Autovalores
       MAutoVec <- MAV$vectors # Matriz de Autovetores
+      
+      # MAV <- svd(MC) # Encontra a matriz de autovalor e autovetor
+      # MAutoVlr <- MAV$d # Matriz de Autovalores
+      # MAutoVec <- MAV$v # Matriz de Autovetores
   
       Gama = MAutoVec%*%diag(sqrt(abs(MAutoVlr)),nrow(MC),ncol(MC)) # Matriz de Cargas Fatoriais
       if (rotation != "NONE") {
@@ -115,17 +119,17 @@ FA <- function(data, method = "PC", type = 2, nfactor = 1,
       # Matriz das Variancias
       MEigen <- as.data.frame(matrix(NA, length(MAutoVlr), 3))
       rownames(MEigen) <- paste("Factor", 1:length(MAutoVlr))
-      colnames(MEigen) <- c("Eigenvalue", "Proporcion of the variance","Cumulative proportion of the variance")
+      colnames(MEigen) <- c("Eigenvalue", "% variance","Cumulative proportion of the variance")
       MEigen[, "Eigenvalue"] <- MAutoVlr
-      MEigen[, "Proporcion of the variance"] <- (MAutoVlr/sum(MAutoVlr)) * 100
-      MEigen[, "Cumulative proportion of the variance"] <- cumsum(MEigen[,"Proporcion of the variance"]) 
+      MEigen[, "% variance"] <- (MAutoVlr/sum(MAutoVlr)) * 100
+      MEigen[, "Cumulative proportion of the variance"] <- cumsum(MEigen[,"% variance"]) 
       
       # Matriz com todos os resultados associados
       Result <- as.matrix(cbind(Gama[,1:nfactor],Comun,Psi))
       Result <- rbind(Result,t(rbind(as.matrix(MEigen[1:nfactor,1]),sum(Comun),NA)))
-      Result <- rbind(Result,t(rbind(as.matrix(MEigen[1:nfactor,2]/100),MEigen[nfactor,3]/100,NA)))
+      Result <- rbind(Result,t(rbind(as.matrix(MEigen[1:nfactor,2]),MEigen[nfactor,3],NA)))
       colnames(Result) <- c(paste("Factor Loadings",1:nfactor),"Communalities","Specific Variances")
-      rownames(Result) <- c(colnames(data),"Variance","Proporcion of the variance")
+      rownames(Result) <- c(colnames(data),"Variance","% variance")
       
    }
     
@@ -136,10 +140,14 @@ FA <- function(data, method = "PC", type = 2, nfactor = 1,
       Sr <- MC - Psi0 # Encontrando a Matriz Sr
 
       # Encontrando a Matriz de Decomposicao Expectral
-      MAV <- eigen(Sr) # Encontra a matriz de autovalor e autovetor
-      MAutoVlr <- MAV$values  # Matriz de Autovalores 
-      MAutoVec <- MAV$vectors # Matriz de Autovetores
-
+      # MAV <- eigen(Sr) # Encontra a matriz de autovalor e autovetor
+      # MAutoVlr <- MAV$values  # Matriz de Autovalores 
+      # MAutoVec <- MAV$vectors # Matriz de Autovetores
+      
+      MAV <- svd(Sr) # Encontra a matriz de autovalor e autovetor
+      MAutoVlr <- MAV$d  # Matriz de Autovalores 
+      MAutoVec <- MAV$v # Matriz de Autovetores
+      
       Gama = MAutoVec%*%diag(sqrt(abs(MAutoVlr)),nrow(MC),ncol(MC)) # Matriz de Cargas Fatoriais
       if (rotation != "NONE") {
          Gama <- Rotacao(Gama,rotation)
@@ -169,17 +177,17 @@ FA <- function(data, method = "PC", type = 2, nfactor = 1,
       # Matriz das Variancias
       MEigen <- as.data.frame(matrix(NA, length(MAutoVlr), 3))
       rownames(MEigen) <- paste("Comp", 1:length(MAutoVlr))
-      colnames(MEigen) <- c("Eigenvalue", "Proporcion of the variance","Cumulative proportion of the variance")
+      colnames(MEigen) <- c("Eigenvalue", "% variance","Cumulative proportion of the variance")
       MEigen[, "Eigenvalue"] <- MAutoVlr
-      MEigen[, "Proporcion of the variance"] <- (MAutoVlr/sum(MAutoVlr)) * 100
-      MEigen[, "Cumulative proportion of the variance"] <- cumsum(MEigen[,"Proporcion of the variance"])
+      MEigen[, "% variance"] <- (MAutoVlr/sum(MAutoVlr)) * 100
+      MEigen[, "Cumulative proportion of the variance"] <- cumsum(MEigen[,"% variance"])
       
       # Matriz com todos os resultados associados
       Result <- as.matrix(cbind(Gama[,1:nfactor],Comun,Psi))
       Result <- rbind(Result,t(rbind(as.matrix(MEigen[1:nfactor,1]),sum(Comun),NA)))
-      Result <- rbind(Result,t(rbind(as.matrix(MEigen[1:nfactor,2]/100),MEigen[nfactor,3]/100,NA)))
+      Result <- rbind(Result,t(rbind(as.matrix(MEigen[1:nfactor,2]),MEigen[nfactor,3],NA)))
       colnames(Result) <- c(paste("Factor Loadings",1:nfactor),"Communalities","Specific Variances")
-      rownames(Result) <- c(colnames(data),"Variance","Proporcion of the variance")
+      rownames(Result) <- c(colnames(data),"Variance","% variance")
    }
    
    if (method == "ML") { # Metodo de maxima verossimilhanca
@@ -188,9 +196,13 @@ FA <- function(data, method = "PC", type = 2, nfactor = 1,
       MC <- (n-ncol(data))/n*MC  # Matriz de Covariancia/Correlacao Maximizada para o teste
       
       # Encontrando a Matriz de Decomposicao Expectral
-      MAV <- eigen(MC) # Encontra a matriz de autovalor e autovetor
-      MAutoVlr <- MAV$values  # Matriz de Autovalores 
-      MAutoVec <- MAV$vectors # Matriz de Autovetores
+      # MAV <- eigen(MC) # Encontra a matriz de autovalor e autovetor
+      # MAutoVlr <- MAV$values  # Matriz de Autovalores 
+      # MAutoVec <- MAV$vectors # Matriz de Autovetores
+      
+      MAV <- svd(MC) # Encontra a matriz de autovalor e autovetor
+      MAutoVlr <- MAV$d  # Matriz de Autovalores 
+      MAutoVec <- MAV$v # Matriz de Autovetores
 
       Gama = MAutoVec%*%diag(sqrt(abs(MAutoVlr)),nrow(MC),ncol(MC)) # Matriz de Cargas Fatoriais para Inicializacao da iteracao
 
@@ -254,19 +266,19 @@ FA <- function(data, method = "PC", type = 2, nfactor = 1,
       # Matriz das Variancias
       MEigen <- as.data.frame(matrix(NA, length(MAutoVlr), 3))
       rownames(MEigen) <- paste("Comp", 1:length(MAutoVlr))
-      colnames(MEigen) <- c("Eigenvalue", "Proporcion of the variance","Cumulative proportion of the variance")
+      colnames(MEigen) <- c("Eigenvalue", "% variance","Cumulative proportion of the variance")
       MEigen[, "Eigenvalue"] <- MAutoVlr
-      MEigen[, "Proporcion of the variance"] <- (MAutoVlr/sum(MAutoVlr)) * 100
-      MEigen[, "Cumulative proportion of the variance"] <- cumsum(MEigen[,"Proporcion of the variance"])
+      MEigen[, "% variance"] <- (MAutoVlr/sum(MAutoVlr)) * 100
+      MEigen[, "Cumulative proportion of the variance"] <- cumsum(MEigen[,"% variance"])
       
       print(paste("Number of iterations:",i))
       
       # Matriz com todos os resultados associados
       Result <- as.matrix(cbind(Gama[,1:nfactor],Comun,Psi))
       Result <- rbind(Result,t(rbind(as.matrix(MEigen[1:nfactor,1]),sum(Comun),NA)))
-      Result <- rbind(Result,t(rbind(as.matrix(MEigen[1:nfactor,2]/100),MEigen[nfactor,3]/100,NA)))
+      Result <- rbind(Result,t(rbind(as.matrix(MEigen[1:nfactor,2]),MEigen[nfactor,3],NA)))
       colnames(Result) <- c(paste("Factor Loadings",1:nfactor),"Communalities","Specific Variances")
-      rownames(Result) <- c(colnames(data),"Variance","Proporcion of the variance")  
+      rownames(Result) <- c(colnames(data),"Variance","% variance")  
       
       ### INICIO - Teste da falta de ajusto do modelo fatorial - teste Qui-quadrado ###
       if (testfit) {

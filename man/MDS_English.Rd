@@ -8,7 +8,8 @@
 
 \usage{MDS(data, distance = "euclidean", title = NA, xlabel = NA,  
     ylabel = NA, posleg = 2, boxleg = TRUE, axes = TRUE, 
-    size = 1.1, grid = TRUE, color = TRUE, linlab = NA, class = NA)}
+    size = 1.1, grid = TRUE, color = TRUE, linlab = NA, 
+    class = NA, classcolor = NA)}
 
 \arguments{
   \item{data}{Data to be analyzed.}
@@ -28,6 +29,7 @@
   \item{color}{Colored graphics (default = TRUE).}
   \item{linlab}{Vector with the labels for the observations.}
   \item{class}{Vector with names of data classes.}
+  \item{classcolor}{Vector with the colors of the classes.}
 }
 
 \value{{Multidimensional Scaling.}
@@ -54,8 +56,8 @@ data <- iris[,1:4]
 cls <- iris[,5] # data class
 
 MD <- MDS(data = data, distance = "euclidean", title = NA, xlabel = NA,  
-          ylabel = NA, posleg = 2, boxleg = TRUE, axes = TRUE, 
-          color = TRUE, linlab = NA, class = cls)
+          ylabel = NA, posleg = 2, boxleg = TRUE, axes = TRUE, color = TRUE,
+          linlab = NA, class = cls, classcolor = c("goldenrod3","gray53","red"))
           
 print("Matrix of the distances:"); MD$mtxD
 }

@@ -6,7 +6,7 @@
 
 \description{Perform linear and quadratic discriminant analysis.}
 
-\usage{DA(data, class = NA, type = "lda", validation = "Learning", 
+\usage{DA(data, class = NA, type = "lda", validation = "learning", 
    method = "moment", prior = NA, testing = NA)}
 
 \arguments{
@@ -15,7 +15,7 @@
   \item{type}{"lda": linear discriminant analysis (default), or \cr
               "qda": quadratic discriminant analysis.}
   \item{validation}{Type of validation:\cr
-                    "Learning" - data training (default), or\cr
+                    "learning" - data training (default), or\cr
                     "testing" - classifies the data of the vector "testing".}
   \item{method}{Classification method:\cr 
                 "mle" to MLEs,\cr
@@ -23,7 +23,7 @@
                 "moment" (default) for standard mean and variance estimators, or \cr
                 "t" for robust estimates based on the t distribution.}
   \item{prior}{Probabilities of occurrence of classes. If not specified, it will take the proportions of the classes. If specified, probabilities must follow the order of factor levels.}
-  \item{testing}{Vector with indices that will be used in data as test. For validation = "Learning", one has testing = NA.}
+  \item{testing}{Vector with indices that will be used in data as test. For validation = "learning", one has testing = NA.}
 }
 
 \value{
@@ -64,7 +64,7 @@ data  = iris[,1:4] # data to be classified
 class = iris[,5]   # data class
 prior = c(1,1,1)/3 # a priori probability of the classs
 
-Res <- DA(data, class, type = "lda", validation = "Learning", 
+Res <- DA(data, class, type = "lda", validation = "learning", 
           method = "mle", prior = prior, testing = NA)
 
 print("confusion table:"); Res$confusion

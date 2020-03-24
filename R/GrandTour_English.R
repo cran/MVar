@@ -1,7 +1,7 @@
 GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, ylabel = NA,
-                      size = 1.1, grid = TRUE, color = TRUE, linlab = NA, class = NA, 
-                      posleg = 2, boxleg = TRUE, axesvar = TRUE, axes = TRUE, numrot = 200, 
-                      choicerot = NA, savepicture = FALSE) {
+                      size = 1.1, grid = TRUE, color = TRUE, linlab = NA, class = NA,  
+                      classcolor = NA, posleg = 2, boxleg = TRUE, axesvar = TRUE, 
+                      axes = TRUE, numrot = 200, choicerot = NA, savepicture = FALSE) {
   
   # Esta funcao executa a rotacao dos dados multivariados em baixa dimensao
   # basea-se nos artigos de: Asimov, D. . The Grand Tour: A Tool for Viewing
@@ -27,6 +27,7 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
   # color   - Graficos coloridos (default = TRUE).
   # linlab  - Vetor com os rotulos para as observacoes.
   # class   - Vetor com os nomes das classes dos dados.
+  # classcolor - Vetor com as cores das classes.
   # posleg  - 0 sem legenda,
   #           1 para legenda no canto superior esquerdo,
   #           2 para legenda no canto superior direito (default),
@@ -46,7 +47,7 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
   # proj.data  - Dados projetados.
   # vector.opt - Vetor projecao.
   # method     - Metodo usado no Grand Tour.
-
+  
   if (!is.data.frame(data))
      stop("'data' input is incorrect, it should be of type data frame. Verify!")
 
@@ -133,6 +134,10 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
     NomeLinhas  <- as.matrix(class)
   } 
   
+  if (Num.class != 0 && length(classcolor) != Num.class && !is.na(classcolor) ||
+      Num.class == 0 && length(classcolor) != 1 && !is.na(classcolor))
+     stop("'classcolor' input is incorrect, it should be in an amount equal to the number of classes in 'class'. Verify!")
+  
   if (method == "TORUS") {
     
     # O codigo seguinte foi transladado do codigo em Matlab encontrado no Livro de
@@ -198,15 +203,18 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
         
         Tit <- ifelse(!is.character(title) || is.na(title[1]), paste("Rotation:", i), title)
         
+        if (!is.na(classcolor[1])) {
+           cor.classe <- classcolor
+        }
+        else { cor.classe <- c("blue") }
+        
         if (Num.class == 0) {
           
            plot(proj.data, # coordenadas do grafico
                 xlab = xlabel, # Nomeia Eixo X
                 ylab = ylabel, # Nomeia Eixo Y
-                type = "n", # nao plota pontos
-                main = Tit, # Titulo para o grafico
-                # asp  = 1,   # Aspecto do Grafico
-                # axes = F,   # elimina os eixos
+                type = "n",    # nao plota pontos
+                main = Tit,    # Titulo para o grafico
                 xlim = c(minX,maxX), # dimensao eixo X
                 ylim = c(minY,maxY)) # dimensao eixo Y
           
@@ -224,16 +232,16 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
           
            points(proj.data, # coordenadas do grafico
                   pch  = 16,  # formato dos pontos
-                  col = ifelse(color, "Blue", "Black"))
+                  cex = size,  # Tamanho dos pontos 
+                  col = ifelse(color, cor.classe, "Black"))
           
         } else {
           
           plot(0,0, # cria grafico para as coordenadas linhas x e colunas y
                xlab = xlabel, # Nomeia Eixo X
                ylab = ylabel, # Nomeia Eixo Y
-               main = Tit,  # Titulo
-               # asp  = 1,  # Aspecto do Grafico
-               type = "n", # nao plota pontos
+               main = Tit,    # Titulo
+               type = "n",    # nao plota pontos
                xlim = c(minX,maxX), # dimensao eixo X
                ylim = c(minY,maxY), # dimensao eixo Y
                col  = ifelse(color,"red","black"))  # Cor dos pontos
@@ -255,8 +263,11 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
           for (k in 1:Num.class) {
             
             Point.Form <- Init.Form + k # fomato dos pontos de cada classe
-            
-            cor1 <- ifelse(color, cor + k, "black")
+    
+            if (!is.na(classcolor[1])) {
+               cor1 <- ifelse(color, cor.classe[k], "black")
+            }
+            else { cor1 <- ifelse(color, cor + k, "black") }
             
             Point.data <- proj.data[which(class == class.Names[k]),]
             
@@ -294,9 +305,15 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
           
           Init.Form <- 15 # codigo formato ponto inicial
           
-          color_b <- cor # colore as letras das legendas e suas representacoes no grafico
+          cor <- ifelse(color, 2, 1)
           
-          if (color) color_b = cor:(cor + Num.class)
+          if (color) {
+             if (!is.na(classcolor[1])) {
+                color_b <- classcolor
+             }
+             else { color_b <- cor:(cor + Num.class) }
+          }
+          else { color_b <- cor }
           
           legend(posleg, class.Names, pch = (Init.Form):(Init.Form + Num.class), col = color_b,
                  text.col = color_b, bty = boxleg, text.font = 6, y.intersp = 0.8, xpd = TRUE) # cria a legenda
@@ -372,15 +389,18 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
         
         Tit <- ifelse(!is.character(title) || is.na(title[1]), paste("Rotation:", i), title)
         
+        if (!is.na(classcolor[1])) {
+           cor.classe <- classcolor
+        }
+        else { cor.classe <- c("blue") }
+        
         if (Num.class == 0) {
           
            plot(proj.data, # coordenadas do grafico
                 xlab = xlabel, # Nomeia Eixo X
                 ylab = ylabel, # Nomeia Eixo Y
-                type = "n", # nao plota pontos
-                main = Tit, # Titulo para o grafico
-                # asp  = 1,   # Aspecto do Grafico
-                # axes = F,   # elimina os eixos
+                type = "n",    # nao plota pontos
+                main = Tit,    # Titulo para o grafico
                 xlim = c(minX,maxX), # dimensao eixo X
                 ylim = c(minY,maxY)) # dimensao eixo Y
           
@@ -398,16 +418,16 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
           
            points(proj.data, # coordenadas do grafico
                   pch  = 16,  # formato dos pontos
-                  col = ifelse(color, "Blue", "Black"))
-          
+                  cex = size,  # Tamanho dos pontos 
+                  col = ifelse(color, cor.classe, "Black"))
+           
         } else {
           
           plot(0,0, # cria grafico para as coordenadas linhas x e colunas y
                xlab = xlabel, # Nomeia Eixo X
                ylab = ylabel, # Nomeia Eixo Y
-               main = Tit,  # Titulo
-               # asp  = 1,  # Aspecto do Grafico
-               type = "n", # nao plota pontos
+               main = Tit,    # Titulo
+               type = "n",    # nao plota pontos
                xlim = c(minX,maxX), # dimensao eixo X
                ylim = c(minY,maxY), # dimensao eixo Y
                col  = ifelse(color,"red","black"))  # Cor dos pontos
@@ -430,7 +450,10 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
             
             Point.Form <- Init.Form + k # fomato dos pontos de cada classe
             
-            cor1 <- ifelse(color, cor + k, "black")
+            if (!is.na(classcolor[1])) {
+               cor1 <- ifelse(color, cor.classe[k], "black")
+            }
+            else { cor1 <- ifelse(color, cor + k, "black") }
             
             Point.data <- proj.data[which(class == class.Names[k]),]
             
@@ -468,9 +491,15 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
           
           Init.Form <- 15 # codigo formato ponto inicial
           
-          color_b <- cor # colore as letras das legendas e suas representacoes no grafico
+          cor <- ifelse(color, 2, 1)
           
-          if (color) color_b = cor:(cor + Num.class)
+          if (color) {
+             if (!is.na(classcolor[1])) {
+                color_b <- classcolor
+             }
+             else { color_b <- cor:(cor + Num.class) }
+          }
+          else { color_b <- cor }
           
           legend(posleg, class.Names, pch = (Init.Form):(Init.Form + Num.class), col = color_b,
                  text.col = color_b, bty = boxleg, text.font = 6, y.intersp = 0.8, xpd = TRUE) # cria a legenda
@@ -523,7 +552,7 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
     # iguala o numero de colunas dos vetores caso sejam diferentes
     if (length(v1) != length(v2)) {
       if (length(v1) < length(v2)) {
-        Vector1 <- cbind(Vector1,Vector2[,1])
+         Vector1 <- cbind(Vector1,Vector2[,1])
       } else Vector2 <- cbind(Vector2,Vector1[,1])
     }
     
@@ -555,15 +584,18 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
         
         Tit <- ifelse(!is.character(title) || is.na(title[1]), paste("Rotation:", i), title)
         
+        if (!is.na(classcolor[1])) {
+           cor.classe <- classcolor
+        }
+        else { cor.classe <- c("blue") }
+        
         if (Num.class == 0) {
           
            plot(proj.data, # coordenadas do grafico
                 xlab = xlabel, # Nomeia Eixo X
                 ylab = ylabel, # Nomeia Eixo Y
-                type = "n", # nao plota pontos
-                main = Tit, # Titulo para o grafico
-                # asp  = 1,   # Aspecto do Grafico
-                # axes = F,   # elimina os eixos
+                type = "n",    # nao plota pontos
+                main = Tit,    # Titulo para o grafico
                 xlim = c(minX,maxX), # dimensao eixo X
                 ylim = c(minY,maxY)) # dimensao eixo Y
           
@@ -581,19 +613,19 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
           
            points(proj.data, # coordenadas do grafico
                   pch  = 16,  # formato dos pontos
-                  col = ifelse(color, "Blue", "Black"))
+                  cex = size,  # Tamanho dos pontos 
+                  col = ifelse(color, cor.classe, "Black"))
           
         } else {
           
           plot(0,0, # cria grafico para as coordenadas linhas x e colunas y
                xlab = xlabel, # Nomeia Eixo X
                ylab = ylabel, # Nomeia Eixo Y
-               main = Tit, # Titulo
-               # asp  = 1,   # Aspecto do Grafico
-               type = "n", # nao plota pontos
+               main = Tit,    # Titulo
+               type = "n",    # nao plota pontos
                xlim = c(minX,maxX), # dimensao eixo X
-               ylim = c(minY,maxY), # dimensao eixo Y
-               col  = ifelse(color,"red","black"))  # Cor dos pontos
+               ylim = c(minY,maxY)) # dimensao eixo Y
+               # col  = ifelse(color,"red","black"))  # Cor dos pontos
           
           if (grid) {
             
@@ -613,7 +645,10 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
             
             Point.Form <- Init.Form + k # fomato dos pontos de cada classe
             
-            cor1 <- ifelse(color, cor + k, "black")
+            if (!is.na(classcolor[1])) {
+               cor1 <- ifelse(color, cor.classe[k], "black")
+            }
+            else { cor1 <- ifelse(color, cor + k, "black") }
             
             Point.data <- proj.data[which(class == class.Names[k]),]
             
@@ -648,9 +683,15 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
           
           Init.Form <- 15 # codigo formato ponto inicial
           
-          color_b <- cor # colore as letras das legendas e suas representacoes no grafico
+          cor <- ifelse(color, 2, 1)
           
-          if (color) color_b = cor:(cor + Num.class)
+          if (color) {
+             if (!is.na(classcolor[1])) {
+                color_b <- classcolor
+             }
+             else { color_b <- cor:(cor + Num.class) }
+          }
+          else { color_b <- cor }
           
           legend(posleg, class.Names, pch = (Init.Form):(Init.Form + Num.class), col = color_b,
                  text.col = color_b, bty = boxleg, text.font = 6, y.intersp = 0.8, xpd = TRUE) # cria a legenda
