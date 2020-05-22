@@ -101,7 +101,7 @@ Plot.MFA <- function(MFA, titles = NA, xlabel = NA, ylabel = NA, posleg = 2,
   
   ##### INICIO - Plotagem dos Autovalores #####
   mp <- barplot(MFA$mtxA[,1],names.arg=paste(round(MFA$mtxA[,2],2),"%",sep=""),
-                main = "Variancias dos componentes")
+                main = "Variance of the components")
   ##### FIM - Plotagem dos Autovalores #####
   
   if (casc) dev.new() # efeito cascata na apresentacao dos graficos
@@ -109,9 +109,12 @@ Plot.MFA <- function(MFA, titles = NA, xlabel = NA, ylabel = NA, posleg = 2,
   ##### INICIO - Scree-plot dos componentes #####
   plot(1:length(MFA$mtxA[,1]), MFA$mtxA[,1], 
        type = "n", # nao plota pontos
-       xlab = "Ordem dos componentes", 
-       ylab = "Variancia",
+       xlab = "Order of the components", 
+       ylab = "Variance",
+       xaxt = "n", # tira o eixo x
        main = titles[1])
+  
+  axis(1, c(1:length(MFA$mtxA[,1])), c(1:length(MFA$mtxA[,1])))
   
   if (grid) {
     
