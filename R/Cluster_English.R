@@ -1,7 +1,9 @@
 Cluster <- function(data, titles = NA, hierarquico = TRUE, analise = "Obs",  
                     corabs = FALSE, normaliza = FALSE, distance = "euclidean",  
                     method = "complete", horizontal = FALSE, numgrupos = 0,
-                    lambda = 2, casc = TRUE) {
+                    lambda = 2, savptc = FALSE, width = 3236, height = 2000, 
+                    res = 300, casc = TRUE) {
+  
   # Esta funcao executa a analise de Agrupamentos hierarquicos e
   # Nao-hierarquicos, desenvolvida por Paulo Cesar Ossani em 07/2016
   
@@ -25,6 +27,10 @@ Cluster <- function(data, titles = NA, hierarquico = TRUE, analise = "Obs",
   # horizontal - Dendrograma na horizontal (default = FALSE).
   # numgrupos - Numero de grupos a formar.
   # lambda    - Valor usado na distancia de minkowski.
+  # savptc   - Salva as imagens dos graficos em arquivos (default = FALSE).
+  # width    - Largura do grafico quanto savptc = TRUE (defaul = 3236).
+  # height   - Altura do grafico quanto savptc = TRUE (default = 2000).
+  # res      - Resolucao nominal em ppi do grafico quanto savptc = TRUE (default = 300).
   # casc    - Efeito cascata na apresentacao dos graficos (default = TRUE).
   
   # Retorna:
@@ -86,7 +92,19 @@ Cluster <- function(data, titles = NA, hierarquico = TRUE, analise = "Obs",
   if (!is.numeric(lambda) || lambda <= 0)
      stop("'lambda' input is incorrect, it is necessary lambda > 0. Verify!") 
            
-  if (!is.logical(casc))
+  if (!is.logical(savptc))
+     stop("'savptc' input is incorrect, it should be TRUE or FALSE. Verify!")
+  
+  if (!is.numeric(width) || width <= 0)
+     stop("'width' input is incorrect, it should be numerical and greater than zero. Verify!")
+  
+  if (!is.numeric(height) || height <= 0)
+     stop("'height' input is incorrect, it should be numerical and greater than zero. Verify!")
+  
+  if (!is.numeric(res) || res <= 0)
+     stop("'res' input is incorrect, it should be numerical and greater than zero. Verify!")
+  
+  if (!is.logical(casc && !savptc))
      stop("'casc' input is incorrect, it should be TRUE or FALSE. Verify!")
   
   dataNew <- data # dados a serem analizados
@@ -101,7 +119,12 @@ Cluster <- function(data, titles = NA, hierarquico = TRUE, analise = "Obs",
   
   ### INICIO - Agrupamentos hierarquicos ###
   if (hierarquico) {
-     
+    
+     if (savptc) {
+        cat("\014") # limpa a tela
+        cat("\n\n Saving graphics to hard disk. Wait for the end!")
+     }
+    
      if (analise == "OBS") # analise nas observacoes
          Md <- dist(dataNew, method = distance, p = lambda) # matrix das distancias
      
@@ -144,7 +167,9 @@ Cluster <- function(data, titles = NA, hierarquico = TRUE, analise = "Obs",
      ## INICIO - Screen plots ##
      if (analise == "OBS") {
         
-        if (casc) dev.new() # efeito cascata na apresentacao dos graficos
+        if (casc && !savptc) dev.new() # efeito cascata na apresentacao dos graficos
+       
+        if (savptc) png(filename = "Figure Cluster Screen plots 1.png", width = width, height = height, res = res) # salva os graficos em arquivos
        
         plot(length(Sim):1, 1/Sim, 
              type = "b", 
@@ -154,24 +179,32 @@ Cluster <- function(data, titles = NA, hierarquico = TRUE, analise = "Obs",
              
         abline(v=numgrupos, cex = 1.5, lty = 2) # cria o eixo no agrupamento desejado
         
-        if (casc) dev.new() # efeito cascata na apresentacao dos graficos
+        if (savptc) dev.off() 
+        
+        if (casc && !savptc) dev.new() # efeito cascata na apresentacao dos graficos
+        
+        if (savptc) png(filename = "Figure Cluster Screen plots 2.png", width = width, height = height, res = res) # salva os graficos em arquivos
         
         plot(length(Distancia):1, Distancia, 
              type ="b", 
              xlab ="Number of clusters", 
-             ylab ="distances within groups",
+             ylab ="Distances within groups",
              main = titles[2]) # Titulo)
              
         abline(v=numgrupos, cex = 1.5, lty = 2) # cria o eixo no agrupamento desejado
+        
+        if (savptc) dev.off() 
      }
      ## FIM - Screen plots ##
  
-     if (casc) dev.new() # efeito cascata na apresentacao dos graficos
+     if (casc && !savptc) dev.new()  # efeito cascata na apresentacao dos graficos
      
      ## INICIO - Plotagem do Dendrograma ##
+     if (savptc) png(filename = "Figure Cluster Dendrogram.png", width = width, height = height, res = res) # salva os graficos em arquivos
+     
      Dendo <- as.dendrogram(hc)
      plot(Dendo, # cordenadas para plotar
-          ylab   = "distance",  # Nomeia Eixo Y
+          ylab   = "Distance",  # Nomeia Eixo Y
           main   = titles[3],   # Titulo
           center = TRUE,        # centraliza o grafico
           horiz  = horizontal,  # posicao do grafico
@@ -179,6 +212,11 @@ Cluster <- function(data, titles = NA, hierarquico = TRUE, analise = "Obs",
      
      if (numgrupos > 1 && !horizontal) 
         rect.hclust(hc, k = numgrupos, border = "red") # coloca retangulos nos agrupamentos de acordo com numgrupos
+     
+     if (savptc) { 
+        dev.off() 
+        cat("\n \n End!")
+     }
      ## FIM - Plotagem do Dendrograma ##
   }
   ### FIM - Agrupamentos hierarquicos ###

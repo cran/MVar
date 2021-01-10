@@ -64,19 +64,19 @@ data  = iris[,1:4] # data to be classified
 class = iris[,5]   # data class
 prior = c(1,1,1)/3 # a priori probability of the classs
 
-Res <- DA(data, class, type = "lda", validation = "learning", 
+res <- DA(data, class, type = "lda", validation = "learning", 
           method = "mle", prior = prior, testing = NA)
 
-print("confusion table:"); Res$confusion
-print("Overall hit ratio:"); 1 - Res$error.rate
-print("Probability of classes:"); Res$prior
-print("classification method:"); Res$method
-print("type of discriminant analysis:"); Res$type
-print("class names:"); Res$class.names
-print("Number of classess:"); Res$num.class
-print("type of validation:"); Res$validation
-print("Number of correct observations:"); Res$num.correct
-print("Matrix with comparative classification results:"); Res$results
+print("confusion table:"); res$confusion
+print("Overall hit ratio:"); 1 - res$error.rate
+print("Probability of classes:"); res$prior
+print("classification method:"); res$method
+print("type of discriminant analysis:"); res$type
+print("class names:"); res$class.names
+print("Number of classess:"); res$num.class
+print("type of validation:"); res$validation
+print("Number of correct observations:"); res$num.correct
+print("Matrix with comparative classification results:"); res$results
 
 
 ### cross-validation ###
@@ -89,13 +89,13 @@ dim(datatest)  # test data dimension
 
 testing  = as.integer(rownames(datatest)) # test data index
 
-Res <- DA(data, class, type = "qda", validation = "testing", 
+res <- DA(data, class, type = "qda", validation = "testing", 
           method = "moment", prior = NA, testing = testing)
 
-print("confusion table:"); Res$confusion
-print("Overall hit ratio:"); 1 - Res$error.rate
-print("Number of correct observations:"); Res$num.correct
-print("Matrix with comparative classification results:"); Res$results
+print("confusion table:"); res$confusion
+print("Overall hit ratio:"); 1 - res$error.rate
+print("Number of correct observations:"); res$num.correct
+print("Matrix with comparative classification results:"); res$results
 
 }
 

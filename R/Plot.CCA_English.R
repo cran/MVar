@@ -1,6 +1,6 @@
 Plot.CCA <- function(CCA, titles = NA, xlabel = NA, ylabel = NA, 
-                     size = 1.1, grid = TRUE, color = TRUE, 
-                     casc = TRUE) {
+                     size = 1.1, grid = TRUE, color = TRUE, savptc = FALSE, 
+                     width = 3236, height = 2000, res = 300, casc = TRUE) {
   # Rotina para Plotar Graficos do Metodo CCA desenvolvida 
   # por Paulo Cesar Ossani em 09/04/2016
   
@@ -11,6 +11,10 @@ Plot.CCA <- function(CCA, titles = NA, xlabel = NA, ylabel = NA,
   # size   - Tamanho dos pontos nos graficos.
   # grid   - Coloca grade nos graficos.
   # color  - Graficos coloridos (default = TRUE).
+  # savptc - Salva as imagens dos graficos em arquivos (default = FALSE).
+  # width  - Largura do grafico quanto savptc = TRUE (defaul = 3236).
+  # height - Altura do grafico quanto savptc = TRUE (default = 2000).
+  # res    - Resolucao nominal em ppi do grafico quanto savptc = TRUE (default = 300).
   # casc   - Efeito cascata na apresentacao dos graficos (default = TRUE).
   
   # Retorna:
@@ -39,18 +43,35 @@ Plot.CCA <- function(CCA, titles = NA, xlabel = NA, ylabel = NA,
   if (!is.logical(color))
      stop("'color' input is incorrect, it should be TRUE or FALSE. Verify!")
   
-  if (!is.logical(casc))
+  if (!is.logical(savptc))
+     stop("'savptc' input is incorrect, it should be TRUE or FALSE. Verify!")
+  
+  if (!is.numeric(width) || width <= 0)
+     stop("'width' input is incorrect, it should be numerical and greater than zero. Verify!")
+  
+  if (!is.numeric(height) || height <= 0)
+     stop("'height' input is incorrect, it should be numerical and greater than zero. Verify!")
+  
+  if (!is.numeric(res) || res <= 0)
+     stop("'res' input is incorrect, it should be numerical and greater than zero. Verify!")
+  
+  if (!is.logical(casc && !savptc))
      stop("'casc' input is incorrect, it should be TRUE or FALSE. Verify!")
   
-  if (is.na(xlabel[1]))
-     xlabel = "X-Axis"
+  if (is.na(xlabel[1])) xlabel = "X-axis"
   
-  if (is.na(ylabel[1]))
-     ylabel = "Y-Axis"
+  if (is.na(ylabel[1])) ylabel = "Y-axis"
   
-  if (casc) dev.new() # efeito cascata na apresentacao dos graficos
+  if (savptc) {
+     cat("\014") # limpa a tela
+     cat("\n\n Saving graphics to hard disk. Wait for the end!")
+  }
+  
+  if (casc && !savptc) dev.new() # efeito cascata na apresentacao dos graficos
   
   ##### INICIO - Scree-plot dos fatores #####
+  if (savptc) png(filename = "Figure CCA Scree Plot.png", width = width, height = height, res = res) # salva os graficos em arquivos
+  
   plot(1:length(CCA$var.UV[,1]), CCA$var.UV[,1], 
        type = "n", # nao plota pontos
        xlab = "Order of canonical pairs", 
@@ -73,11 +94,15 @@ Plot.CCA <- function(CCA, titles = NA, xlabel = NA, ylabel = NA,
   }
   
   points(1:length(CCA$var.UV[,1]), CCA$var.UV[,1], type = "b")
+  
+  if (savptc) { box(col = 'white'); dev.off() }
   ##### FIM - Scree-plot dos fatores #####
   
-  if (casc) dev.new() # efeito cascata na apresentacao dos graficos
+  if (casc && !savptc) dev.new() # efeito cascata na apresentacao dos graficos
   
   ##### INICIO - Plotagem Correlacoes entre as variaveis canonicas e as variaveis originais #####
+  if (savptc) png(filename = "Figure CCA Correlations.png", width = width, height = height, res = res) # salva os graficos em arquivos
+  
   plot(0,0, 
        xlab = xlabel, # Nomeia Eixo X
        ylab = ylabel, # Nomeia Eixo Y
@@ -111,11 +136,15 @@ Plot.CCA <- function(CCA, titles = NA, xlabel = NA, ylabel = NA,
   ## Grupo Y
   arrows(0,0,CCA$corr.Y[,1], CCA$corr.Y[,2], lty = 1, code = 2, angle = 10, col = ifelse(color,"blue","black")) # cria a seta apontando para cada ponto do grupo Y
   LocLab(CCA$corr.Y, rownames(CCA$corr.Y), col = ifelse(color,"Blue","black"))  # Coloca os nomes dos pontos das coordenadas principais das linhas
+  
+  if (savptc) { box(col = 'white'); dev.off() }
   ##### FIM - Plotagem Correlacoes entre as variaveis canonicas e as variaveis originais #####
   
-  if (casc) dev.new() # efeito cascata na apresentacao dos graficos
+  if (casc && !savptc) dev.new() # efeito cascata na apresentacao dos graficos
   
   ##### INICIO - Plotagem dos scores dos grupos X e Y #####
+  if (savptc) png(filename = "Figure CCA Scores X.png", width = width, height = height, res = res) # salva os graficos em arquivos
+  
   plot(CCA$score.X, # grafico para os scores do grupo X
        xlab = xlabel, # Nomeia Eixo X
        ylab = ylabel, # Nomeia Eixo Y
@@ -144,13 +173,17 @@ Plot.CCA <- function(CCA, titles = NA, xlabel = NA, ylabel = NA,
   
   abline(h = 0, v = 0, cex = 1.5, lty = 2) # cria o eixo central
   
-  if (is.na(rownames(CCA$score.X)[1])) LineNames <- as.character(1:nrow(CCA$score.X))
+  if (is.null(rownames(CCA$score.X)[1])) LineNames <- as.character(1:nrow(CCA$score.X))
   
-  if (!is.na(rownames(CCA$score.X)[1])) LineNames <- rownames(CCA$score.X)
+  if (!is.null(rownames(CCA$score.X)[1])) LineNames <- rownames(CCA$score.X)
   
   LocLab(CCA$score.X, LineNames)  # Coloca os nomes dos pontos das coordenadas principais das linhas
   
-  if (casc) dev.new() # efeito cascata na apresentacao dos graficos
+  if (savptc) { box(col = 'white'); dev.off() }
+  
+  if (casc && !savptc) dev.new() # efeito cascata na apresentacao dos graficos
+  
+  if (savptc) png(filename = "Figure CCA Scores Y.png", width = width, height = height, res = res) # salva os graficos em arquivos
   
   plot(CCA$score.Y, # grafico para os scores do grupo Y
        xlab = xlabel, # Nomeia Eixo X
@@ -180,11 +213,15 @@ Plot.CCA <- function(CCA, titles = NA, xlabel = NA, ylabel = NA,
   
   abline(h = 0, v = 0, cex = 1.5, lty = 2) # cria o eixo central
   
-  if (is.na(rownames(CCA$score.Y)[1])) LineNames <- as.character(1:nrow(CCA$score.Y))
+  if (is.null(rownames(CCA$score.Y)[1])) LineNames <- as.character(1:nrow(CCA$score.Y))
   
-  if (!is.na(rownames(CCA$score.Y)[1])) LineNames <- rownames(CCA$score.Y)
+  if (!is.null(rownames(CCA$score.Y)[1])) LineNames <- rownames(CCA$score.Y)
   
   LocLab(CCA$score.Y, LineNames)  # Coloca os nomes dos pontos das coordenadas principais das linhas
+  
+  if (savptc) { box(col = 'white'); dev.off() }
   ##### FIM - Plotagem dos scores dos grupos X e Y #####
+  
+  if (savptc) cat("\n \n End!")
   
 }

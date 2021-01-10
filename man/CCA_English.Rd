@@ -59,31 +59,31 @@ data <- DataMix[,2:ncol(DataMix)]
 
 rownames(data) <- DataMix[,1]
 
-X <- as.data.frame(NormData(data[,1:2],2))
+X <- data[,1:2]
 
-Y <- as.data.frame(NormData(data[,5:6],2))
+Y <- data[,5:6]
 
-Resp <- CCA(X, Y, type = 1, test = "Bartlett", sign = 0.05)
+res <- CCA(X, Y, type = 2, test = "Bartlett", sign = 0.05)
 
-print("Matrix with eigenvalues (variances) of the canonical pairs U and V:"); round(Resp$var.UV,3)
+print("Matrix with eigenvalues (variances) of the canonical pairs U and V:"); round(res$var.UV,3)
 
-print("Matrix of the correlation of the canonical pairs U and V:"); round(Resp$corr.UV,3)
+print("Matrix of the correlation of the canonical pairs U and V:"); round(res$corr.UV,3)
 
-print("Matrix of the canonical coefficients of the group X:"); round(Resp$coef.X,3)
+print("Matrix of the canonical coefficients of the group X:"); round(res$coef.X,3)
 
-print("Matrix of the canonical coefficients of the group Y:"); round(Resp$coef.Y,3)
-
-print("Matrix of the correlations between the canonical 
-       variables and the original variables of the group X:"); round(Resp$corr.X,3)
+print("Matrix of the canonical coefficients of the group Y:"); round(res$coef.Y,3)
 
 print("Matrix of the correlations between the canonical 
-       variables and the original variables of the group Y:"); round(Resp$corr.Y,3)
+       variables and the original variables of the group X:"); round(res$corr.X,3)
 
-print("Matrix with the scores of the group X:"); round(Resp$score.X,3)
+print("Matrix of the correlations between the canonical 
+       variables and the original variables of the group Y:"); round(res$corr.Y,3)
 
-print("Matrix with the scores of the group Y:"); round(Resp$score.Y,3)
+print("Matrix with the scores of the group X:"); round(res$score.X,3)
 
-print("test of significance of the canonical pairs:"); Resp$sigtest
+print("Matrix with the scores of the group Y:"); round(res$score.Y,3)
+
+print("test of significance of the canonical pairs:"); res$sigtest
 }
 
 \keyword{Analysis of canonical correlation}

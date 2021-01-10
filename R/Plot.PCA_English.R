@@ -1,5 +1,6 @@
 Plot.PCA <- function(PC, titles = NA, xlabel = NA, ylabel = NA, size = 1.1,
-                     grid = TRUE, color = TRUE, linlab = NA, casc = TRUE) {
+                     grid = TRUE, color = TRUE, linlab = NA, savptc = FALSE, 
+                     width = 3236, height = 2000, res = 300, casc = TRUE) {
   # Rotina para Plotar Graficos do Metodo PCA desenvolvida 
   # por Paulo Cesar Ossani em 11/2014
   
@@ -11,7 +12,11 @@ Plot.PCA <- function(PC, titles = NA, xlabel = NA, ylabel = NA, size = 1.1,
   # size   - Tamanho dos pontos nos graficos.
   # grid   - Coloca grade nos graficos.
   # color  - Graficos coloridos (default = TRUE).
-  # linlab - Vetor com os rotulos das observacoes
+  # linlab - Vetor com os rotulos das observacoes.
+  # savptc - Salva as imagens dos graficos em arquivos (default = FALSE).
+  # width  - Largura do grafico quanto savptc = TRUE (defaul = 3236).
+  # height - Altura do grafico quanto savptc = TRUE (default = 2000).
+  # res    - Resolucao nominal em ppi do grafico quanto savptc = TRUE (default = 300).
   # casc   - Efeito cascata na apresentacao dos graficos (default = TRUE).
   
   # Retorna:
@@ -41,7 +46,19 @@ Plot.PCA <- function(PC, titles = NA, xlabel = NA, ylabel = NA, size = 1.1,
   if (!is.na(linlab[1]) && length(linlab)!=nrow(PC$mtxscores))
      stop("'linlab' input is incorrect, it should have the same number of rows as the input in the database. Verify!")
   
-  if (!is.logical(casc))
+  if (!is.logical(savptc))
+     stop("'savptc' input is incorrect, it should be TRUE or FALSE. Verify!")
+  
+  if (!is.numeric(width) || width <= 0)
+     stop("'width' input is incorrect, it should be numerical and greater than zero. Verify!")
+  
+  if (!is.numeric(height) || height <= 0)
+     stop("'height' input is incorrect, it should be numerical and greater than zero. Verify!")
+  
+  if (!is.numeric(res) || res <= 0)
+     stop("'res' input is incorrect, it should be numerical and greater than zero. Verify!")
+
+  if (!is.logical(casc && !savptc))
      stop("'casc' input is incorrect, it should be TRUE or FALSE. Verify!")
  
   if (is.na(xlabel[1]))
@@ -51,16 +68,27 @@ Plot.PCA <- function(PC, titles = NA, xlabel = NA, ylabel = NA, size = 1.1,
      ylabel = paste("Second coordinate (",round(PC$mtxAutvlr[2,2],2),"%)",sep="")
   #####   FIM - Informacoes usadas nos Graficos  #####
   
-  if (casc) dev.new() # efeito cascata na apresentacao dos graficos
+  if (savptc) {
+     cat("\014") # limpa a tela
+     cat("\n\n Saving graphics to hard disk. Wait for the end!")
+  }
+  
+  if (casc && !savptc) dev.new() # efeito cascata na apresentacao dos graficos
   
   ##### INICIO - Plotagem dos Autovalores #####
+  if (savptc) png(filename = "Figure PCA Variances.png", width = width, height = height, res = res) # salva os graficos em arquivos
+  
   mp <- barplot(PC$mtxAutvlr[,1],names.arg=paste(round(PC$mtxAutvlr[,2],2),"%",sep=""),
                 main = "Variance of the components")
+  
+  if (savptc) { box(col = 'white'); dev.off() }
   ##### FIM - Plotagem dos Autovalores #####
   
-  if (casc) dev.new() # efeito cascata na apresentacao dos graficos
+  if (casc && !savptc) dev.new() # efeito cascata na apresentacao dos graficos
   
   ##### INICIO - Scree-plot dos componentes #####
+  if (savptc) png(filename = "Figure PCA Scree Plot.png", width = width, height = height, res = res) # salva os graficos em arquivos
+  
   plot(1:length(PC$mtxAutvlr[,1]), PC$mtxAutvlr[,1],
        type = "n", # nao plota pontos
        xlab = "Order of the components", 
@@ -83,11 +111,15 @@ Plot.PCA <- function(PC, titles = NA, xlabel = NA, ylabel = NA, size = 1.1,
   }
   
   points(1:length(PC$mtxAutvlr[,1]), PC$mtxAutvlr[,1], type = "b")
+  
+  if (savptc) { box(col = 'white'); dev.off() }
   ##### FIM - Scree-plot dos componentes #####
   
-  if (casc) dev.new() # efeito cascata na apresentacao dos graficos
+  if (casc && !savptc) dev.new() # efeito cascata na apresentacao dos graficos
   
   ##### INICIO - Plotagem dos Dados das linhas #####
+  if (savptc) png(filename = "Figure PCA Observations.png", width = width, height = height, res = res) # salva os graficos em arquivo
+  
   plot(PC$mtxscores, # cria grafico para as coordenadas principais das linhas
        xlab = xlabel, # Nomeia Eixo X
        ylab = ylabel, # Nomeia Eixo Y
@@ -117,11 +149,15 @@ Plot.PCA <- function(PC, titles = NA, xlabel = NA, ylabel = NA, size = 1.1,
   abline(h = 0, v=0, cex = 1.5, lty=2) # cria o eixo central
   
   if (!is.na(linlab[1])) LocLab(PC$mtxscores, cex = 1, linlab)
+  
+  if (savptc) { box(col = 'white'); dev.off() }
   ##### FIM - Plotagem dos Dados das linhas #####
   
-  if (casc) dev.new() # efeito cascata na apresentacao dos graficos
+  if (casc && !savptc) dev.new() # efeito cascata na apresentacao dos graficos
   
   ##### INICIO - Plotagem das Correlacoes dos Componentes Principais com as Variaveis Originais #####
+  if (savptc) png(filename = "Figure PCA Correlations.png", width = width, height = height, res = res) # salva os graficos em arquivo
+  
   plot(0,0, # cria grafico para as coordenadas das Correlacoes dos Componentes Principais com as Variaveis Originais
        xlab = xlabel, # Nomeia Eixo X
        ylab = ylabel, # Nomeia Eixo Y
@@ -151,5 +187,10 @@ Plot.PCA <- function(PC, titles = NA, xlabel = NA, ylabel = NA, size = 1.1,
   arrows(0,0,PC$mtxCCP[1,],PC$mtxCCP[2,], lty=1, code = 2, length = 0.08, angle = 25, col = ifelse(color,"Red","Black")) # cria a seta apontando para cada coordenada principal
   
   LocLab(t(PC$mtxCCP), cex=1, colnames(PC$mtxCCP) , col = ifelse(color,"Blue","Black"), xpd = TRUE)
+  
+  if (savptc) { box(col = 'white'); dev.off() }
   ##### FIM - Plotagem das Correlacoes dos Componentes Principais com as Variaveis Originais #####
+  
+  if (savptc) cat("\n \n End!")
+  
 }

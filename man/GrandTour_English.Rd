@@ -10,7 +10,7 @@
           ylabel = NA, size = 1.1, grid = TRUE, color = TRUE, linlab = NA, 
           class = NA, classcolor = NA, posleg = 2, boxleg = TRUE,  
           axesvar = TRUE, axes = TRUE, numrot = 200, choicerot = NA, 
-          savepicture = FALSE)}
+          savptc = FALSE, width = 3236, height = 2000, res = 300)}
 
 \arguments{
 \item{data    }{Numerical data set.}
@@ -36,8 +36,11 @@
   \item{axesvar }{Puts axes of rotation of the variables (default = TRUE).}
   \item{axes}{Plots the X and Y axes (default = TRUE).}
   \item{numrot}{Number of rotations (default = 200). If method = "Interpolation", numrot represents the angle of rotation.}
-  \item{choicerot}{Choose specific rotation and display on the screen, or save the image if savepicture = TRUE.}
-  \item{savepicture}{Saves graphics images to files (default = FALSE).}          
+  \item{choicerot}{Choose specific rotation and display on the screen, or save the image if savptc = TRUE.}
+  \item{savptc}{Saves graphics images to files (default = FALSE).} 
+  \item{width}{Graphics images width when savptc = TRUE (defaul = 3236).}
+  \item{height}{Graphics images height when savptc = TRUE (default = 2000).}
+  \item{res}{Nominal resolution in ppi of the graphics images when savptc = TRUE (default = 300).}
 }
 
 \value{{Graphs with rotations.}
@@ -73,24 +76,25 @@ Marcelo Angelo Cirillo
 \examples{
 data(iris) # database
 
-Res <- GrandTour(iris[,1:4], method = "Torus", title = NA, xlabel = NA, ylabel = NA,
+res <- GrandTour(iris[,1:4], method = "Torus", title = NA, xlabel = NA, ylabel = NA,
                  color = TRUE, linlab = NA, class = NA, posleg = 2, boxleg = TRUE, 
                  axesvar = TRUE, axes = FALSE, numrot = 10, choicerot = NA,
-                 savepicture = FALSE)
+                 savptc = FALSE, width = 3236, height = 2000, res = 300)
 
-print("Projected data:"); Res$proj.data
-print("Projection vectors:"); Res$vector.opt
-print("Grand Tour projection method:"); Res$method
+print("Projected data:"); res$proj.data
+print("Projection vectors:"); res$vector.opt
+print("Grand Tour projection method:"); res$method
 
         
-Res <- GrandTour(iris[,1:4], method = "Interpolation", title = NA, xlabel = NA, ylabel = NA,
+res <- GrandTour(iris[,1:4], method = "Interpolation", title = NA, xlabel = NA, ylabel = NA,
                  color = TRUE, linlab = NA, posleg = 2, boxleg = FALSE, axesvar = FALSE, 
                  axes = FALSE, numrot = 10, choicerot = NA, class = iris[,5],
-                 classcolor = c("goldenrod3","gray53","red"), savepicture = FALSE)
+                 classcolor = c("goldenrod3","gray53","red"),savptc = FALSE, 
+                 width = 3236, height = 2000, res = 300)
          
-print("Projected data:"); Res$proj.data
-print("Projection vectors:"); Res$vector.opt
-print("Grand Tour projection method:"); Res$method
+print("Projected data:"); res$proj.data
+print("Projection vectors:"); res$vector.opt
+print("Grand Tour projection method:"); res$method
 
 }
 

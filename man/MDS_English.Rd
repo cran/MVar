@@ -9,7 +9,8 @@
 \usage{MDS(data, distance = "euclidean", title = NA, xlabel = NA,  
     ylabel = NA, posleg = 2, boxleg = TRUE, axes = TRUE, 
     size = 1.1, grid = TRUE, color = TRUE, linlab = NA, 
-    class = NA, classcolor = NA)}
+    class = NA, classcolor = NA, savptc = FALSE, width = 3236, 
+    height = 2000, res = 300)}
 
 \arguments{
   \item{data}{Data to be analyzed.}
@@ -30,6 +31,10 @@
   \item{linlab}{Vector with the labels for the observations.}
   \item{class}{Vector with names of data classes.}
   \item{classcolor}{Vector with the colors of the classes.}
+  \item{savptc}{Saves graphics images to files (default = FALSE).} 
+  \item{width}{Graphics images width when savptc = TRUE (defaul = 3236).}
+  \item{height}{Graphics images height when savptc = TRUE (default = 2000).}
+  \item{res}{Nominal resolution in ppi of the graphics images when savptc = TRUE (default = 300).}
 }
 
 \value{{Multidimensional Scaling.}
@@ -55,11 +60,12 @@ data <- iris[,1:4]
 
 cls <- iris[,5] # data class
 
-MD <- MDS(data = data, distance = "euclidean", title = NA, xlabel = NA,  
+md <- MDS(data = data, distance = "euclidean", title = NA, xlabel = NA,  
           ylabel = NA, posleg = 2, boxleg = TRUE, axes = TRUE, color = TRUE,
-          linlab = NA, class = cls, classcolor = c("goldenrod3","gray53","red"))
+          linlab = NA, class = cls, classcolor = c("goldenrod3","gray53","red"),
+          savptc = FALSE, width = 3236, height = 2000, res = 300)
           
-print("Matrix of the distances:"); MD$mtxD
+print("Matrix of the distances:"); md$mtxD
 }
 
 \keyword{Multidimensional Scaling}

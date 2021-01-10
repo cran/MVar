@@ -23,21 +23,21 @@ OSSANI, P. C. \emph{Qualidade de cafes especiais e nao especiais por meio da ana
 \examples{
 data(DataCoffee) # categorized data set
 
-Data <- DataCoffee[,2:ncol(DataCoffee)] 
+data <- DataCoffee[,2:ncol(DataCoffee)] 
 
-rownames(Data) <- as.character(t(DataCoffee[1:nrow(DataCoffee),1]))
+rownames(data) <- as.character(t(DataCoffee[1:nrow(DataCoffee),1]))
 
-GroupNames = c("Coffee A", "Coffee B", "Coffee C", "Coffee D")
+group.names = c("Coffee A", "Coffee B", "Coffee C", "Coffee D")
 
-MF <- MFA(Data, c(16,16,16,16), c(rep("f",4)), GroupNames) 
+mf <- MFA(data, c(16,16,16,16), c(rep("f",4)), group.names) 
 
-print("Principal components variances:"); round(MF$mtxA,2)
+print("Principal components variances:"); round(mf$mtxA,2)
 
-print("Matrix of the Partial Inertia / Score of the Variables:"); round(MF$mtxEV,2)
+print("Matrix of the Partial Inertia / Score of the Variables:"); round(mf$mtxEV,2)
 
-Tit = c("Scree-plot","Individuals","Individuals / Types coffees","Inercias Groups")
+tit <- c("Scree-plot","Individuals","Individuals / Types coffees","Inercias Groups")
 
-Plot.MFA(MF, titles = Tit, xlabel = NA, ylabel = NA,
+Plot.MFA(mf, titles = tit, xlabel = NA, ylabel = NA,
          posleg = 2, boxleg = FALSE, color = TRUE, 
          namarr = FALSE, linlab = NA, casc = FALSE) # plotting several graphs on the screen
 

@@ -8,7 +8,8 @@
 
 \usage{Plot.Regr(Reg, typegraf = "Scatterplot", title = NA, xlabel = NA, 
           ylabel = NA, namevary = NA, namevarx = NA, size = 1.1, 
-          grid = TRUE, color = TRUE, intconf = TRUE, intprev = TRUE, 
+          grid = TRUE, color = TRUE, intconf = TRUE, intprev = TRUE,
+          savptc = FALSE, width = 3236, height = 2000, res = 300, 
           casc = TRUE)}
 
 \arguments{
@@ -30,6 +31,10 @@
   \item{color}{Colored graphics (default = TRUE).}
   \item{intconf}{Case typegraf = "Regression". Graphics with confidence interval (default = TRUE).}
   \item{intprev}{Case typegraf = "Regression". Graphics with predictive interval (default = TRUE).}
+  \item{savptc}{Saves graphics images to files (default = FALSE).} 
+  \item{width}{Graphics images width when savptc = TRUE (defaul = 3236).}
+  \item{height}{Graphics images height when savptc = TRUE (default = 2000).}
+  \item{res}{Nominal resolution in ppi of the graphics images when savptc = TRUE (default = 300).}
   \item{casc}{Cascade effect in the presentation of the graphics (default = TRUE).}
 }
 
@@ -48,29 +53,31 @@ Y <- DataMix[,2]
 
 X <- DataMix[,7]
 
-NomeY <- "Medium grade"
+name.y <- "Medium grade"
 
-NomeX <- "Commercial coffees"
+name.x <- "Commercial coffees"
 
-Res <- Regr(Y, X, namevarx = NomeX , intercepts = TRUE, sigf = 0.05)
+res <- Regr(Y, X, namevarx = name.x , intercepts = TRUE, sigf = 0.05)
 
-Tit <- c("Scatterplot")
-Plot.Regr(Res, typegraf = "Scatterplot", title = Tit,
-          namevary = NomeY, namevarx = NomeX, color = TRUE)
+tit <- c("Scatterplot")
+Plot.Regr(res, typegraf = "Scatterplot", title = tit,
+          namevary = name.y, namevarx = name.x, color = TRUE, 
+          savptc = FALSE, width = 3236, height = 2000, res = 300)
 
-Tit <- c("Scatterplot with the adjusted line")
-Plot.Regr(Res, typegraf = "Regression", title = Tit, 
-          xlabel = NomeX, ylabel = NomeY, color = TRUE,
-          intconf = TRUE, intprev = TRUE)
+tit <- c("Scatterplot with the adjusted line")
+Plot.Regr(res, typegraf = "Regression", title = tit, 
+          xlabel = name.x, ylabel = name.y, color = TRUE,
+          intconf = TRUE, intprev = TRUE, savptc = FALSE, 
+          width = 3236, height = 2000, res = 300)
 
 dev.new() # necessary to not overlap the following graphs to the previous graph
 
 par(mfrow = c(2,2)) 
 
-Plot.Regr(Res, typegraf = "QQPlot", casc = FALSE)
-Plot.Regr(Res, typegraf = "Histogram", casc = FALSE)
-Plot.Regr(Res, typegraf = "Fits", casc = FALSE)
-Plot.Regr(Res, typegraf = "Order", casc = FALSE)
+Plot.Regr(res, typegraf = "QQPlot", casc = FALSE)
+Plot.Regr(res, typegraf = "Histogram", casc = FALSE)
+Plot.Regr(res, typegraf = "Fits", casc = FALSE)
+Plot.Regr(res, typegraf = "Order", casc = FALSE)
 }
 
 \keyword{Regression}

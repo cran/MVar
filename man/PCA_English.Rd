@@ -48,19 +48,19 @@ data <- DataQuan[,2:8]
 
 rownames(data) <- DataQuan[1:nrow(DataQuan),1]
 
-PC <- PCA(data, 2) # performs the PCA
+pc <- PCA(data, 2) # performs the PCA
 
-print("Covariance matrix / Correlation:"); round(PC$mtxC,2)
+print("Covariance matrix / Correlation:"); round(pc$mtxC,2)
 
-print("Principal Components:"); round(PC$mtxAutvec,2)
+print("Principal Components:"); round(pc$mtxAutvec,2)
 
-print("Principal Component Variances:"); round(PC$mtxAutvlr,2)
+print("Principal Component Variances:"); round(pc$mtxAutvlr,2)
 
-print("Covariance of the Principal Components:"); round(PC$mtxVCP,2)
+print("Covariance of the Principal Components:"); round(pc$mtxVCP,2)
 
-print("Correlation of the Principal Components:"); round(PC$mtxCCP,2)
+print("Correlation of the Principal Components:"); round(pc$mtxCCP,2)
 
-print("Scores of the Principal Components:"); round(PC$mtxscores,2)
+print("Scores of the Principal Components:"); round(pc$mtxscores,2)
 }
 
 \keyword{Principal Components Analysis}

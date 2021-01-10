@@ -9,7 +9,8 @@
 \usage{Biplot(data, alpha = 0.5, title = NA, xlabel = NA, ylabel = NA,
        size = 1.1, grid = TRUE, color = TRUE, var = TRUE,
        obs = TRUE, linlab = NA, class = NA, classcolor = NA,
-       posleg = 2, boxleg = TRUE, axes = TRUE)}
+       posleg = 2, boxleg = TRUE, axes = TRUE, savptc = FALSE, 
+       width = 3236, height = 2000, res = 300)}
 
 \arguments{
   \item{data}{Data for plotting.}
@@ -32,6 +33,10 @@
                 4 for caption in the left lower corner.}
   \item{boxleg}{Puts the frame in the caption (default = TRUE).}
   \item{axes}{Plots the X and Y axes (default = TRUE).}
+  \item{savptc}{Saves graphics images to files (default = FALSE).} 
+  \item{width}{Graphics images width when savptc = TRUE (defaul = 3236).}
+  \item{height}{Graphics images height when savptc = TRUE (default = 2000).}
+  \item{res}{Nominal resolution in ppi of the graphics images when savptc = TRUE (default = 300).}
 }
 
 \value{
@@ -65,12 +70,14 @@ Biplot(data)
 cls <- iris[,5]
 res <- Biplot(data, alpha = 0.6, title = "Biplot of data valuing individuals",
               class = cls, classcolor = c("goldenrod3","gray56","red"),
-              posleg = 2, boxleg = FALSE, axes = TRUE)
+              posleg = 2, boxleg = FALSE, axes = TRUE, savptc = FALSE, 
+              width = 3236, height = 2000, res = 300)
 print(res$pvar)
 
 
 res <- Biplot(data, alpha = 0.4, title = "Graph valuing the variables",
-              xlabel = "", ylabel = "", color = FALSE, obs = FALSE) 
+              xlabel = "", ylabel = "", color = FALSE, obs = FALSE,
+              savptc = FALSE, width = 3236, height = 2000, res = 300) 
 print(res$pvar)
 
 }

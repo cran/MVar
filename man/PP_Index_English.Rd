@@ -49,6 +49,8 @@
 }
 
 \references{
+OSSANI, P. C.; FIGUEIRA, M. R.; CIRILLO, M. A. Proposition of a new index for projection pursuit in the multiple factor analysis. \emph{Computational and Mathematical Methods}, v. 1, p. 1-18, 2020.
+
 COOK, D., BUJA, A., CABRERA, J.. Projection pursuit indexes based on orthonormal function expansions. \emph{Journal of Computational and Graphical Statistics}, 2(3):225-250, 1993.
 
 COOK, D., BUJA, A., CABRERA, J., HURLEY, C.. Grand tour and projection pursuit, \emph{Journal of Computational and Graphical Statistics}, 4(3), 155-172, 1995.
@@ -95,46 +97,46 @@ data(iris) # data set
 data <- iris[,1:4]
 
 # Example 1 - Without the classes in the data
-Ind <- PP_Index(data = data, class = NA, vector.proj = NA, 
+ind <- PP_Index(data = data, class = NA, vector.proj = NA, 
                 findex = "moment", dimproj = 2, weight = TRUE, 
                 lambda = 0.1, r = 1)
 
-print("Number of classes:"); Ind$num.class
-print("class Names:"); Ind$class.names
-print("Projection index function:"); Ind$findex
-print("Projection vectors:"); Ind$vector.proj  
-print("Projection index:"); Ind$index
+print("Number of classes:"); ind$num.class
+print("class Names:"); ind$class.names
+print("Projection index function:"); ind$findex
+print("Projection vectors:"); ind$vector.proj  
+print("Projection index:"); ind$index
 
 
 # Example 2 - With the classes in the data
 class <- iris[,5] # data class
 
-Fcindex <- "pda" # index function
+findex <- "pda" # index function
 
 sphere <- TRUE # spherical data
 
-Res <- PP_Optimizer(data = data, class = class, findex = Fcindex,
+res <- PP_Optimizer(data = data, class = class, findex = findex,
                     optmethod = "SA", dimproj = 2, sphere = sphere, 
                     weight = TRUE, lambda = 0.1, r = 1, cooling = 0.9, 
                     eps = 1e-3, maxiter = 1000, half = 30)
 
 # Comparing the result obtained
-if (match(toupper(Fcindex),c("LDA", "PDA", "LR"), nomatch = 0) > 0) {
+if (match(toupper(findex),c("LDA", "PDA", "LR"), nomatch = 0) > 0) {
   if (sphere) {
      data <- apply(predict(prcomp(data)), 2, scale) # spherical data
   }
-} else data <- as.matrix(Res$proj.data[,1:Dim])
+} else data <- as.matrix(res$proj.data[,1:Dim])
 
-Ind <- PP_Index(data = data, class = class, vector.proj = Res$vector.opt, 
-                findex = Fcindex, dimproj = 2, weight = TRUE, lambda = 0.1,
+ind <- PP_Index(data = data, class = class, vector.proj = res$vector.opt, 
+                findex = findex, dimproj = 2, weight = TRUE, lambda = 0.1,
                 r = 1)
 
-print("Number of classes:"); Ind$num.class
-print("class Names:"); Ind$class.names
-print("Projection index function:"); Ind$findex
-print("Projection vectors:"); Ind$vector.proj  
-print("Projection index:"); Ind$index
-print("Optimized Projection index:"); Res$index[length(Res$index)]
+print("Number of classes:"); ind$num.class
+print("class Names:"); ind$class.names
+print("Projection index function:"); ind$findex
+print("Projection vectors:"); ind$vector.proj  
+print("Projection index:"); ind$index
+print("Optimized Projection index:"); res$index[length(res$index)]
 }
 
 \keyword{Projection pursuit}

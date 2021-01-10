@@ -9,7 +9,8 @@
 \usage{Plot.MFA(MFA, titles = NA, xlabel = NA, ylabel = NA,
          posleg = 2, boxleg = TRUE, size = 1.1, grid = TRUE, 
          color = TRUE, groupscolor = NA, namarr = FALSE, 
-         linlab = NA, casc = TRUE)}
+         linlab = NA, savptc = FALSE, width = 3236, 
+         height = 2000, res = 300, casc = TRUE)}
  
 \arguments{
   \item{MFA}{Data of the MFA function.}
@@ -27,6 +28,10 @@
   \item{groupscolor}{Vector with the colors of the groups.}
   \item{namarr}{Puts the points names in the cloud around the centroid in the graph corresponding to the global analysis of the Individuals and Variables (default = FALSE).}
   \item{linlab}{Vector with the labels for the observations, if not set, assumes the default text.}
+  \item{savptc}{Saves graphics images to files (default = FALSE).} 
+  \item{width}{Graphics images width when savptc = TRUE (defaul = 3236).}
+  \item{height}{Graphics images height when savptc = TRUE (default = 2000).}
+  \item{res}{Nominal resolution in ppi of the graphics images when savptc = TRUE (default = 300).}
   \item{casc}{Cascade effect in the presentation of the graphics (default = TRUE).}
 }
 
@@ -43,26 +48,29 @@ Marcelo Angelo Cirillo
 \examples{
 data(DataMix) # set of mixed data
 
-Data <- DataMix[,2:ncol(DataMix)] 
+data <- DataMix[,2:ncol(DataMix)] 
 
-rownames(Data) <- DataMix[1:nrow(DataMix),1]
+rownames(data) <- DataMix[1:nrow(DataMix),1]
 
-GroupNames = c("Grade Cafes/Work", "Formation/Dedication", "Coffees")
+group.names = c("Grade Cafes/Work", "Formation/Dedication", "Coffees")
            
-MF <- MFA(Data, c(2,2,2), typegroups = c("n","c","f"), GroupNames) # performs MFA
+mf <- MFA(data, c(2,2,2), typegroups = c("n","c","f"), group.names) # performs MFA
 
-Tit = c("Scree-Plot","Observations","Observations/Variables","Inertia of the Variable Groups")
+tit <- c("Scree-Plot","Observations","Observations/Variables",
+         "Correlation Circle","Inertia of the Variable Groups")
 
-Plot.MFA(MF, titles = Tit, xlabel = NA, ylabel = NA,
+Plot.MFA(MFA = mf, titles = tit, xlabel = NA, ylabel = NA,
          posleg = 2, boxleg = FALSE, color = TRUE, 
          groupscolor = c("blue3","red","goldenrod3"),
-         namarr = FALSE, linlab = NA, 
-         casc = FALSE) # plotting several graphs on the screen
+         namarr = FALSE, linlab = NA, savptc = FALSE, 
+         width = 3236, height = 2000, res = 300, 
+         casc = TRUE) # plotting several graphs on the screen
 
-Plot.MFA(MF, titles = Tit, xlabel = NA, ylabel = NA,
+Plot.MFA(MFA = mf, titles = tit, xlabel = NA, ylabel = NA,
          posleg = 2, boxleg = FALSE, color = TRUE, 
          namarr = FALSE, linlab = rep("A?",10), 
-         casc = FALSE) # plotting several graphs on the screen
+         savptc = FALSE, width = 3236, height = 2000,
+         res = 300, casc = TRUE) # plotting several graphs on the screen
 }
 
 \keyword{Multiple Factor Analysis}

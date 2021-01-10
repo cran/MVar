@@ -7,7 +7,8 @@
 \description{Graphs of the Principal Components Analysis (PCA).}
 
 \usage{Plot.PCA(PC, titles = NA, xlabel = NA, ylabel = NA,
-         size = 1.1, grid = TRUE, color = TRUE, linlab = NA,
+         size = 1.1, grid = TRUE, color = TRUE, linlab = NA, 
+         savptc = FALSE, width = 3236, height = 2000, res = 300,
          casc = TRUE)}
 
 \arguments{
@@ -19,6 +20,10 @@
   \item{grid}{Put grid on graphs (default = TRUE).}
   \item{color}{Colored graphics (default = TRUE).}
   \item{linlab}{Vector with the labels for the observations.}
+  \item{savptc}{Saves graphics images to files (default = FALSE).} 
+  \item{width}{Graphics images width when savptc = TRUE (defaul = 3236).}
+  \item{height}{Graphics images height when savptc = TRUE (default = 2000).}
+  \item{res}{Nominal resolution in ppi of the graphics images when savptc = TRUE (default = 300).}
   \item{casc}{Cascade effect in the presentation of the graphics (default = TRUE).}
 }
 
@@ -35,16 +40,18 @@ Marcelo Angelo Cirillo
 \examples{
 data(DataQuan) # set of quantitative data
 
-Data <- DataQuan[,2:8]
+data <- DataQuan[,2:8]
 
-rownames(Data) <- DataQuan[1:nrow(DataQuan),1]
+rownames(data) <- DataQuan[1:nrow(DataQuan),1]
 
-PC <- PCA(Data, 2) # performs the PCA
+pc <- PCA(data, 2) # performs the PCA
 
-Tit = c("Scree-plot","Graph of the Observations","Circle of Correlation")
+tit <- c("Scree-plot","Graph of the Observations","Circle of Correlation")
 
-Plot.PCA(PC, titles = Tit, xlabel = NA, ylabel = NA,
-         color = TRUE, linlab = NA, casc = TRUE)
+Plot.PCA(PC = pc, titles = tit, xlabel = NA, ylabel = NA,
+         color = TRUE, linlab = NA, savptc = FALSE, 
+         width = 3236, height = 2000, res = 300,
+         casc = TRUE)
 }
 
 \keyword{Principal Components Analysis}

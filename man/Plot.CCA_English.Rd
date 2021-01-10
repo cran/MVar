@@ -7,7 +7,8 @@
 \description{Graphs of the Canonical Correlation Analysis (CCA).}
 
 \usage{Plot.CCA(CCA, titles = NA, xlabel = NA, ylabel = NA,
-         size = 1.1, grid = TRUE, color = TRUE, casc = TRUE)}
+         size = 1.1, grid = TRUE, color = TRUE, savptc = FALSE, 
+         width = 3236, height = 2000, res = 300, casc = TRUE)}
 
 \arguments{
   \item{CCA}{Data of the CCA function.}
@@ -17,6 +18,10 @@
   \item{size}{Size of the points in the graphs.}
   \item{grid}{Put grid on graphs (default = TRUE).}
   \item{color}{Colored graphics (default = TRUE).}
+  \item{savptc}{Saves graphics images to files (default = FALSE).} 
+  \item{width}{Graphics images width when savptc = TRUE (defaul = 3236).}
+  \item{height}{Graphics images height when savptc = TRUE (default = 2000).}
+  \item{res}{Nominal resolution in ppi of the graphics images when savptc = TRUE (default = 300).}
   \item{casc}{Cascade effect in the presentation of the graphics (default = TRUE).}
 }
 
@@ -33,20 +38,21 @@ Marcelo Angelo Cirillo
 \examples{
 data(DataMix) # database
 
-Data <- DataMix[,2:ncol(DataMix)]
+data <- DataMix[,2:ncol(DataMix)]
 
-rownames(Data) <- DataMix[,1]
+rownames(data) <- DataMix[,1]
 
-X <- as.data.frame(NormData(Data[,1:2],2))
+X <- data[,1:2]
 
-Y <- as.data.frame(NormData(Data[,5:6],2))
+Y <- data[,5:6]
 
-Resp <- CCA(X, Y, type = 1, test = "Bartlett", sign = 0.05) # performs CCA
+res <- CCA(X, Y, type = 2, test = "Bartlett", sign = 0.05) # performs CCA
 
-Tit = c("Scree-plot","Correlations","Scores of the group X","Scores of the group Y")
+tit <- c("Scree-plot","Correlations","Scores of the group X","Scores of the group Y")
 
-Plot.CCA(Resp, titles = Tit, xlabel = NA, ylabel = NA,
-         color = TRUE, casc = TRUE)
+Plot.CCA(res, titles = tit, xlabel = NA, ylabel = NA,
+         color = TRUE, savptc = FALSE, width = 3236, 
+         height = 2000, res = 300, casc = TRUE)
 }
 
 \keyword{Analysis of canonical correlation}

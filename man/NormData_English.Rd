@@ -21,27 +21,27 @@ Paulo Cesar Ossani
 Marcelo Angelo Cirillo
 }
 
-\examples{
+\examples{ 
 data(DataQuan) # set of quantitative data
 
 data <- DataQuan[,2:8]
 
-Resp = NormData(data, type = 1) # normalizes the data globally
+res  <- NormData(data, type = 1) # normalizes the data globally
 
-Resp # Globally standardized data
+res # Globally standardized data
 
-sd(Resp)   # overall standard deviation
+sd(res)   # overall standard deviation
 
-mean(Resp) # overall mean
+mean(res) # overall mean
 
 
-Resp = NormData(data, type = 2) # normalizes the data per column
+res <- NormData(data, type = 2) # normalizes the data per column
 
-Resp # standardized data per column
+res # standardized data per column
 
-apply(Resp, 2, sd) # standard deviation per column
+apply(res, 2, sd) # standard deviation per column
 
-colMeans(Resp)     # column averages
+colMeans(res)     # column averages
 }
 
 \keyword{Normalizes the data.}

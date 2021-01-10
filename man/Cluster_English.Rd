@@ -9,7 +9,8 @@
 \usage{Cluster(data, titles = NA, hierarquico = TRUE, analise = "Obs",  
         corabs = FALSE, normaliza = FALSE, distance = "euclidean",  
         method = "complete", horizontal = FALSE, numgrupos = 0,
-        lambda = 2, casc = TRUE)}
+        lambda = 2, savptc = FALSE, width = 3236, height = 2000, 
+        res = 300, casc = TRUE) }
 
 \arguments{
   \item{data}{Data to be analyzed.}
@@ -23,6 +24,10 @@
   \item{horizontal}{Horizontal dendrogram (default = FALSE).}
   \item{numgrupos}{Number of groups to be formed.}
   \item{lambda}{Value used in the minkowski distance.}
+  \item{savptc}{Saves graphics images to files (default = FALSE).} 
+  \item{width}{Graphics images width when savptc = TRUE (defaul = 3236).}
+  \item{height}{Graphics images height when savptc = TRUE (default = 2000).}
+  \item{res}{Nominal resolution in ppi of the graphics images when savptc = TRUE (default = 300).}
   \item{casc}{Cascade effect in the presentation of the graphics (default = TRUE).}
 }
 
@@ -55,22 +60,24 @@ data <- DataQuan[,2:8]
 
 rownames(data) <- DataQuan[1:nrow(DataQuan),1]
 
-Res <- Cluster(data, hierarquico = TRUE, analise = "Obs", corabs = FALSE, 
-               normaliza = FALSE, distance = "euclidean", method = "ward.D", 
-               horizontal = FALSE, numgrupos = 2)
+res <- Cluster(data, titles = NA, hierarquico = TRUE, analise = "Obs",
+               corabs = FALSE, normaliza = FALSE, distance = "euclidean", 
+               method = "ward.D", horizontal = FALSE, numgrupos = 2,
+               savptc = FALSE, width = 3236, height = 2000, res = 300, 
+               casc = FALSE)
 
-print("Table with similarities and distances:"); Res$tabres
-print("groups formed:"); Res$groups
-print("Table with the results of the groups:"); Res$resgroups
-print("Total sum of squares:"); Res$sqt
-print("distance Matrix:"); Res$mtxD 
+print("Table with similarities and distances:"); res$tabres
+print("groups formed:"); res$groups
+print("Table with the results of the groups:"); res$resgroups
+print("Total sum of squares:"); res$sqt
+print("distance Matrix:"); res$mtxD 
  
-write.table(file=file.path(tempdir(),"SimilarityTable.csv"), Res$tabres, sep=";",
+write.table(file=file.path(tempdir(),"SimilarityTable.csv"), res$tabres, sep=";",
             dec=",",row.names = FALSE) 
-write.table(file=file.path(tempdir(),"Groupeddata.csv"), Res$groups, sep=";",
+write.table(file=file.path(tempdir(),"GroupData.csv"), res$groups, sep=";",
             dec=",",row.names = TRUE) 
-write.table(file=file.path(tempdir(),"GroupResults.csv"), Res$resgroups, sep=";",
-            dec=",",row.names = TRUE) 
+write.table(file=file.path(tempdir(),"GroupResults.csv"), res$resgroups, sep=";",
+            dec=",",row.names = TRUE)  
 }
 
 \keyword{Cluster Analysis}

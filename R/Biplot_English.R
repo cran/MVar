@@ -1,7 +1,8 @@
 Biplot <- function(data, alpha = 0.5, title = NA, xlabel = NA, ylabel = NA,
                    size = 1.1, grid = TRUE, color = TRUE, var = TRUE,
                    obs = TRUE, linlab = NA, class = NA, classcolor = NA,
-                   posleg = 2, boxleg = TRUE, axes = TRUE) {
+                   posleg = 2, boxleg = TRUE, axes = TRUE, savptc = FALSE,
+                   width = 3236, height = 2000, res = 300) {
   
   # Rotina para gerar Biplot desenvolvida 
   # por Paulo Cesar Ossani em 20/06/2015
@@ -29,6 +30,10 @@ Biplot <- function(data, alpha = 0.5, title = NA, xlabel = NA, ylabel = NA,
   #           4 para legenda no canto inferior esquerdo.  
   # boxleg  - Colocar moldura na legenda (default = TRUE).
   # axes    - Plota os eixos X e Y (default = TRUE).
+  # savptc  - Salva as imagens dos graficos em arquivos (default = FALSE).
+  # width   - Largura do grafico quanto savptc = TRUE (defaul = 3236).
+  # height  - Altura do grafico quanto savptc = TRUE (default = 2000).
+  # res     - Resolucao nominal em ppi do grafico quanto savptc = TRUE (default = 300).
   
   # Retorna:
   # Grafico Biplot.
@@ -41,8 +46,8 @@ Biplot <- function(data, alpha = 0.5, title = NA, xlabel = NA, ylabel = NA,
   
   ##### INICIO - Informacoes usadas nos Graficos #####
   
-  if (!is.data.frame(data))
-     stop("'data' input is incorrect, it should be of type data frame. Verify!")
+  if (!is.data.frame(data) && !is.matrix(data))
+     stop("'data' input is incorrect, it should be of type data frame or matrix. Verify!")
   
   if (!is.na(class[1])) {
      
@@ -93,10 +98,27 @@ Biplot <- function(data, alpha = 0.5, title = NA, xlabel = NA, ylabel = NA,
   
   if (!is.numeric(posleg) || posleg < 0 || posleg > 4 || (floor(posleg)-posleg) != 0)
      stop("'posleg' input is incorrect, it should be a integer number between [0,4]. Verify!")
+
+  if (!is.logical(savptc))
+     stop("'savptc' input is incorrect, it should be TRUE or FALSE. Verify!")
+  
+  if (!is.numeric(width) || width <= 0)
+     stop("'width' input is incorrect, it should be numerical and greater than zero. Verify!")
+  
+  if (!is.numeric(height) || height <= 0)
+     stop("'height' input is incorrect, it should be numerical and greater than zero. Verify!")
+  
+  if (!is.numeric(res) || res <= 0)
+     stop("'res' input is incorrect, it should be numerical and greater than zero. Verify!")
   
   # if (is.na(linlab[1])) linlab <- rownames(data)
   
   if (is.na(title[1])) title = "Biplot Graphic"  
+  
+  if (savptc) {
+     cat("\014") # limpa a tela
+     cat("\n\n Saving graphics to hard disk. Wait for the end!")
+  }
   
   LinNames <- linlab # nomes das observacoes
   
@@ -149,6 +171,9 @@ Biplot <- function(data, alpha = 0.5, title = NA, xlabel = NA, ylabel = NA,
   MinY <- min(coorI[,2],coorV[,2]) - 1 # Dimenssoes minimas das colunas
   
   ##### INICIO - Grafico Biplot #####  
+  
+  if (savptc) png(filename = "Figure Biplot.png", width = width, height = height, res = res) # salva os graficos em arquivos
+  
   plot(0,0, # Plota as variaveis
        xlab = xlabel, # Nomeia Eixo X
        ylab = ylabel, # Nomeia Eixo Y
@@ -246,10 +271,15 @@ Biplot <- function(data, alpha = 0.5, title = NA, xlabel = NA, ylabel = NA,
   
   ##### FIM - Grafico Biplot #####
   
+  if (savptc) {
+     box(col = 'white') 
+     dev.off()
+     cat("\n \n End!")
+  }
+  
   Lista <- list(Md = Md, Mu = Mu, Mv = Mv, coorI = coorI,
                 coorV = coorV, pvar = pvar)
   
   return (Lista) 
   
 }
-

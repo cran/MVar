@@ -19,7 +19,7 @@
               "ML" - Maximum Likelihood.}
 \item{type}{1 for analysis using the covariance matrix,\cr
             2 for analysis using the correlation matrix (default).}
-\item{rotation}{Type of rotation: "None" (default) and "Varimax".}
+\item{rotation}{Type of rotation: "None" (default), "Varimax" and "Promax".}
 \item{nfactor}{Number of factors (default = 1).}
 \item{scoresobs}{Type of scores for the observations: "Bartlett" (default) or "Regression".}
 \item{converg}{Limit value for convergence to sum of the squares of the residuals for Maximum likelihood method (default = 1e-5).}
@@ -68,19 +68,19 @@ data <- DataQuan[,2:ncol(DataQuan)]
 
 rownames(data) <- DataQuan[,1]
 
-Resp <- FA(data, method = "PC", type = 2, nfactor = 3, rotation = "None",
-           scoresobs = "Bartlett", converg = 1e-5, iteracao = 1000, 
-           testfit = TRUE) 
+res <- FA(data, method = "PC", type = 2, nfactor = 3, rotation = "None",
+          scoresobs = "Bartlett", converg = 1e-5, iteracao = 1000, 
+          testfit = TRUE) 
 
-print("Matrix with all associated results:"); round(Resp$mtxresult,3)
+print("Matrix with all associated results:"); round(res$mtxresult,3)
 
-print("Sum of squares of the residues:"); round(Resp$vlrsqr,3)
+print("Sum of squares of the residues:"); round(res$vlrsqr,3)
 
-print("Matrix of the factor loadings.:"); round(Resp$mtxcarga,3)
+print("Matrix of the factor loadings.:"); round(res$mtxcarga,3)
 
-print("Matrix with scores of the observations:"); round(Resp$mtxscores,3)
+print("Matrix with scores of the observations:"); round(res$mtxscores,3)
 
-print("Matrix with the scores of the coefficients of the factors:"); round(Resp$coefscores,3)
+print("Matrix with the scores of the coefficients of the factors:"); round(res$coefscores,3)
 
 }
 

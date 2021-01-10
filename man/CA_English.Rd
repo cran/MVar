@@ -56,17 +56,17 @@ data <- DataFreq[,2:ncol(DataFreq)]
 
 rownames(data) <- as.character(t(DataFreq[1:nrow(DataFreq),1]))
 
-Resp <- CA(data = data, "f") # performs CA
+res <- CA(data = data, "f") # performs CA
 
-print("Is there dependency between rows and columns?"); Resp$depdata
+print("Is there dependency between rows and columns?"); res$depdata
 
-print("Number of principal coordinates:"); Resp$numcood
+print("Number of principal coordinates:"); res$numcood
 
-print("Principal coordinates of the rows:"); round(Resp$mtxX,2)
+print("Principal coordinates of the rows:"); round(res$mtxX,2)
 
-print("Principal coordinates of the columns:"); round(Resp$mtxY,2)
+print("Principal coordinates of the columns:"); round(res$mtxY,2)
 
-print("Inertia of the principal components:"); round(Resp$mtxAutvlr,2)
+print("Inertia of the principal components:"); round(res$mtxAutvlr,2)
 }
 
 \keyword{Simple Correspondence Analysis}
