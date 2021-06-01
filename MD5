@@ -1,7 +1,7 @@
-210a7ec3dcfc85024424b1421f2431a9 *DESCRIPTION
+3cc4f24660e81c84ba135756824ba0b4 *DESCRIPTION
 76d8add3b74007f30c5fec4b3f9759d0 *NAMESPACE
 6e0eac5a8fbe7a948db095cbf6b51741 *R/Biplot_English.R
-b710cb6cd98a69ced723c23f51dcd5fc *R/CA_English.R
+21ecf182b075e810a7c5cf154b138d96 *R/CA_English.R
 ea359ff70176009dfde9b18d6b3cfc37 *R/CCA_English.R
 83ae72d18d5d361f7578ab6c2417ff90 *R/Cluster_English.R
 7d7c7b917ca23195c370e33f31236d50 *R/CoefVar_English.R
@@ -54,7 +54,7 @@ fabf819c8a5e88afe399b285d5e5505e *man/DataQuali_English.Rd
 d0ee5bb07d260bd242f95342eafb1993 *man/LocLab_English.Rd
 d3693888dcb9d06377be1530fe6dfa9b *man/MDS_English.Rd
 30f46f521e29b12c94123f1c432ff06b *man/MFA_English.Rd
-900bcb19c0523ba8e6c5d4e13b912c27 *man/MVar-package.Rd
+8afd4672acd6489c3a9405c2b5927c9a *man/MVar-package.Rd
 8dc6a99d4fbd25215dd206153a63c117 *man/NormData_English.Rd
 7bd6cb559d586b2555d2f58526d966bf *man/NormTest_English.Rd
 1b5f0003e6079c400674d5c9db7b6d12 *man/PCA_English.Rd
