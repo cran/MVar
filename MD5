@@ -1,4 +1,4 @@
-25d91d9dcab7b44e93dad4db026ba98b *DESCRIPTION
+354598798ae2611eaabb36ffd1cd2a8e *DESCRIPTION
 76d8add3b74007f30c5fec4b3f9759d0 *NAMESPACE
 57cc2b90c6437ccd17e5313fdb66afda *R/Biplot_English.R
 21ecf182b075e810a7c5cf154b138d96 *R/CA_English.R
@@ -21,13 +21,13 @@ ec14480da120536c0a865c92248fe9f6 *R/PP_Index_English.R
 e6bcc7bc08cc4e92da82d1b7dde54b75 *R/Plot.CA_English.R
 0f466183a39e7a052e18b52f7b6df52f *R/Plot.CCA_English.R
 9638fac56703f6c4388d58f962a18f5c *R/Plot.Cor_English.R
-2f902702c9682d95f3ac28f94cc5c781 *R/Plot.FA_English.R
+75a79b70305fbcd8e10ec6a953d61a6a *R/Plot.FA_English.R
 e7b6b1f6e604f8555d0df45791d41eb4 *R/Plot.MFA_English.R
-a44fcf6d0e4a0f156926e8a0822ee202 *R/Plot.PCA_English.R
+66f5e3880a1999dd045112f6d74e7c6d *R/Plot.PCA_English.R
 2fe22d80291f87e6174fd07686456bdb *R/Plot.PP_English.R
 3f7a168c1fcce9de180edb51c052deaf *R/Plot.Regr_English.R
 90b64f6c4b5e97b67e1d92e4dcfff900 *R/Regr_English.R
-30ad1c3f88cc6fdf682672052c2d17af *R/Scatter_English.R
+788333df56e139f9438ee7b376eb8475 *R/Scatter_English.R
 5da96c37a10115383dc97d7468ebecff *data/DataCoffee.rda
 94b87a76052a14c663f88763d629399a *data/DataFreq.rda
 7f9dac3d2111b1494c12e91f769eff8b *data/DataInd.rda
@@ -54,7 +54,7 @@ fabf819c8a5e88afe399b285d5e5505e *man/DataQuali_English.Rd
 d0ee5bb07d260bd242f95342eafb1993 *man/LocLab_English.Rd
 d3693888dcb9d06377be1530fe6dfa9b *man/MDS_English.Rd
 30f46f521e29b12c94123f1c432ff06b *man/MFA_English.Rd
-675238f5696d61840709ad2e7fe71172 *man/MVar-package.Rd
+9f4db34c894e4e1d7b81a26efd689b6d *man/MVar-package.Rd
 8dc6a99d4fbd25215dd206153a63c117 *man/NormData_English.Rd
 7bd6cb559d586b2555d2f58526d966bf *man/NormTest_English.Rd
 1b5f0003e6079c400674d5c9db7b6d12 *man/PCA_English.Rd
