@@ -286,7 +286,8 @@ Scatter <- function(data, ellipse = TRUE, ellipse.level = 0.95, rectangle = FALS
 
   if (savptc) {
      box(col = 'white')
+     dev.off()
      cat("\n \n End!")
   }
-
+  
 }
