@@ -1,12 +1,12 @@
 ## -*- R -*-
-citHeader("To cite the R package 'MVar.pt' in publications use:")
+citHeader("To cite the R package 'MVar' in publications use:")
 
-if(!exists("meta") || is.null(meta)) meta <- packageDescription("MVar.pt")
+if(!exists("meta") || is.null(meta)) meta <- packageDescription("MVar")
 year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date)
 vers <- paste("R package version", meta$Version)
 
 citEntry(entry	= "Manual",
-	 title	= "Multivariate Analysis Package",
+	 title	= "MVar: Multivariate Analysis Package",
 	 author = personList(as.person("Paulo Cesar Ossani"),
                        as.person("Marcelo Angelo Cirillo")),
 	 year = year,

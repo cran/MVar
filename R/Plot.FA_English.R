@@ -28,8 +28,7 @@ Plot.FA <- function(FA, titles = NA, xlabel = NA, ylabel = NA, size = 1.1,
   # width  - Largura do grafico quanto savptc = TRUE (defaul = 3236).
   # height - Altura do grafico quanto savptc = TRUE (default = 2000).
   # res    - Resolucao nominal em ppi do grafico quanto savptc = TRUE (default = 300).
-  # casc   - Efeito cascata na apresentacao dos graficos (default = TRUE)..
-  
+
   # Retorna:
   # Varios graficos
   
