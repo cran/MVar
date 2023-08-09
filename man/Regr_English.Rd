@@ -6,13 +6,13 @@
 
 \description{Performs linear regression on a data set.}
 
-\usage{Regr(Y, X, namevarx = NA, intercepts = TRUE, sigf = 0.05)}
+\usage{Regr(Y, X, namevarx = NA, intercept = TRUE, sigf = 0.05)}
 
 \arguments{
 \item{Y}{Variable response.}
 \item{X}{Regression variables.}
 \item{namevarx}{Name of the variable, or variables X, if not set, assumes the default text.}
-\item{intercepts}{Consider the intercept in the regression (default = TRUE).}
+\item{intercept}{Consider the intercept in the regression (default = TRUE).}
 \item{sigf}{Level of significance of residue tests(default = 5\%).}
 }
 
@@ -57,7 +57,7 @@ X <- DataMix[,6:7]
 
 name.x <- c("Special Coffees", "Commercial Coffees")
 
-res <- Regr(Y, X, namevarx = name.x , intercepts = TRUE, sigf = 0.05)
+res <- Regr(Y, X, namevarx = name.x , intercept = TRUE, sigf = 0.05)
 
 print("Regression Coefficients:"); round(res$Betas,4)
 print("Analysis of Variance:"); res$ANOVA
