@@ -1,6 +1,6 @@
 \name{MVar}
 
-\alias{MVar}
+\alias{MVar-package}
 
 \docType{package}
 
@@ -13,8 +13,8 @@
 \tabular{ll}{
 Package: \tab MVar\cr
 Type: \tab Package\cr
-Version: \tab 2.2.0\cr
-Date: \tab 2023-08-02\cr
+Version: \tab 2.2.1\cr
+Date: \tab 2023-08-19\cr
 License: \tab GPL(>= 2)\cr
 LazyLoad: \tab yes\cr
 }
