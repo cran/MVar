@@ -70,8 +70,8 @@ Plot.Cor <- function(data, title = NA, grid = TRUE, leg = TRUE, boxleg = FALSE, 
   #####   FIM - Informacoes usadas nos Graficos  #####
 
   if (savptc) {
-     cat("\014") # limpa a tela
-     cat("\n\n Saving graphics to hard disk. Wait for the end!")
+     message("\014") # limpa a tela
+     message("\n\n Saving graphics to hard disk. Wait for the end!")
   }
   
   if (savptc) png(filename = "Figure Correlation.png", width = width, height = height, res = res) # salva os graficos em arquivos
@@ -155,7 +155,7 @@ Plot.Cor <- function(data, title = NA, grid = TRUE, leg = TRUE, boxleg = FALSE, 
   if (savptc) {
      box(col = 'white') 
      dev.off()
-     cat("\n \n End!")
+     message("\n \n End!")
   }
   
 }

@@ -16,7 +16,7 @@
 \value{\item{mtxIndc}{Returns converted data in the indicator matrix.}}
 
 \references{
-RENCHER, A. C. \emph{Methods of multivariate analysis.} 2th. ed. New York: J.Wiley, 2002. 708 p.
+Rencher, A. C. \emph{Methods of multivariate analysis.} 2th. ed. New York: J.Wiley, 2002. 708 p.
 }
 
 \author{

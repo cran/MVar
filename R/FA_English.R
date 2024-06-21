@@ -267,15 +267,15 @@ FA <- function(data, method = "PC", type = 2, nfactor = 1,
       
          gl <- ((p - nfactor)^2 - nfactor - p)/2 # grau de liberdade
     
-         cat("### MODEL ADJUSTMENT TEST ###\n")
+         message("### MODEL ADJUSTMENT TEST ###\n")
       
-         cat(paste("Degree of freedom observed:", round(gl,5)),"\n")
+         message(paste("Degree of freedom observed:", round(gl,5)),"\n")
         
          if (gl < 0) 
-            cat("It was not possible to perform the adjustment test of the model, because degree of freedom was negative, it is advisable to change the parameters, to proceed with the test. Example: number of factors or even 'type'.\n")
+            message("It was not possible to perform the adjustment test of the model, because degree of freedom was negative, it is advisable to change the parameters, to proceed with the test. Example: number of factors or even 'type'.\n")
    
          if (det(MC) <= 0) 
-            cat("It was not possible to perform the model adjustment test, since the determinant of the variance/covariance matrix should be different from zero, to proceed with the test change the parameters.\n")
+            message("It was not possible to perform the model adjustment test, since the determinant of the variance/covariance matrix should be different from zero, to proceed with the test change the parameters.\n")
          
          if (gl >= 0 && det(MC) > 0) {
           
@@ -285,15 +285,15 @@ FA <- function(data, method = "PC", type = 2, nfactor = 1,
             
             qt = qchisq(0.95,gl,ncp=0)
     
-            cat(paste("Value of the Chi-square test statistic (Chiq1):", round(Chi.Quad.Observado,3)),"\n")
+            message(paste("Value of the Chi-square test statistic (Chiq1):", round(Chi.Quad.Observado,3)),"\n")
          
-            cat(paste("Observed chi-square value (Chiq2) with 5% significance:", round(qt,3)),"\n")
+            message(paste("Observed chi-square value (Chiq2) with 5% significance:", round(qt,3)),"\n")
         
-            if (Chi.Quad.Observado<=qt) cat("As Chiq1 <= Chiq2, the number of factors were sufficient.\n")
+            if (Chi.Quad.Observado<=qt) message("As Chiq1 <= Chiq2, the number of factors were sufficient.\n")
         
-            if (Chi.Quad.Observado>qt) cat("As Chiq1 > Chiq2, the number of factors were not enough.\n")
+            if (Chi.Quad.Observado>qt) message("As Chiq1 > Chiq2, the number of factors were not enough.\n")
             
-            cat("Valor-p:", pchisq(Chi.Quad.Observado,gl,ncp=0, lower.tail = F))
+            message("Valor-p:", pchisq(Chi.Quad.Observado,gl,ncp=0, lower.tail = F))
          } 
       }
       ### FIM - Teste da falta de ajusto do modelo fatorial - teste Qui-quadrado ###

@@ -105,8 +105,8 @@ MDS <- function(data, distance = "euclidean", title = NA, xlabel = NA,
   
   ##### INICIO - Informacoes usadas nos Graficos #####
   if (savptc) {
-     cat("\014") # limpa a tela
-     cat("\n\n Saving graphics to hard disk. Wait for the end!")
+     message("\014") # limpa a tela
+     message("\n\n Saving graphics to hard disk. Wait for the end!")
   }
   
   if (is.na(xlabel[1])) xlabel = "X-axis" # Nomeia Eixo X  
@@ -227,7 +227,7 @@ MDS <- function(data, distance = "euclidean", title = NA, xlabel = NA,
   if (savptc) {
      box(col = 'white') 
      dev.off()
-     cat("\n \n End!")
+     message("\n \n End!")
   }
   
   Lista <- list(mtxD = Md)

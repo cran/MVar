@@ -178,8 +178,8 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
     numrot <- ifelse(is.na(choicerot[1]), numrot, choicerot)
     
     if (savptc) {
-      cat("\014") # limpa a tela
-      cat("\n\n Saving graphics to hard disk. Wait for the end!")
+      message("\014") # limpa a tela
+      message("\n\n Saving graphics to hard disk. Wait for the end!")
     }
     
     i <- 1
@@ -319,7 +319,7 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
       
     }
     
-    if (savptc) cat("\n \n End!")
+    if (savptc) message("\n \n End!")
     
   }
   
@@ -344,8 +344,8 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
     b <- matrix(0, p, 1) # matriz de rotacao
     
     if (savptc) {
-       cat("\014") # limpa a tela
-       cat("\n\n Saving graphics to hard disk. Wait for the end!")
+       message("\014") # limpa a tela
+       message("\n\n Saving graphics to hard disk. Wait for the end!")
     }
     
     numrot <- ifelse(is.na(choicerot[1]), numrot, choicerot)
@@ -482,7 +482,7 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
       
     }
     
-    if (savptc) cat("\n \n End!")
+    if (savptc) message("\n \n End!")
     
   }  
   
@@ -528,8 +528,8 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
     numrot <- ifelse(is.na(choicerot[1]), numrot, choicerot)
     
     if (savptc) {
-       cat("\014") # limpa a tela 
-       cat("\n\n Saving graphics to hard disk. Wait for the end!")
+       message("\014") # limpa a tela 
+       message("\n\n Saving graphics to hard disk. Wait for the end!")
     }
     
     i <- 1  
@@ -655,7 +655,7 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
     
     proj.data <- proj.data[1:n,1:d] # dados projetados
     
-    if (savptc) cat("\n \n End!")
+    if (savptc) message("\n \n End!")
     
   }
   
