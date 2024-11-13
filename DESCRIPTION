@@ -1,8 +1,8 @@
 Package: MVar
 Type: Package
 Title: Multivariate Analysis
-Version: 2.2.3
-Date: 2024-11-05
+Version: 2.2.4
+Date: 2024-11-13
 Imports: graphics, grDevices, MASS, stats
 Authors@R: c(
            person(given = c("Paulo Cesar"), family = "Ossani", 
@@ -22,5 +22,5 @@ Author: Paulo Cesar Ossani [aut, cre] (<https://orcid.org/0000-0002-6617-8085>),
   Marcelo Angelo Cirillo [aut] (<https://orcid.org/0000-0002-2647-439X>)
 Maintainer: Paulo Cesar Ossani <ossanipc@hotmail.com>
 Repository: CRAN
-Packaged: 2024-11-05 15:53:45 UTC; UEM
-Date/Publication: 2024-11-05 16:10:02 UTC
+Packaged: 2024-11-13 16:22:59 UTC; Ossan
+Date/Publication: 2024-11-13 17:30:10 UTC
