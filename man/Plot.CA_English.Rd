@@ -6,10 +6,10 @@
 
 \description{Graphs of the simple (CA) and multiple correspondence analysis (MCA).}
 
-\usage{Plot.CA(CA, titles = NA, xlabel = NA, ylabel = NA,
-        size = 1.1, grid = TRUE, color = TRUE, linlab = NA, 
-        savptc = FALSE, width = 3236, height = 2000, 
-        res = 300, casc = TRUE)}
+\usage{Plot.CA(CA, titles = NA, xlabel = NA, ylabel = NA, size = 1.1, 
+        grid = TRUE, color = TRUE, linlab = NA, axes = TRUE,
+        savptc = FALSE, width = 3236, height = 2000, res = 300, 
+        casc = TRUE)}
 
 \arguments{
 \item{CA}{Data of the CA function.}
@@ -20,6 +20,7 @@
   \item{grid}{Put grid on graphs (default = TRUE).}
   \item{color}{Colored graphics (default = TRUE).}
   \item{linlab}{Vector with the labels for the observations.}
+  \item{axes}{Plots the X and Y axes (default = TRUE).}
   \item{savptc}{Saves graphics images to files (default = FALSE).} 
   \item{width}{Graphics images width when savptc = TRUE (defaul = 3236).}
   \item{height}{Graphics images height when savptc = TRUE (default = 2000).}
@@ -48,7 +49,7 @@ res <- CA(data, "f") # performs CA
 
 tit <- c("Scree-plot","Observations", "Variables", "Observations / Variables")
 
-Plot.CA(res, titles = tit, xlabel = NA, ylabel = NA,
+Plot.CA(res, titles = tit, xlabel = NA, ylabel = NA, axes = TRUE,
         color = TRUE, linlab = rownames(data), savptc = FALSE,
         width = 3236, height = 2000, res = 300, casc = FALSE)
 
@@ -63,8 +64,8 @@ tit <- c("","","Graph of the variables")
 
 Plot.CA(res, titles = tit, xlabel = NA, ylabel = NA,
         color = TRUE, linlab = NA, savptc = FALSE, 
-        width = 3236, height = 2000, res = 300,
-        casc = FALSE)
+        width = 3236, height = 2000, res = 300, 
+        axes = TRUE, casc = FALSE)
 
 }
 

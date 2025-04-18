@@ -6,8 +6,8 @@
 
 \description{Graphs of the Canonical Correlation Analysis (CCA).}
 
-\usage{Plot.CCA(CCA, titles = NA, xlabel = NA, ylabel = NA,
-         size = 1.1, grid = TRUE, color = TRUE, savptc = FALSE, 
+\usage{Plot.CCA(CCA, titles = NA, xlabel = NA, ylabel = NA, size = 1.1, 
+         grid = TRUE, color = TRUE, axes = TRUE, savptc = FALSE, 
          width = 3236, height = 2000, res = 300, casc = TRUE)}
 
 \arguments{
@@ -18,6 +18,7 @@
   \item{size}{Size of the points in the graphs.}
   \item{grid}{Put grid on graphs (default = TRUE).}
   \item{color}{Colored graphics (default = TRUE).}
+  \item{axes}{Plots the X and Y axes (default = TRUE).}
   \item{savptc}{Saves graphics images to files (default = FALSE).} 
   \item{width}{Graphics images width when savptc = TRUE (defaul = 3236).}
   \item{height}{Graphics images height when savptc = TRUE (default = 2000).}
@@ -52,7 +53,8 @@ tit <- c("Scree-plot","Correlations","Scores of the group X","Scores of the grou
 
 Plot.CCA(res, titles = tit, xlabel = NA, ylabel = NA,
          color = TRUE, savptc = FALSE, width = 3236, 
-         height = 2000, res = 300, casc = TRUE)
+         height = 2000, res = 300, axes = TRUE,
+         casc = FALSE)
 }
 
 \keyword{Analysis of canonical correlation}

@@ -207,7 +207,7 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
       
       if (is.na(choicerot[1]) || choicerot == i) {
         
-        if (savptc) png(filename = paste("Picture ", i," - Method", method,".png",step=""), width = width, height = height, res = res) # salva os graficos em arquivos
+        if (savptc) png(filename = paste("Picture_", i,"-Method_", method,".png",sep=""), width = width, height = height, res = res) # salva os graficos em arquivos
         
         maxX = max(proj.data[, 1], A[,1])
         minX = min(proj.data[, 1], A[,1])
@@ -370,7 +370,7 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
       
       if (is.na(choicerot[1]) || choicerot == i) {
         
-        if (savptc) png(filename = paste("Picture ", i," - Method", method,".png",step=""), width = width, height = height, res = res) # salva os graficos em arquivos
+        if (savptc) png(filename = paste("Picture_", i,"-Method_", method,".png",sep=""), width = width, height = height, res = res) # salva os graficos em arquivos
         
         maxX = max(proj.data[, 1], A[,1])
         minX = min(proj.data[, 1], A[,1])
@@ -542,7 +542,7 @@ GrandTour <- function(data, method = "Interpolation", title = NA, xlabel = NA, y
       
       if (is.na(choicerot[1]) || choicerot == i) {
         
-        if (savptc) png(filename = paste("Picture ", i," - Method", method,".png",step=""), width = width, height = height, res = res) # salva os graficos em arquivos
+        if (savptc) png(filename = paste("Picture_", i,"-Method_", method,".png",sep=""), width = width, height = height, res = res) # salva os graficos em arquivos
         
         maxX = max(proj.data[, 1])
         minX = min(proj.data[, 1])
