@@ -1,4 +1,4 @@
-b10b65c96ace0e6136328e4b74568292 *DESCRIPTION
+f7c40d499a44ec51236e59f862735e65 *DESCRIPTION
 76d8add3b74007f30c5fec4b3f9759d0 *NAMESPACE
 794820461c0d442537eeca25ef068c60 *R/Biplot_English.R
 21ecf182b075e810a7c5cf154b138d96 *R/CA_English.R
@@ -53,7 +53,7 @@ b23ebcd1a65f22470543a033db8308c1 *man/FA_English.Rd
 d0ee5bb07d260bd242f95342eafb1993 *man/LocLab_English.Rd
 2b52bd8221a10f113ae5b9ec568be6f1 *man/MDS_English.Rd
 9a4aed8b9e5422fb5d53d5d57bd0751d *man/MFA_English.Rd
-2e2f31d06068fc56c293735ff136367a *man/MVar-package.Rd
+e4aa8554476a231011ee8dd1b0cdb0e9 *man/MVar-package.Rd
 8dc6a99d4fbd25215dd206153a63c117 *man/NormData_English.Rd
 2f346270b76390dd787ac5017639e2e9 *man/NormTest_English.Rd
 4ed463fd49d58da6ad8ca45588c36f51 *man/PCA_English.Rd
