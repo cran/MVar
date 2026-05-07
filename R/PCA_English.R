@@ -14,6 +14,7 @@ PCA <- function(data, type = 1) {
   # mtxVCP    - Matriz da Covariancia dos Componentes Principais com as Variaveis Originais
   # mtxCCP    - Matriz da Correlacao dos Componentes Principais com as Variaveis Originais
   # mtxscores - Matriz com os escores dos Componentes Principais
+  # mtxresult - Matriz com todos os resultados associados
   
   if (!is.data.frame(data) && !is.matrix(data)) 
      stop("'data' input is incorrect, it should be of type data frame or matrix. Verify!")
@@ -35,10 +36,10 @@ PCA <- function(data, type = 1) {
   ## Matriz das Variancias
   MEigen <- as.data.frame(matrix(NA, length(MAutoVlr), 3))
   rownames(MEigen) <- paste("Comp", 1:length(MAutoVlr))
-  colnames(MEigen) <- c("Eigenvalue", "Proporcion of the variance","Cumulative proportion of the variance")
+  colnames(MEigen) <- c("Eigenvalue", "% variance","% cumulative of variance")
   MEigen[, "Eigenvalue"] <- MAutoVlr
-  MEigen[, "Proporcion of the variance"] <- (MAutoVlr/sum(MAutoVlr)) * 100
-  MEigen[, "Cumulative proportion of the variance"] <- cumsum(MEigen[,"Proporcion of the variance"])
+  MEigen[, "% variance"] <- (MAutoVlr/sum(MAutoVlr)) * 100
+  MEigen[, "% cumulative of variance"] <- cumsum(MEigen[,"% variance"])
   
   ## Matriz de Autovetores,ou seja, os Componentes Principais
   colnames(MAutoVec) <- paste("Comp.", 1:nrow(MC), sep = " ")
@@ -53,12 +54,18 @@ PCA <- function(data, type = 1) {
   colnames(CCP) <- colnames(data) # Nomeia as linhas
   rownames(CCP) <- paste("Comp", 1:nrow(MC))
   
+  # Matriz com todos os resultados associados
+  mvar <- t(MEigen)
+  comp <- t(CCP)[,1:ncol(mvar)]
+  Result <- rbind(comp, mvar)
+  
   Esc = as.matrix(data)%*%MAutoVec # Escores do componentes principais
   rownames(Esc) <- rownames(data)
   
   Lista <- list(mtxC = MC, mtxAutvlr = MEigen,
                 mtxAutvec = MAutoVec, mtxVCP = VCP, 
-                mtxCCP = t(CCP), mtxscores = Esc)
+                mtxCCP = t(CCP), mtxscores = Esc, 
+                mtxresult = Result)
   
   return(Lista)
 }

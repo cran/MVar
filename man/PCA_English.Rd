@@ -21,6 +21,7 @@
   \item{mtxVCP   }{Matrix of covariance of the principal components with the original variables.}
   \item{mtxCCP   }{Matrix of correlation of the principal components with the original variables.}
   \item{mtxscores}{Matrix with scores of the principal components.}
+  \item{mtxresult}{Matrix with all associated results.}
 }
 
 \references{
@@ -48,7 +49,7 @@ data <- DataQuan[,2:8]
 
 rownames(data) <- DataQuan[1:nrow(DataQuan),1]
 
-pc <- PCA(data, 2) # performs the PCA
+pc <- PCA(data, type = 1) # performs the PCA
 
 print("Covariance matrix / Correlation:"); round(pc$mtxC,2)
 
@@ -61,6 +62,8 @@ print("Covariance of the Principal Components:"); round(pc$mtxVCP,2)
 print("Correlation of the Principal Components:"); round(pc$mtxCCP,2)
 
 print("Scores of the Principal Components:"); round(pc$mtxscores,2)
+
+print("Matrix with all associated results:"); round(pc$mtxresult,3)
 }
 
 \keyword{Principal Components Analysis}
