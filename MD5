@@ -1,12 +1,14 @@
-7a7ff585bac2268f63489e82a2606d9b *DESCRIPTION
-76d8add3b74007f30c5fec4b3f9759d0 *NAMESPACE
+076e3d3c65ae4955b239802202574bfb *DESCRIPTION
+f43b464b0e2d64ca986e16b1a87114bb *NAMESPACE
 794820461c0d442537eeca25ef068c60 *R/Biplot_English.R
 21ecf182b075e810a7c5cf154b138d96 *R/CA_English.R
 ea359ff70176009dfde9b18d6b3cfc37 *R/CCA_English.R
+e8912eb4724d365ccc87b6eb208a18ba *R/CI_English.R
 0f9d7c21ee5317596d89627df681fd43 *R/Cluster_English.R
 7d7c7b917ca23195c370e33f31236d50 *R/CoefVar_English.R
 70efabbaf1f9170f50713497a927c299 *R/DA_English.R
-ff8419029fc8114000e7472e0483e784 *R/FA_English.R
+4e03ec10a320f7ef120f95e9714f5aa5 *R/FA.R
+5aa7a02f95167747bba075fae3f3b409 *R/FA_English.R
 9b5f4c6f0bfd982e06ac597d411a3ea7 *R/GSVD_English.R
 82f39de19aa23162a5db0a09d01fbbbe *R/GrandTour_English.R
 e19f62c5209bc31f3d415421ed8198ef *R/IM_English.R
@@ -20,6 +22,7 @@ d13f594ca55a4d5f4f1df7008cb60131 *R/NormTest_English.R
 7923f85c991d913f775badf7198fef55 *R/PP_Optimizer_English.R
 e21f0ad67e745ae6a393fa815bf1b026 *R/Plot.CA_English.R
 54eb93b08074d2d1a51bc797965765cb *R/Plot.CCA_English.R
+468ee48410e2b293a02634250922a8ac *R/Plot.CI_English.R
 d2132ea6b6ab181a51bf3c6465dfc634 *R/Plot.Cor_English.R
 5470cae4fe475be3c79592e302ec3d96 *R/Plot.FA_English.R
 ab05bf72726467d88a27624726dc4728 *R/Plot.MFA_English.R
@@ -37,6 +40,7 @@ a12b80f578a549bc9048851fb7156a1e *R/Regr_English.R
 9b1d5b0e8cbd6a0fb1dafc6736d39173 *man/Biplot_English.Rd
 51f5f7c421702d99e6aee104dccbc90c *man/CA_English.Rd
 eb406fabe90f959b4c5557a86eba7ad4 *man/CCA_English.Rd
+3d23314800550c1d1a1d0b716a2b2408 *man/CI_English.Rd
 4574dd800f79006f79a380dd71d82b55 *man/Cluster_English.Rd
 bfe9d84382026cf059ed4cb7dd91dfe8 *man/CoefVar_English.Rd
 033c670e624c53d93a7fda3bf4bf57ff *man/DA_English.Rd
@@ -53,7 +57,7 @@ b23ebcd1a65f22470543a033db8308c1 *man/FA_English.Rd
 d0ee5bb07d260bd242f95342eafb1993 *man/LocLab_English.Rd
 2b52bd8221a10f113ae5b9ec568be6f1 *man/MDS_English.Rd
 9a4aed8b9e5422fb5d53d5d57bd0751d *man/MFA_English.Rd
-16a8a182b87d74c5d7ff6ea5d53660a1 *man/MVar-package.Rd
+28f3df7986440de57d292ce216c9422c *man/MVar-package.Rd
 8dc6a99d4fbd25215dd206153a63c117 *man/NormData_English.Rd
 2f346270b76390dd787ac5017639e2e9 *man/NormTest_English.Rd
 5de5cf967537b09405a08dc93047c4f9 *man/PCA_English.Rd
@@ -62,6 +66,7 @@ f2f11ddc18b54ca5ce95a84676dbc648 *man/PP_Optimizer_English.Rd
 5d43450cbeac67974a7071f13cac5e49 *man/Plor.Cor_English.Rd
 8bf3f56882f841417504d96c95526b58 *man/Plot.CA_English.Rd
 0e67b10d0cbd36d6807817a35ba5f516 *man/Plot.CCA_English.Rd
+70f2ad8bbb58a8aeae08b39b5e0d0e5b *man/Plot.CI_English.Rd
 6d2fd3dfc9aa0cb2ca2902d93e906756 *man/Plot.FA_English.Rd
 b896581284797c3917eb312e89dae832 *man/Plot.MFA_English.Rd
 ed3adff45ea2f0087b37f6150aa70de9 *man/Plot.PCA_English.Rd
